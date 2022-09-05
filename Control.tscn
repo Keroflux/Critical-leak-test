@@ -22,29 +22,29 @@ margin_bottom = 160.0
 margin_top = -24.0
 margin_right = 128.0
 margin_bottom = -2.0
-text = "Trykk testvolum"
+text = "Trykk testvolum før test"
 align = 1
 valign = 1
 
 [node name="TrykkEtter" type="LineEdit" parent="."]
-margin_left = 240.0
+margin_left = 272.0
 margin_top = 128.0
-margin_right = 368.0
+margin_right = 400.0
 margin_bottom = 160.0
 
 [node name="Label" type="Label" parent="TrykkEtter"]
 margin_top = -24.0
 margin_right = 128.0
 margin_bottom = -2.0
-text = "Trykk etter test"
+text = "Trykk testvolum etter test"
 align = 1
 valign = 1
 
 [node name="TestTid" type="LineEdit" parent="."]
-margin_left = 400.0
-margin_top = 128.0
-margin_right = 528.0
-margin_bottom = 160.0
+margin_left = 272.0
+margin_top = 208.0
+margin_right = 400.0
+margin_bottom = 240.0
 
 [node name="Label" type="Label" parent="TestTid"]
 margin_top = -24.0
@@ -64,7 +64,7 @@ margin_bottom = 232.0
 margin_top = -24.0
 margin_right = 128.0
 margin_bottom = -2.0
-text = "Trykk nedstrøms"
+text = "Trykk oppstrøms / nedstrøms"
 align = 1
 valign = 1
 
@@ -81,22 +81,6 @@ margin_bottom = -2.0
 text = "Temperatur"
 align = 1
 valign = 1
-
-[node name="LeakRate" type="Label" parent="."]
-margin_left = 576.0
-margin_top = 200.0
-margin_right = 696.0
-margin_bottom = 224.0
-custom_styles/normal = SubResource( 1 )
-text = "0.0000"
-align = 1
-valign = 1
-
-[node name="Label" type="Label" parent="LeakRate"]
-margin_top = -16.0
-margin_right = 40.0
-margin_bottom = -2.0
-text = "Testkriterie bar / s"
 
 [node name="LeakRate2" type="Label" parent="."]
 margin_left = 576.0
@@ -135,8 +119,8 @@ margin_left = 384.0
 margin_top = 16.0
 margin_right = 536.0
 margin_bottom = 36.0
-text = "42ESV1271"
-items = [ "42ESV1271", null, false, 0, null ]
+text = "1901-A-VC23-0263"
+items = [ "1901-A-VC23-0263", null, false, 0, null ]
 selected = 0
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -145,8 +129,16 @@ margin_top = 128.0
 margin_right = 880.0
 margin_bottom = 168.0
 
+[node name="Button" type="Button" parent="."]
+margin_left = 440.0
+margin_top = 280.0
+margin_right = 536.0
+margin_bottom = 312.0
+text = "Kalkuler!"
+
 [connection signal="text_changed" from="TrykkOppstrøms" to="." method="_on_TrykkOppstrms_text_changed"]
 [connection signal="text_changed" from="TrykkEtter" to="." method="_on_TrykkEtter_text_changed"]
 [connection signal="text_changed" from="TestTid" to="." method="_on_TestTid_text_changed"]
 [connection signal="text_changed" from="TrykkNedstrøms" to="." method="_on_TrykkNedstrms_text_changed"]
 [connection signal="text_changed" from="Temperatur" to="." method="_on_Temperatur_text_changed"]
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
