@@ -64,6 +64,8 @@ func calc_leak_rate_gas()->float:
 	var m1: float = P2 * 100000 * volume * MW / (Z * R * K)
 	var m2: float = PB * 100000 * volume * MW / (Z * R * K)
 	var kg_s: float = (m1 - m2) / test_time
+	var n: float = (m2 * 1000) / MW
+	var z: float = (PB * 100000 * volume) / (n * (R / 1000) * K)
 	kg_s = abs(kg_s)
 	return kg_s
 
@@ -92,7 +94,7 @@ func integrate_leak():
 
 func integrate_criteria(P: int, step: float, ori: float = 0.0)->float:
 	var sec: float = 0.0
-	var count = 1
+	var count = 15
 	var s = step
 	if P == 1:
 		P2_crit.clear()
@@ -105,7 +107,7 @@ func integrate_criteria(P: int, step: float, ori: float = 0.0)->float:
 		m1 += leak * s
 		P2 = m1 / (100000 * volume * MW / (Z * R * K))
 		sec += step
-		if count == 1:
+		if count == 15:
 			if P == 1:
 				P2_crit.append(P2)
 			else:
@@ -121,9 +123,14 @@ func trend():
 	var crit = []
 	var test_size = P2_test.size()
 	var crit_size = P2_crit.size()
-	if test_size == 0:
-		test_size = 1
-	var scale_x = 400 / (test_size * 0.01)
+	var size = 0
+	if crit_size > test_size:
+		size = crit_size
+	else:
+		size = test_size
+	if size == 0:
+		size = 1
+	var scale_x = 400 / (size * 0.01)
 	var scale_y = 400 / P1
 	var step_test = 0
 	var step_crit = 0
