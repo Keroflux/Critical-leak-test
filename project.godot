@@ -14,6 +14,10 @@ config/name="Lekkasjetest"
 run/main_scene="res://Control.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+VALVES="*res://VALVES.gd"
+
 [display]
 
 window/size/width=480

@@ -1,6 +1,6 @@
 extends Control
 
-var tag = "1901-A-VC23-0263"
+var tag = "A-VC23-0263"
 # Variabler til bruk i kalkulering av lekkasje kriterie
 var MW: float = 28.01 	# MOL vekt for test medie
 var P1: float = 1.0 	# Trykk utenfor testvolum
@@ -130,8 +130,8 @@ func trend():
 		size = test_size
 	if size == 0:
 		size = 1
-	var scale_x = 400 / (size * 0.01)
-	var scale_y = 400 / P1
+	var scale_x = 440 / (size * 0.01)
+	var scale_y = 335 / P1
 	var step_test = 0
 	var step_crit = 0
 	if not crit_size == 0:
@@ -145,6 +145,20 @@ func trend():
 		draw_polyline(crit, Color(1, 0, 0))
 
 
+func set_test_variables():
+	var valve = VALVES.valves[tag]
+	
+	if $"%Nitrogen".pressed:
+		MW = 28.01
+		Z = 0.98
+	else:
+		MW = valve["MW"]
+		Z = valve["Z"]
+	
+	Di = valve["Di"]
+	volume = valve["volume"]
+
+
 func _draw():
 	trend()
 
@@ -155,6 +169,8 @@ func _on_Button_pressed()->void:
 	PB = float($"%PressureAfter".text) + 1
 	T = float($"%Temperatur".text)
 	test_time = float($"%TestTime".text)
+	
+	set_test_variables()
 	kgs_crit = calc_leak_crit_gas()
 	kgs_test = calc_leak_rate_gas()
 	$"%LeakRate".text = str(kgs_test)
@@ -210,3 +226,12 @@ func _on_Button_pressed()->void:
 #		$ColorRect.self_modulate = Color(1.0, 0.0, 0.0)
 #	else:
 #		$ColorRect.self_modulate = Color(0.0, 1.0, 0.0)
+
+
+func _on_OptionButton_item_selected(index):
+	if index == 0:
+		tag = "A-VC23-0263"
+	elif index == 1:
+		tag = "A-VC23-0372"
+	elif index == 2:
+		tag = "A-VC23-0378"
