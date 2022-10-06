@@ -18,41 +18,42 @@ script = ExtResource( 1 )
 show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.113725, 0.278431, 0.380392, 0 )
+color = Color( 0.113725, 0.278431, 0.380392, 1 )
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+margin_right = 480.0
+margin_bottom = 349.0
 custom_constants/margin_right = 25
 custom_constants/margin_top = 25
 custom_constants/margin_left = 25
 custom_constants/margin_bottom = 10
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
 margin_left = 25.0
 margin_top = 25.0
 margin_right = 455.0
-margin_bottom = 710.0
+margin_bottom = 339.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer/HBoxContainer"]
 margin_right = 213.0
-margin_bottom = 685.0
+margin_bottom = 314.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 25
 
-[node name="OptionButton" type="OptionButton" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 margin_right = 213.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 0, 24 )
 size_flags_horizontal = 3
-text = "1901-A-VC23-0263"
 align = 1
-items = [ "1901-A-VC23-0263", null, false, 0, null, "1901-A-VC23-0372", null, false, 1, null, "1901-A-VC23-0378", null, false, 2, null ]
-selected = 0
 
-[node name="PressureStart" type="LineEdit" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="PressureStart" type="LineEdit" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 margin_top = 49.0
 margin_right = 213.0
@@ -61,7 +62,7 @@ size_flags_horizontal = 3
 text = "0"
 align = 1
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/PressureStart"]
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/PressureStart"]
 anchor_top = 0.0416667
 anchor_right = 1.0
 anchor_bottom = 0.0416667
@@ -74,7 +75,7 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="PressureAfter" type="LineEdit" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="PressureAfter" type="LineEdit" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 margin_top = 98.0
 margin_right = 213.0
@@ -83,7 +84,7 @@ size_flags_horizontal = 3
 text = "5"
 align = 1
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/PressureAfter"]
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/PressureAfter"]
 anchor_right = 1.0
 margin_top = -15.0
 margin_bottom = -1.0
@@ -91,7 +92,7 @@ text = "Barg testvolum etter test"
 align = 1
 valign = 1
 
-[node name="TestTime" type="LineEdit" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="TestTime" type="LineEdit" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 margin_top = 147.0
 margin_right = 213.0
@@ -100,14 +101,14 @@ size_flags_horizontal = 3
 text = "10"
 align = 1
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/TestTime"]
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/TestTime"]
 anchor_right = 1.0
 margin_top = -14.0
 text = "Test varighet, sek"
 align = 1
 valign = 1
 
-[node name="PressureExternal" type="LineEdit" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="PressureExternal" type="LineEdit" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 margin_top = 196.0
 margin_right = 213.0
@@ -116,14 +117,14 @@ size_flags_horizontal = 3
 text = "7"
 align = 1
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/PressureExternal"]
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/PressureExternal"]
 anchor_right = 1.0
 margin_top = -14.0
 text = "Driftstrykk barg"
 align = 1
 valign = 1
 
-[node name="Temperatur" type="LineEdit" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="Temperatur" type="LineEdit" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 margin_top = 245.0
 margin_right = 213.0
@@ -132,29 +133,29 @@ size_flags_horizontal = 3
 text = "15"
 align = 1
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/Temperatur"]
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/Temperatur"]
 anchor_right = 1.0
 margin_top = -14.0
 text = "*C"
 align = 1
 valign = 1
 
-[node name="Button" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="Button" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 margin_top = 294.0
 margin_right = 213.0
 margin_bottom = 314.0
 size_flags_horizontal = 3
 text = "Kalkuler!"
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/MarginContainer/HBoxContainer"]
 margin_left = 217.0
 margin_right = 430.0
-margin_bottom = 685.0
+margin_bottom = 314.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 25
 
-[node name="CritLeak" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2"]
+[node name="CritLeak" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true
 margin_right = 213.0
 margin_bottom = 24.0
@@ -166,14 +167,14 @@ text = "0.0000"
 align = 1
 valign = 1
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2/CritLeak"]
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/CritLeak"]
 anchor_right = 1.0
 margin_top = -14.0
 text = "Testkriterie kg / s"
 align = 1
 valign = 2
 
-[node name="CritLeakSec" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2"]
+[node name="CritLeakSec" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true
 margin_top = 49.0
 margin_right = 213.0
@@ -186,14 +187,14 @@ text = "0.0000"
 align = 1
 valign = 1
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2/CritLeakSec"]
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/CritLeakSec"]
 anchor_right = 1.0
 margin_top = -14.0
 text = "Tid til 0 dP kriterie"
 align = 1
 valign = 2
 
-[node name="LeakSec" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2"]
+[node name="LeakSec" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true
 margin_top = 98.0
 margin_right = 213.0
@@ -206,14 +207,14 @@ text = "0.0000"
 align = 1
 valign = 1
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2/LeakSec"]
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/LeakSec"]
 anchor_right = 1.0
 margin_top = -14.0
 text = "Tid til 0 dP test"
 align = 1
 valign = 2
 
-[node name="LeakRate" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2"]
+[node name="LeakRate" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true
 margin_top = 147.0
 margin_right = 213.0
@@ -226,42 +227,68 @@ text = "0.0000"
 align = 1
 valign = 1
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2/LeakRate"]
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/LeakRate"]
 anchor_right = 1.0
 margin_top = -14.0
 text = "Lekkasjerate kg / s"
 align = 1
 
-[node name="Nitrogen" type="CheckBox" parent="MarginContainer/HBoxContainer/VBoxContainer2"]
+[node name="Nitrogen" type="CheckBox" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true
 margin_top = 196.0
 margin_right = 213.0
 margin_bottom = 220.0
 text = "Nitrogen"
 
-[node name="ColorRect2" type="ColorRect" parent="."]
-visible = false
-show_behind_parent = true
-margin_left = 19.0
-margin_top = 350.0
-margin_right = 459.0
-margin_bottom = 685.0
-color = Color( 0.145098, 0.145098, 0.145098, 1 )
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer"]
+margin_top = 353.0
+margin_right = 480.0
+margin_bottom = 720.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 20
+custom_constants/margin_top = 0
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
 
-[node name="Test" type="ColorRect" parent="."]
+[node name="Trend" type="ColorRect" parent="VBoxContainer/MarginContainer2"]
+unique_name_in_owner = true
 show_behind_parent = true
-margin_left = 16.0
-margin_top = 360.0
-margin_right = 416.0
-margin_bottom = 696.0
-color = Color( 0, 0, 0, 1 )
+margin_left = 20.0
+margin_right = 460.0
+margin_bottom = 347.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.219608, 0.219608, 0.219608, 1 )
 script = ExtResource( 2 )
 
-[node name="TrendLine" type="Node2D" parent="Test"]
+[node name="TrendLine" type="Node2D" parent="VBoxContainer/MarginContainer2/Trend"]
+unique_name_in_owner = true
 script = ExtResource( 3 )
 
-[node name="TrendLine2" type="Node2D" parent="Test"]
+[node name="TrendLine2" type="Node2D" parent="VBoxContainer/MarginContainer2/Trend"]
+unique_name_in_owner = true
 script = ExtResource( 3 )
 
-[connection signal="item_selected" from="MarginContainer/HBoxContainer/VBoxContainer/OptionButton" to="." method="_on_OptionButton_item_selected"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Button" to="." method="_on_Button_pressed"]
+[node name="Seconds" type="Label" parent="VBoxContainer/MarginContainer2/Trend"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -33.0
+margin_right = 34.0
+margin_bottom = 14.0
+text = "SEKUNDER"
+
+[node name="Pressure" type="Label" parent="VBoxContainer/MarginContainer2/Trend"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = -11.0
+margin_top = -39.5
+margin_bottom = 40.5
+text = "BAR"
+valign = 1
+autowrap = true
+
+[connection signal="item_selected" from="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/OptionButton" to="." method="_on_OptionButton_item_selected"]
+[connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/Button" to="." method="_on_Button_pressed"]

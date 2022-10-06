@@ -1,6 +1,7 @@
 extends Control
 
 var tag = "A-VC23-0263"
+
 # Variabler til bruk i kalkulering av lekkasje kriterie
 var MW: float = 28.01 	# MOL vekt for test medie
 var P1: float = 2.0 	# Trykk utenfor testvolum
@@ -15,16 +16,13 @@ var volume: float = 0.11876		# Testvolumet i m3
 const R: float = 8314.5			# Gasskonstanten
 var test_time: float = 900.0	# Testvarighet i sekunder
 
-var kgs_crit: float = 0.0
-var kgs_test: float = 0.0
-var sec_crit: float = 0.0
-var sec_test: float = 0.0
-var P2_crit: Array = []
-var P2_test: Array = []
-var W = 400
-var H = 250
-var pos = Vector2(50, 700)
-
+# Variabler for lagring av resultat av kalkulasjoner
+var kgs_crit: float = 0.0	# Lekkasjekriterie i kg / s 
+var kgs_test: float = 0.0	# Lekkasjerate under test i kg / s
+var sec_crit: float = 0.0	# Hvor lang tid i sekunder det tar for å nå 0 dP ved kriterie
+var sec_test: float = 0.0	# Hvor lang tid i sekunder det tar for å nå 0 dP ved test
+var P2_crit: Array = []		# Lagring av trend ved integrering av kriterie
+var P2_test: Array = []		# Lagring av trend ved integrering av test
 
 var comp_f = 0.98
 #var R = 0.000083145
@@ -37,7 +35,8 @@ var Za = 0.9978
 
 
 func _ready():
-	pass
+	for i in VALVES.valves:
+		$"%OptionButton".add_item(i)
 
 
 func calc_leak_crit_gas(ori: float = 0.0)->float:
@@ -115,39 +114,7 @@ func integrate_criteria(P: int, step: float, ori: float = 0.0)->float:
 			count = 0
 		count += 1
 	P2 = float($"%PressureStart".text) + 1
-	$Test.test = P2_test
-	$Test.crit = P2_crit
-	$Test.calculate_point_distance()
-	$Test/TrendLine.data_points = P2_test
-	$Test/TrendLine2.data_points = P2_crit
 	return sec
-
-
-func trend():
-	var test = []
-	var crit = []
-	var test_size = P2_test.size()
-	var crit_size = P2_crit.size()
-	var size = 0
-	if crit_size > test_size:
-		size = crit_size
-	else:
-		size = test_size
-	if size == 0:
-		size = 1
-	var scale_x = 440 / (size * 0.01)
-	var scale_y = 335 / P1
-	var step_test = 0
-	var step_crit = 0
-	if not crit_size == 0:
-		for i in test_size:
-			test.append(Vector2(step_test * scale_x + 20, P2_test[i] * -scale_y + 680))
-			step_test += 0.01
-		for i in crit_size:
-			crit.append(Vector2(step_crit * scale_x + 20, P2_crit[i] * -scale_y + 680))
-			step_crit += 0.01
-		draw_polyline(test, Color(1, 1, 1))
-		draw_polyline(crit, Color(1, 0, 0))
 
 
 func set_test_variables():
@@ -164,8 +131,15 @@ func set_test_variables():
 	volume = valve["volume"]
 
 
-func _draw():
-	trend()
+func init_trend()->void:
+	$"%Trend".test = P2_test
+	$"%Trend".crit = P2_crit
+	$"%Trend".seconds = sec_test
+	$"%Trend".calculate_point_distance()
+	$"%TrendLine".data_points = P2_test
+	$"%TrendLine2".data_points = P2_crit
+	$"%TrendLine".trend_run()
+	$"%TrendLine2".trend_run()
 
 
 func _on_Button_pressed()->void:
@@ -182,11 +156,11 @@ func _on_Button_pressed()->void:
 	$"%CritLeak".text = str(kgs_crit)
 	
 	sec_crit = integrate_criteria(1, 0.01)
+	sec_test = integrate_leak()
 	$"%CritLeakSec".text = str(sec_crit)
-	$"%LeakSec".text = str(integrate_leak())
-#	update()
-	$Test/TrendLine.trend()
-	$Test/TrendLine2.trend()
+	$"%LeakSec".text = str(sec_test)
+	
+	init_trend()
 
 
 
@@ -236,9 +210,4 @@ func _on_Button_pressed()->void:
 
 
 func _on_OptionButton_item_selected(index):
-	if index == 0:
-		tag = "A-VC23-0263"
-	elif index == 1:
-		tag = "A-VC23-0372"
-	elif index == 2:
-		tag = "A-VC23-0378"
+	tag = $"%OptionButton".get_item_text(index)

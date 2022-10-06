@@ -4,6 +4,7 @@ extends ColorRect
 var test = []
 var crit = []
 var distance = 0
+var seconds = 0
 
 
 func _ready():
@@ -18,3 +19,4 @@ func calculate_point_distance() -> void:
 		distance = rect_size.x / (test.size() -1)
 	$TrendLine.distance = distance
 	$TrendLine2.distance = distance
+	print(seconds)

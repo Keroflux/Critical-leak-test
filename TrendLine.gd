@@ -26,7 +26,7 @@ func _draw() -> void:
 	draw_polyline(trend, color, 2.0)
 
 
-func trend() -> void:
+func trend_run() -> void:
 	redraw_trend()
 	update()
 
