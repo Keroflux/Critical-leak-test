@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Lekkasje.gd" type="Script" id=1]
+[ext_resource path="res://Test.gd" type="Script" id=2]
+[ext_resource path="res://TrendLine.gd" type="Script" id=3]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.192157, 0.192157, 0.192157, 1 )
@@ -16,7 +18,7 @@ script = ExtResource( 1 )
 show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.113725, 0.278431, 0.380392, 1 )
+color = Color( 0.113725, 0.278431, 0.380392, 0 )
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
@@ -238,12 +240,28 @@ margin_bottom = 220.0
 text = "Nitrogen"
 
 [node name="ColorRect2" type="ColorRect" parent="."]
+visible = false
 show_behind_parent = true
 margin_left = 19.0
 margin_top = 350.0
 margin_right = 459.0
 margin_bottom = 685.0
 color = Color( 0.145098, 0.145098, 0.145098, 1 )
+
+[node name="Test" type="ColorRect" parent="."]
+show_behind_parent = true
+margin_left = 16.0
+margin_top = 360.0
+margin_right = 416.0
+margin_bottom = 696.0
+color = Color( 0, 0, 0, 1 )
+script = ExtResource( 2 )
+
+[node name="TrendLine" type="Node2D" parent="Test"]
+script = ExtResource( 3 )
+
+[node name="TrendLine2" type="Node2D" parent="Test"]
+script = ExtResource( 3 )
 
 [connection signal="item_selected" from="MarginContainer/HBoxContainer/VBoxContainer/OptionButton" to="." method="_on_OptionButton_item_selected"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Button" to="." method="_on_Button_pressed"]

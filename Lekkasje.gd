@@ -3,7 +3,7 @@ extends Control
 var tag = "A-VC23-0263"
 # Variabler til bruk i kalkulering av lekkasje kriterie
 var MW: float = 28.01 	# MOL vekt for test medie
-var P1: float = 1.0 	# Trykk utenfor testvolum
+var P1: float = 2.0 	# Trykk utenfor testvolum
 var P2: float = 1.0 	# Trykk i testvolum før test
 var PB: float = 1.0 	# Trykk i testvolum etter test
 var T: float = 15.0 	# Temperatur test medie
@@ -109,12 +109,17 @@ func integrate_criteria(P: int, step: float, ori: float = 0.0)->float:
 		sec += step
 		if count == 15:
 			if P == 1:
-				P2_crit.append(P2)
+				P2_crit.append(P2-1)
 			else:
-				P2_test.append(P2)
+				P2_test.append(P2-1)
 			count = 0
 		count += 1
 	P2 = float($"%PressureStart".text) + 1
+	$Test.test = P2_test
+	$Test.crit = P2_crit
+	$Test.calculate_point_distance()
+	$Test/TrendLine.data_points = P2_test
+	$Test/TrendLine2.data_points = P2_crit
 	return sec
 
 
@@ -136,10 +141,10 @@ func trend():
 	var step_crit = 0
 	if not crit_size == 0:
 		for i in test_size:
-			test.append(Vector2(step_test * scale_x + 20, P2_test[i] * -scale_y + 700))
+			test.append(Vector2(step_test * scale_x + 20, P2_test[i] * -scale_y + 680))
 			step_test += 0.01
 		for i in crit_size:
-			crit.append(Vector2(step_crit * scale_x + 20, P2_crit[i] * -scale_y + 700))
+			crit.append(Vector2(step_crit * scale_x + 20, P2_crit[i] * -scale_y + 680))
 			step_crit += 0.01
 		draw_polyline(test, Color(1, 1, 1))
 		draw_polyline(crit, Color(1, 0, 0))
@@ -179,7 +184,9 @@ func _on_Button_pressed()->void:
 	sec_crit = integrate_criteria(1, 0.01)
 	$"%CritLeakSec".text = str(sec_crit)
 	$"%LeakSec".text = str(integrate_leak())
-	update()
+#	update()
+	$Test/TrendLine.trend()
+	$Test/TrendLine2.trend()
 
 
 
