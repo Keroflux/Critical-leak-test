@@ -1,0 +1,14 @@
+[gd_scene format=2]
+
+[node name="ColorRect" type="ColorRect"]
+margin_right = 40.0
+margin_bottom = 0.5
+color = Color( 1, 1, 1, 0.509804 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = -40.0
+margin_top = -6.0
+margin_bottom = 8.0
+text = "233"
+align = 2
+valign = 1

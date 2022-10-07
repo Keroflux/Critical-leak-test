@@ -135,7 +135,10 @@ func init_trend()->void:
 	$"%Trend".test = P2_test
 	$"%Trend".crit = P2_crit
 	$"%Trend".seconds = sec_test
+	$"%Trend".max_pressure = P1
+	$"%Trend".min_pressure = P2
 	$"%Trend".calculate_point_distance()
+	$"%Trend".place_sec_marks()
 	$"%TrendLine".data_points = P2_test
 	$"%TrendLine2".data_points = P2_crit
 	$"%TrendLine".trend_run()
