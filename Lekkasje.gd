@@ -24,21 +24,22 @@ var sec_test: float = 0.0	# Hvor lang tid i sekunder det tar for å nå 0 dP ved
 var P2_crit: Array = []		# Lagring av trend ved integrering av kriterie
 var P2_test: Array = []		# Lagring av trend ved integrering av test
 
+# Ubrukt, tror jeg
 var comp_f = 0.98
 #var R = 0.000083145
 var max_leak_rate = 6006
-
 var k := 1.416
-
 var leak_krit = 0.1
 var Za = 0.9978
 
 
+# Kjøres ved oppstart av programmet
 func _ready():
 	for i in VALVES.valves:
 		$"%OptionButton".add_item(i)
 
 
+# Kalkulerer lekkasjekriterie i kg / s
 func calc_leak_crit_gas(ori: float = 0.0)->float:
 	var K: float = 273.15 + T
 	var dP: float = P1 - P2
@@ -58,6 +59,7 @@ func calc_leak_crit_gas(ori: float = 0.0)->float:
 	return kg_s
 
 
+# Kalkulerer faktisk lekkasje under test kg / s
 func calc_leak_rate_gas()->float:
 	var K: float = 273.15 + T
 	var m1: float = P2 * 100000 * volume * MW / (Z * R * K)
@@ -69,6 +71,7 @@ func calc_leak_rate_gas()->float:
 	return kg_s
 
 
+# Kalkulering orifice diameter ved gitt lekkasje
 func calc_orifice(kgh: float)->float:
 	var K: float = 273.15 + T
 	var dP: float = P1 - P2
@@ -83,18 +86,22 @@ func calc_orifice(kgh: float)->float:
 	return orifice
 
 
+# Mater test lekkasjeraten til integrerings funksjonen for å finne ut sekunder
+# til 0 dP 
 func integrate_leak():
 	var kg_s: float = calc_leak_rate_gas()
 	var kg_h: float = kg_s * 3600
 	var orifice: float = calc_orifice(kg_h)
-	var sec = integrate_criteria(2, 0.01, orifice)
+	var sec: float = integrate_criteria(2, 0.01, orifice)
 	return sec
 
 
+# Regner ut sekunder det vil ta å nå 0 dP i testsegmentet ved en gitt lekasjerate
+# og lagrer punkter for å lage trend til forventet trykkutvikling
 func integrate_criteria(P: int, step: float, ori: float = 0.0)->float:
 	var sec: float = 0.0
-	var count = 15
-	var s = step
+	var count: int = 15
+	var s: float = step
 	if P == 1:
 		P2_crit.clear()
 	else:
@@ -117,7 +124,7 @@ func integrate_criteria(P: int, step: float, ori: float = 0.0)->float:
 	return sec
 
 
-func set_test_variables():
+func set_test_variables()->void:
 	var valve = VALVES.valves[tag]
 	
 	if $"%Nitrogen".pressed:
@@ -166,6 +173,9 @@ func _on_Button_pressed()->void:
 	init_trend()
 
 
+func _on_OptionButton_item_selected(index)->void:
+	tag = $"%OptionButton".get_item_text(index)
+
 
 
 # Gammel kode, som jeg kanskje får bruk for??
@@ -211,6 +221,3 @@ func _on_Button_pressed()->void:
 #	else:
 #		$ColorRect.self_modulate = Color(0.0, 1.0, 0.0)
 
-
-func _on_OptionButton_item_selected(index):
-	tag = $"%OptionButton".get_item_text(index)
