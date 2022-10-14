@@ -33,7 +33,7 @@ var leak_krit = 0.1
 var Za = 0.9978
 
 
-# Kjøres ved oppstart av programmet
+# Legger ventilene i nedrekkslisten
 func _ready():
 	for i in VALVES.valves:
 		$"%OptionButton".add_item(i)
