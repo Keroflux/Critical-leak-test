@@ -124,6 +124,7 @@ func integrate_criteria(P: int, step: float, ori: float = 0.0)->float:
 	return sec
 
 
+# Setter verdier for testmedie og ventil
 func set_test_variables()->void:
 	var valve = VALVES.valves[tag]
 	
@@ -138,6 +139,7 @@ func set_test_variables()->void:
 	volume = valve["volume"]
 
 
+# Sender verdier til trend og starter tegning
 func init_trend()->void:
 	$"%Trend".test = P2_test
 	$"%Trend".crit = P2_crit
@@ -152,6 +154,7 @@ func init_trend()->void:
 	$"%TrendLine2".trend_run()
 
 
+# Klikk event fra "kalkuler" kanppen
 func _on_Button_pressed()->void:
 	P2 = float($"%PressureStart".text) + 1
 	P1 = float($"%PressureExternal".text) + 1
