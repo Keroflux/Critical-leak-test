@@ -1,6 +1,7 @@
 extends Control
 
-var tag = "A-VC23-0263"
+var tag : String = "A-VC23-0263"
+var type : int = 0 # 0 = ventil, 1 = tilbakeslag
 
 # Variabler til bruk i kalkulering av lekkasje kriterie
 var MW: float = 28.01 	# MOL vekt for test medie
@@ -59,7 +60,7 @@ func calc_leak_crit_gas(ori: float = 0.0)->float:
 	return kg_s
 
 
-# Kalkulerer faktisk lekkasje under test kg / s
+# Kalkulerer faktisk (gjennimsnitt) lekkasje under test i kg / s
 func calc_leak_rate_gas()->float:
 	var K: float = 273.15 + T
 	var m1: float = P2 * 100000 * volume * MW / (Z * R * K)
@@ -88,11 +89,20 @@ func calc_orifice(kgh: float)->float:
 
 # Mater test lekkasjeraten til integrerings funksjonen for å finne ut sekunder
 # til 0 dP 
-func integrate_leak():
+func integrate_leak()->float:
 	var kg_s: float = calc_leak_rate_gas()
 	var kg_h: float = kg_s * 3600
 	var orifice: float = calc_orifice(kg_h)
 	var sec: float = integrate_criteria(2, 0.01, orifice)
+	return sec
+
+
+# For ventiler med fast lekkasjerate på 0.05 kg / s
+func integrate_leak_005()->float:
+	var kg_s: float = 0.05
+	var kg_h: float = 0.05 * 3600
+	var orifice: float = calc_orifice(kg_h)
+	var sec: float = integrate_criteria(1, 0.01, orifice)
 	return sec
 
 
@@ -135,17 +145,24 @@ func set_test_variables()->void:
 		MW = valve["MW"]
 		Z = valve["Z"]
 	
-	Di = valve["Di"]
-	volume = valve["volume"]
+	if valve["Di"] == 0:
+		type = 0
+	else:
+		type = 1
+		Di = valve["Di"]
+		volume = valve["volume"]
 
 
 # Sender verdier til trend og starter tegning
 func init_trend()->void:
 	$"%Trend".test = P2_test
 	$"%Trend".crit = P2_crit
-	$"%Trend".seconds = sec_test
-	$"%Trend".max_pressure = P1
-	$"%Trend".min_pressure = P2
+	if sec_test >= sec_crit:
+		$"%Trend".seconds = sec_test
+	else:
+		$"%Trend".seconds = sec_crit
+	$"%Trend".max_pressure = P1 - 1
+	$"%Trend".min_pressure = P2 - 1
 	$"%Trend".calculate_point_distance()
 	$"%Trend".place_sec_marks()
 	$"%TrendLine".data_points = P2_test
@@ -154,7 +171,7 @@ func init_trend()->void:
 	$"%TrendLine2".trend_run()
 
 
-# Klikk event fra "kalkuler" kanppen
+# Klikkevent fra "kalkuler" kanppen
 func _on_Button_pressed()->void:
 	P2 = float($"%PressureStart".text) + 1
 	P1 = float($"%PressureExternal".text) + 1
@@ -163,12 +180,18 @@ func _on_Button_pressed()->void:
 	test_time = float($"%TestTime".text)
 	
 	set_test_variables()
-	kgs_crit = calc_leak_crit_gas()
+	
+	if type == 0:
+		sec_crit = integrate_leak_005()
+		kgs_crit = 0.05
+	else:
+		kgs_crit = calc_leak_crit_gas()
+		sec_crit = integrate_criteria(1, 0.01)
+	
 	kgs_test = calc_leak_rate_gas()
 	$"%LeakRate".text = str(kgs_test)
 	$"%CritLeak".text = str(kgs_crit)
 	
-	sec_crit = integrate_criteria(1, 0.01)
 	sec_test = integrate_leak()
 	$"%CritLeakSec".text = str(sec_crit)
 	$"%LeakSec".text = str(sec_test)
@@ -176,6 +199,7 @@ func _on_Button_pressed()->void:
 	init_trend()
 
 
+# Klikkevent fra netrekkslisten
 func _on_OptionButton_item_selected(index)->void:
 	tag = $"%OptionButton".get_item_text(index)
 

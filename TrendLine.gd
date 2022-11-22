@@ -54,8 +54,8 @@ func calculate_point_distance() -> void:
 
 func find_max():
 	scale_y = 0
-	max_value = -9999
-	min_value = 9999
+	max_value = -9999999
+	min_value = 9999999
 	for i in data_points:
 		if i > max_value:
 			max_value = i
