@@ -137,7 +137,7 @@ func integrate_criteria(P: int, step: float, ori: float = 0.0)->float:
 
 
 # Kalkulerer den høyeste (første) lekkasjeraten under testen fra gjennomsnittet
-func find_real_leak():
+func find_real_leak()->float:
 	var p0 = P2
 	var t0 := 0.0
 	var t = test_time
