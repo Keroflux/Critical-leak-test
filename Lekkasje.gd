@@ -20,10 +20,12 @@ var test_time: float = 900.0	# Testvarighet i sekunder
 # Variabler for lagring av resultat av kalkulasjoner
 var kgs_crit: float = 0.0	# Lekkasjekriterie i kg / s 
 var kgs_test: float = 0.0	# Lekkasjerate under test i kg / s
+var kgs_real: float	# Den faktiske lekkasjeraten under test i kg / s
 var sec_crit: float = 0.0	# Hvor lang tid i sekunder det tar for å nå 0 dP ved kriterie
 var sec_test: float = 0.0	# Hvor lang tid i sekunder det tar for å nå 0 dP ved test
 var P2_crit: Array = []		# Lagring av trend ved integrering av kriterie
 var P2_test: Array = []		# Lagring av trend ved integrering av test
+var test_orifice: float = 0.0
 
 # Ubrukt, tror jeg
 var comp_f = 0.98
@@ -91,7 +93,7 @@ func calc_orifice(kgh: float)->float:
 # til 0 dP 
 func integrate_leak()->float:
 	var kg_s: float = calc_leak_rate_gas()
-	var kg_h: float = kg_s * 3600
+	var kg_h: float = kgs_real * 3600
 	var orifice: float = calc_orifice(kg_h)
 	var sec: float = integrate_criteria(2, 0.01, orifice)
 	return sec
@@ -132,6 +134,47 @@ func integrate_criteria(P: int, step: float, ori: float = 0.0)->float:
 		count += 1
 	P2 = float($"%PressureStart".text) + 1
 	return sec
+
+
+func find_real_leak():
+	var p0 = P2
+	var t0 := 0.0
+	var t = test_time
+	var p = PB
+	var ori = calc_orifice(kgs_test * 3600)
+	var kgs := 0.0
+	
+	var m0 = p0 * 100000 * volume * MW / (Z * R * (T + 273.15))
+	var dt := 1.0 / 100.0
+	for i in range (1000):
+		ori += 0.01
+		t0 = 0
+		p0 = P2
+		m0 = p0 * 100000 * volume * MW / (Z * R * (T + 273.15))
+		while t0 < test_time:
+			var K: float = 273.15 + T
+			var dP: float = P1 - p0
+			if P1 == 0:
+				P1 = 1
+			var Pr: float = dP / P1
+			var Do = ori
+			var Yo: float = 1.008 - 0.338 * Pr
+			if Pr < 0.29:
+				Yo = 1 - 0.31 * Pr
+			var dg: float = (MW * P1) / (0.08314 * K * Z)
+			var kg_h: float = Do * Do * Yo * 0.62 * 1.265 * pow((dP * dg), 0.5)
+			var kg_s: float = kg_h / 3600
+			kg_s = abs(kg_s)
+			
+			m0 += kg_s * dt
+			p0 = m0 / (100000 * volume * MW / (Z * R * (T + 273.15)))
+			t0 += dt
+			
+			if p0 >= p:
+				kgs = kg_s
+				break
+		if t0 <= test_time:
+			return calc_leak_crit_gas(ori)
 
 
 # Setter verdier for testmedie og ventil
@@ -189,13 +232,14 @@ func _on_Button_pressed()->void:
 		sec_crit = integrate_criteria(1, 0.01)
 	
 	kgs_test = calc_leak_rate_gas()
-	$"%LeakRate".text = str(kgs_test)
+	kgs_real = find_real_leak()
+	sec_test = integrate_leak()
+	
+	$"%LeakRate".text = str(kgs_real)
 	$"%CritLeak".text = str(kgs_crit)
 	
-	sec_test = integrate_leak()
 	$"%CritLeakSec".text = str(sec_crit)
 	$"%LeakSec".text = str(sec_test)
-	
 	init_trend()
 
 
