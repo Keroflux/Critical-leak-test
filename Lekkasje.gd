@@ -62,7 +62,7 @@ func calc_leak_crit_gas(ori: float = 0.0)->float:
 	return kg_s
 
 
-# Kalkulerer faktisk (gjennimsnitt) lekkasje under test i kg / s
+# Kalkulerer (gjennimsnitt) lekkasje under test i kg / s
 func calc_leak_rate_gas()->float:
 	var K: float = 273.15 + T
 	var m1: float = P2 * 100000 * volume * MW / (Z * R * K)
@@ -136,6 +136,7 @@ func integrate_criteria(P: int, step: float, ori: float = 0.0)->float:
 	return sec
 
 
+# Kalkulerer den høyeste (første) lekkasjeraten under testen fra gjennomsnittet
 func find_real_leak():
 	var p0 = P2
 	var t0 := 0.0
