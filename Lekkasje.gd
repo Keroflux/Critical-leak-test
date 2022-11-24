@@ -41,7 +41,6 @@ func _ready():
 	for i in VALVES.valves:
 		$"%OptionButton".add_item(i)
 
-
 # Kalkulerer lekkasjekriterie i kg / s
 func calc_leak_crit_gas(ori: float = 0.0)->float:
 	var K: float = 273.15 + T
@@ -90,7 +89,7 @@ func calc_orifice(kgh: float)->float:
 
 
 # Mater test lekkasjeraten til integrerings funksjonen for å finne ut sekunder
-# til 0 dP 
+# til 0 dP
 func integrate_leak()->float:
 	var kg_s: float = calc_leak_rate_gas()
 	var kg_h: float = kgs_real * 3600
@@ -136,8 +135,7 @@ func integrate_criteria(P: int, step: float, ori: float = 0.0)->float:
 	return sec
 
 
-# Kalkulerer den høyeste (første) lekkasjeraten under testen fra gjennomsnittet
-func find_real_leak():
+func find_real_leak2():
 	var p0 = P2
 	var t0 := 0.0
 	var t = test_time
@@ -146,13 +144,13 @@ func find_real_leak():
 	var kgs := 0.0
 	
 	var m0 = p0 * 100000 * volume * MW / (Z * R * (T + 273.15))
-	var dt := 1.0 / 100.0
+	var dt := 0.05
 	for i in range (1000):
 		ori += 0.01
 		t0 = 0
 		p0 = P2
 		m0 = p0 * 100000 * volume * MW / (Z * R * (T + 273.15))
-		while t0 < test_time:
+		while t0 <= test_time:
 			var K: float = 273.15 + T
 			var dP: float = P1 - p0
 			if P1 == 0:
@@ -174,6 +172,52 @@ func find_real_leak():
 			if p0 >= p:
 				kgs = kg_s
 				break
+			
+		if p0 >= p:
+			return calc_leak_crit_gas(ori)
+
+
+# Kalkulerer den høyeste (første) lekkasjeraten under testen fra gjennomsnittet
+func find_real_leak():
+	var p0 = P2								#Trykk før test
+	var t0 := 0.0							#Klakulert test varighet
+	var t = test_time						#Test varighet
+	var p = PB								#Trykk etter test
+	var ori_pre = kgs_test / (P1 - P2) * 25	#Predikerer en sikker økning av orifice før loopen
+	var ori = calc_orifice(kgs_test * 3600) #Orifice testraten tilsvarer
+	var m0 := 0.0							#Masse ved teststart
+	var dt := 1.0 / 50.0 					#Tidsenhet
+	ori = ori + ori_pre
+#	Loop som øker størrelsen på orificen for hver ieterasjon og simulerer trykkoppbygging.
+#	Når simulert sluttrykk (p0) når testens sluttrykk (p) og simulert testvarighet (t0)
+#	er større eller lik testvarighet (test_time) returneres lekkasjeraten for tilsvarende orifice
+	for i in range (1000):
+		ori += 0.01
+		t0 = 0
+		p0 = P2
+		m0 = p0 * 100000 * volume * MW / (Z * R * (T + 273.15))
+		while p0 < p:
+			var K: float = 273.15 + T
+			var dP: float = P1 - p0
+			if P1 == 0:
+				P1 = 1
+			var Pr: float = dP / P1
+			var Do : float = ori
+			var Yo: float = 1.008 - 0.338 * Pr
+			if Pr < 0.29:
+				Yo = 1 - 0.31 * Pr
+			var dg: float = (MW * P1) / (0.08314 * K * Z)
+			var kg_h: float = Do * Do * Yo * 0.62 * 1.265 * pow((dP * dg), 0.5)
+			var kg_s: float = kg_h / 3600
+			kg_s = abs(kg_s)
+			
+			m0 += kg_s * dt
+			p0 = m0 / (100000 * volume * MW / (Z * R * (T + 273.15)))
+			t0 += dt
+			
+			if p0 >= p:
+				break
+			
 		if t0 <= test_time:
 			return calc_leak_crit_gas(ori)
 
@@ -234,6 +278,7 @@ func _on_Button_pressed()->void:
 	
 	kgs_test = calc_leak_rate_gas()
 	kgs_real = find_real_leak()
+#	print(find_real_leak2())
 	sec_test = integrate_leak()
 	
 	$"%LeakRate".text = str(kgs_real)
@@ -242,6 +287,11 @@ func _on_Button_pressed()->void:
 	$"%CritLeakSec".text = str(sec_crit)
 	$"%LeakSec".text = str(sec_test)
 	init_trend()
+	
+	if kgs_real > kgs_crit:
+		$"%LeakRate".get_stylebox("normal").bg_color = Color(0.583008, 0.04327, 0.04327)
+	else:
+		$"%LeakRate".get_stylebox("normal").bg_color = Color(0.141176, 0.396078, 0.078431)
 
 
 # Klikkevent fra netrekkslisten
