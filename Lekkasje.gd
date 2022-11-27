@@ -48,7 +48,7 @@ func calc_leak_crit_gas(ori: float = 0.0)->float:
 	if P1 == 0:
 		P1 = 1
 	var Pr: float = dP / P1
-	var Do: float = Di/ 10
+	var Do: float = Di/ 10.0
 	if ori > 0:
 		Do = ori
 	var Yo: float = 1.008 - 0.338 * Pr
@@ -298,7 +298,20 @@ func _on_Button_pressed()->void:
 func _on_OptionButton_item_selected(index)->void:
 	tag = $"%OptionButton".get_item_text(index)
 
-
+func calc_leak_new(ori, pipe):
+	var K = 273.15 + T
+	var p1 = P1 * 100000.0
+	var p2 = P2 * 100000.0
+	var dP: float = p1 - p2
+	print(dP)
+	var C = 0.62
+	var beta = ori / pipe
+	var dg = (MW * p1) / (8314 * K * Z)
+	print(dg)
+	var e = 1.0
+	var d2 = ori * ori
+	var Qm = (C / sqrt(1 - pow(beta, 4))) * e * (PI / 4) * d2 * sqrt(2 * dg * dP)
+	print(Qm)
 
 # Gammel kode, som jeg kanskje får bruk for??
 #func calculate_leak_criteria():
