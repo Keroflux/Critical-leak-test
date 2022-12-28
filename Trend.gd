@@ -7,14 +7,31 @@ var distance = 0
 var seconds = 0
 var max_pressure = 0
 var min_pressure = 0
+var show_marker = false
 var sec_mark = preload("res://SecondsMarker.tscn")
 var pres_mark = preload("res://PressureMark.tscn")
+
+var marker_s = 0
+var marker_p
 
 
 func _ready():
 	$TrendLine.color = Color(1.0, 1.0, 1.0)
 	$TrendLine2.color = Color(1.0 , 0.0, 0.0)
 	place_sec_marks()
+
+
+func _process(delta):
+	update()
+
+
+func _draw():
+	if show_marker:
+		var mouse = get_local_mouse_position()
+		draw_line(Vector2(mouse.x, 0), Vector2(mouse.x, rect_size.y), Color(1, 1, 1))
+		var mouse_norm_x = mouse.x / rect_size.x
+		var mouse_norm_y = 1 - mouse.y / rect_size.y
+#		print((mouse_norm_y * (max_pressure - min_pressure) + min_pressure))
 
 
 func calculate_point_distance() -> void:
@@ -28,7 +45,7 @@ func calculate_point_distance() -> void:
 
 func place_sec_marks():
 	var sec = seconds / 5
-	var pres = max_pressure / 5
+	var pres = (max_pressure - min_pressure) / 5
 	var x = rect_size.x / 5
 	var y = rect_size.y / 5
 	
@@ -47,7 +64,8 @@ func place_sec_marks():
 		var a = pres_mark.instance()
 		a.rect_position.y = (-y * (i + 1)) + rect_size.y
 		a.rect_size.x = rect_size.x
-		a.get_child(0).text = str(stepify(pres * (i + 1), 0.01))
+#		a.get_child(0).text = str(stepify(pres * (i + 1), 0.01))
+		a.get_child(0).text = str(stepify(pres * (i + 1) + min_pressure, 0.01))
 		$Marks.add_child(a)
 	
 	$MinPressure.text = str(min_pressure)
@@ -56,4 +74,9 @@ func place_sec_marks():
 	$MaxSeconds.text = str(seconds)
 
 
+func _on_Trend_mouse_entered():
+	show_marker = true
 
+
+func _on_Trend_mouse_exited():
+	show_marker = false
