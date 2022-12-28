@@ -28,7 +28,8 @@ func _process(delta):
 func _draw():
 	if show_marker:
 		var mouse = get_local_mouse_position()
-		draw_line(Vector2(mouse.x, 0), Vector2(mouse.x, rect_size.y), Color(1, 1, 1))
+		draw_line(Vector2(mouse.x, 0), Vector2(mouse.x, rect_size.y), Color(0.094118, 0.513726, 0.917647))
+		draw_line(Vector2(0, mouse.y), Vector2(rect_size.x, mouse.y), Color(0.094118, 0.513726, 0.917647))
 		var mouse_norm_x = mouse.x / rect_size.x
 		var mouse_norm_y = 1 - mouse.y / rect_size.y
 #		print((mouse_norm_y * (max_pressure - min_pressure) + min_pressure))
@@ -76,7 +77,9 @@ func place_sec_marks():
 
 func _on_Trend_mouse_entered():
 	show_marker = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 
 func _on_Trend_mouse_exited():
 	show_marker = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
