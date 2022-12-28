@@ -405,3 +405,4 @@ text = "0"
 [connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/Button" to="." method="_on_Button_pressed"]
 [connection signal="mouse_entered" from="VBoxContainer/MarginContainer2/Trend" to="VBoxContainer/MarginContainer2/Trend" method="_on_Trend_mouse_entered"]
 [connection signal="mouse_exited" from="VBoxContainer/MarginContainer2/Trend" to="VBoxContainer/MarginContainer2/Trend" method="_on_Trend_mouse_exited"]
+[connection signal="resized" from="VBoxContainer/MarginContainer2/Trend" to="VBoxContainer/MarginContainer2/Trend" method="_on_Trend_resized"]

@@ -83,3 +83,7 @@ func _on_Trend_mouse_entered():
 func _on_Trend_mouse_exited():
 	show_marker = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+
+func _on_Trend_resized():
+	place_sec_marks()
