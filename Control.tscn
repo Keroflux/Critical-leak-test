@@ -321,13 +321,13 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/margin_right = 35
 custom_constants/margin_top = 0
-custom_constants/margin_left = 35
+custom_constants/margin_left = 45
 custom_constants/margin_bottom = 35
 
 [node name="Trend" type="ColorRect" parent="VBoxContainer/MarginContainer2"]
 unique_name_in_owner = true
 show_behind_parent = true
-margin_left = 35.0
+margin_left = 45.0
 margin_right = 445.0
 margin_bottom = 311.0
 size_flags_horizontal = 3
@@ -405,4 +405,5 @@ text = "0"
 [connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/Button" to="." method="_on_Button_pressed"]
 [connection signal="mouse_entered" from="VBoxContainer/MarginContainer2/Trend" to="VBoxContainer/MarginContainer2/Trend" method="_on_Trend_mouse_entered"]
 [connection signal="mouse_exited" from="VBoxContainer/MarginContainer2/Trend" to="VBoxContainer/MarginContainer2/Trend" method="_on_Trend_mouse_exited"]
+[connection signal="resized" from="VBoxContainer/MarginContainer2/Trend" to="." method="_on_Trend_resized"]
 [connection signal="resized" from="VBoxContainer/MarginContainer2/Trend" to="VBoxContainer/MarginContainer2/Trend" method="_on_Trend_resized"]

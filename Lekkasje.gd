@@ -356,3 +356,7 @@ func calc_leak_new(ori, pipe):
 #	else:
 #		$ColorRect.self_modulate = Color(0.0, 1.0, 0.0)
 
+
+
+func _on_Trend_resized():
+	init_trend()

@@ -7,12 +7,13 @@ var distance = 0
 var seconds = 0
 var max_pressure = 0
 var min_pressure = 0
-var show_marker = false
+var show_marker := false
 var sec_mark = preload("res://SecondsMarker.tscn")
 var pres_mark = preload("res://PressureMark.tscn")
+var marker_label = preload("res://MarkerLabel.tscn")
 
-var marker_s = 0
-var marker_p
+var marker_s : Label
+var marker_p : Label
 
 
 func _ready():
@@ -28,11 +29,14 @@ func _process(delta):
 func _draw():
 	if show_marker:
 		var mouse = get_local_mouse_position()
-		draw_line(Vector2(mouse.x, 0), Vector2(mouse.x, rect_size.y), Color(0.094118, 0.513726, 0.917647))
-		draw_line(Vector2(0, mouse.y), Vector2(rect_size.x, mouse.y), Color(0.094118, 0.513726, 0.917647))
 		var mouse_norm_x = mouse.x / rect_size.x
 		var mouse_norm_y = 1 - mouse.y / rect_size.y
-#		print((mouse_norm_y * (max_pressure - min_pressure) + min_pressure))
+		draw_line(Vector2(mouse.x, 0), Vector2(mouse.x, rect_size.y), Color(0.094118, 0.513726, 0.917647))
+		marker_s.rect_position = Vector2(mouse.x - (marker_s.rect_size.x / 2), rect_size.y)
+		marker_s.text = str(stepify(mouse_norm_x * seconds, 0.01))
+		draw_line(Vector2(0, mouse.y), Vector2(rect_size.x, mouse.y), Color(0.094118, 0.513726, 0.917647))
+		marker_p.rect_position = Vector2(0 - marker_p.rect_size.x, mouse.y - (marker_p.rect_size.y / 2))
+		marker_p.text = str(stepify((mouse_norm_y * (max_pressure - min_pressure) + min_pressure), 0.1))
 
 
 func calculate_point_distance() -> void:
@@ -78,12 +82,20 @@ func place_sec_marks():
 func _on_Trend_mouse_entered():
 	show_marker = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	marker_s = marker_label.instance()
+	add_child(marker_s)
+	marker_p = marker_label.instance()
+	add_child(marker_p)
 
 
 func _on_Trend_mouse_exited():
 	show_marker = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	marker_s.queue_free()
+	marker_p.queue_free()
 
 
 func _on_Trend_resized():
 	place_sec_marks()
+	$"%TrendLine".trend_run()
+	$"%TrendLine2".trend_run()
