@@ -41,6 +41,7 @@ func _ready():
 	for i in VALVES.valves:
 		$"%OptionButton".add_item(i)
 
+
 # Kalkulerer lekkasjekriterie i kg / s
 func calc_leak_crit_gas(ori: float = 0.0)->float:
 	var K: float = 273.15 + T
