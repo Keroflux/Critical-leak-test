@@ -90,21 +90,21 @@ func calc_orifice(kgs: float)->float:
 
 # Mater test lekkasjeraten til integrerings funksjonen for å finne ut sekunder
 # til 0 dP
-func integrate_leak()->float:
-	var kg_s: float = calc_leak_rate_gas()
-	var kg_h: float = kgs_real * 3600
-	var orifice: float = calc_orifice(kg_h)
-	var sec: float = integrate_leak_gas("Test", orifice)
-	return sec
+#func integrate_leak()->float:
+#	var kg_s: float = calc_leak_rate_gas()
+#	var kg_h: float = kgs_real * 3600
+#	var orifice: float = calc_orifice(kg_h)
+#	var sec: float = integrate_leak_gas("Test", orifice)
+#	return sec
 
 
 # For ventiler med fast lekkasjerate på 0.05 kg / s
-func integrate_leak_005()->float:
-	var kg_s: float = 0.05
-	var kg_h: float = 0.05 * 3600
-	var orifice: float = calc_orifice(kg_h)
-	var sec: float = integrate_leak_gas("Test", orifice)
-	return sec
+#func integrate_leak_005()->float:
+#	var kg_s: float = 0.05
+#	var kg_h: float = 0.05 * 3600
+#	var orifice: float = calc_orifice(kg_h)
+#	var sec: float = integrate_leak_gas("Test", orifice)
+#	return sec
 
 
 # Regner ut sekunder det vil ta å nå 0 dP i testsegmentet ved en gitt lekasjerate
@@ -275,7 +275,6 @@ func _on_Button_pressed()->void:
 	else:
 		kgs_crit = calc_leak_crit_gas(Di / 10, P1 - P2)
 	var crit_orifice = calc_orifice(kgs_crit)
-	print(crit_orifice)
 	sec_crit = integrate_leak_gas("Criteria", Di / 10)
 	
 	kgs_test = calc_leak_rate_gas()
