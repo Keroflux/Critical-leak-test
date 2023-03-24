@@ -49,7 +49,7 @@ func calc_leak_crit_gas(ori: float, dp: float)->float:
 	if P1 == 0:
 		P1 = 1
 	var Pr: float = dP / P1
-	var Do: float = ori / 10.0
+	var Do: float = ori
 	var Yo: float = 1.008 - 0.338 * Pr
 	if Pr < 0.29:
 		Yo = 1 - 0.31 * Pr
@@ -273,7 +273,7 @@ func _on_Button_pressed()->void:
 	if type == "Valve":
 		kgs_crit = 0.05
 	else:
-		kgs_crit = calc_leak_crit_gas(Di, P1 - P2)
+		kgs_crit = calc_leak_crit_gas(Di / 10, P1 - P2)
 	var crit_orifice = calc_orifice(kgs_crit)
 	print(crit_orifice)
 	sec_crit = integrate_leak_gas("Criteria", Di / 10)
@@ -282,7 +282,7 @@ func _on_Button_pressed()->void:
 	test_orifice = calc_orifice(kgs_test)
 	kgs_real = find_real_leak(test_orifice, kgs_test)
 	test_orifice = calc_orifice(kgs_real)
-#	sec_test = integrate_leak_gas("Test", test_orifice)
+	sec_test = integrate_leak_gas("Test", test_orifice)
 	
 	$"%LeakRate".text = str(kgs_real)
 	$"%CritLeak".text = str(kgs_crit)
