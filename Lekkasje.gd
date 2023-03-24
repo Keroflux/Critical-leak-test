@@ -112,7 +112,7 @@ func integrate_leak_005()->float:
 # og lagrer punkter for å lage trend til forventet trykkutvikling
 func integrate_criteria(P: int, step: float, ori: float = 0.0)->float:
 	var sec: float = 0.0
-	var count: int = 15
+	var count: int = 10
 	var s: float = step
 	if P == 1:
 		P2_crit.clear()
@@ -180,12 +180,18 @@ func find_real_leak2():
 
 # Kalkulerer den høyeste (første) lekkasjeraten under testen fra gjennomsnittet
 func find_real_leak():
+	var num = 0
 	var p0 = P2								#Trykk før test
 	var t0 := 0.0							#Klakulert test varighet
 	var t = test_time						#Test varighet
 	var p = PB								#Trykk etter test
 	var ori_pre = kgs_test / (P1 - P2) * 25	#Predikerer en sikker økning av orifice før loopen
+	var ori_pre2 = (kgs_test * 3600 / test_time) * sqrt(PB / (P2))
+	ori_pre2 *= 0.015
 	var ori = calc_orifice(kgs_test * 3600) #Orifice testraten tilsvarer
+	print("Gjennomsnitt orifice: ",ori)
+	print(ori_pre2 + ori, " TEST2")
+	print(ori_pre + ori, " TEST")
 	var m0 := 0.0							#Masse ved teststart
 	var dt := 1.0 / 50.0 					#Tidsenhet
 	ori = ori + ori_pre
@@ -215,11 +221,13 @@ func find_real_leak():
 			m0 += kg_s * dt
 			p0 = m0 / (100000 * volume * MW / (Z * R * (T + 273.15)))
 			t0 += dt
-			
+			num += 1
 			if p0 >= p:
 				break
 			
 		if t0 <= test_time:
+			print("Faktisk orifice: ", ori)
+			print(num)
 			return calc_leak_crit_gas(ori)
 
 
@@ -278,7 +286,9 @@ func _on_Button_pressed()->void:
 		sec_crit = integrate_criteria(1, 0.01)
 	
 	kgs_test = calc_leak_rate_gas()
+	print("Gjennomsnitt lekkasje: ",kgs_test)
 	kgs_real = find_real_leak()
+	print("Faktisk lekkasje: ",kgs_real)
 #	print(find_real_leak2())
 	sec_test = integrate_leak()
 	
