@@ -86,18 +86,19 @@ func simulate_pressure_buildup(type: String, ori: float)->float:
 	var sec: float = 0.0
 	var count: int = 15
 	var step: float = 0.01
+	var K: float = 273.15 + T
 	var p1 = P1
 	var p2 = P2
+	var gas_const = 100000 * volume * MW / (Z * R * K)
 	if type == "Criteria":
 		P2_crit.clear()
 	else:
 		P2_test.clear()
 	while p2 < p1:
-		var K: float = 273.15 + T
-		var m1: float = p2 * 100000 * volume * MW / (Z * R * K)
+		var m1: float = p2 * gas_const
 		var leak = calc_leak_crit_gas(ori, p1 - p2)
 		m1 += leak * step
-		p2 = m1 / (100000 * volume * MW / (Z * R * K))
+		p2 = m1 / gas_const
 		sec += step
 		if count == 15:
 			if type == "Criteria":
@@ -234,7 +235,6 @@ func init_trend()->void:
 
 # Klikkevent fra "kalkuler" kanppen
 func _run_calculations()->void:
-	var time_start = OS.get_ticks_msec()
 	set_test_variables()
 	
 	if type == "Valve":
@@ -248,10 +248,10 @@ func _run_calculations()->void:
 	test_orifice = calc_orifice(kgs_test)
 	kgs_real = find_real_leak(test_orifice, kgs_test)
 	test_orifice = calc_orifice(kgs_real)
+	var time_start = OS.get_ticks_msec()
 	sec_test = simulate_pressure_buildup("Test", test_orifice)
 	print(OS.get_ticks_msec() - time_start)
 	init_trend()
-	print(OS.get_ticks_msec() - time_start)
 	
 	$"%LeakRate".text = str(kgs_real)
 	$"%CritLeak".text = str(kgs_crit)
