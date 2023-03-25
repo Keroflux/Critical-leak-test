@@ -1,7 +1,7 @@
 extends Control
 
 var tag : String = "A-VC23-0263"
-var type : String = "Valve"
+var type : int = 0 # 0 = ventil, 1 = tilbakeslag
 
 # Variabler til bruk i kalkulering av lekkasje kriterie
 var MW: float = 28.01 	# MOL vekt for test medie
@@ -20,7 +20,7 @@ var test_time: float = 900.0	# Testvarighet i sekunder
 # Variabler for lagring av resultat av kalkulasjoner
 var kgs_crit: float = 0.0	# Lekkasjekriterie i kg / s 
 var kgs_test: float = 0.0	# Lekkasjerate under test i kg / s
-var kgs_real: float = 0.0	# Den faktiske lekkasjeraten under test i kg / s
+var kgs_real: float	# Den faktiske lekkasjeraten under test i kg / s
 var sec_crit: float = 0.0	# Hvor lang tid i sekunder det tar for å nå 0 dP ved kriterie
 var sec_test: float = 0.0	# Hvor lang tid i sekunder det tar for å nå 0 dP ved test
 var P2_crit: Array = []		# Lagring av trend ved integrering av kriterie
@@ -43,13 +43,15 @@ func _ready():
 
 
 # Kalkulerer lekkasjekriterie i kg / s
-func calc_leak_crit_gas(ori: float, dp: float)->float:
+func calc_leak_crit_gas(ori: float = 0.0)->float:
 	var K: float = 273.15 + T
-	var dP: float = dp
+	var dP: float = P1 - P2
 	if P1 == 0:
 		P1 = 1
 	var Pr: float = dP / P1
-	var Do: float = ori
+	var Do: float = Di/ 10.0
+	if ori > 0:
+		Do = ori
 	var Yo: float = 1.008 - 0.338 * Pr
 	if Pr < 0.29:
 		Yo = 1 - 0.31 * Pr
@@ -73,8 +75,7 @@ func calc_leak_rate_gas()->float:
 
 
 # Kalkulering orifice diameter ved gitt lekkasje
-func calc_orifice(kgs: float)->float:
-	var kgh = kgs * 3600
+func calc_orifice(kgh: float)->float:
 	var K: float = 273.15 + T
 	var dP: float = P1 - P2
 	if P1 == 0:
@@ -90,49 +91,48 @@ func calc_orifice(kgs: float)->float:
 
 # Mater test lekkasjeraten til integrerings funksjonen for å finne ut sekunder
 # til 0 dP
-#func integrate_leak()->float:
-#	var kg_s: float = calc_leak_rate_gas()
-#	var kg_h: float = kgs_real * 3600
-#	var orifice: float = calc_orifice(kg_h)
-#	var sec: float = integrate_leak_gas("Test", orifice)
-#	return sec
+func integrate_leak()->float:
+	var kg_s: float = calc_leak_rate_gas()
+	var kg_h: float = kgs_real * 3600
+	var orifice: float = calc_orifice(kg_h)
+	var sec: float = integrate_criteria(2, 0.01, orifice)
+	return sec
 
 
 # For ventiler med fast lekkasjerate på 0.05 kg / s
-#func integrate_leak_005()->float:
-#	var kg_s: float = 0.05
-#	var kg_h: float = 0.05 * 3600
-#	var orifice: float = calc_orifice(kg_h)
-#	var sec: float = integrate_leak_gas("Test", orifice)
-#	return sec
+func integrate_leak_005()->float:
+	var kg_s: float = 0.05
+	var kg_h: float = 0.05 * 3600
+	var orifice: float = calc_orifice(kg_h)
+	var sec: float = integrate_criteria(1, 0.01, orifice)
+	return sec
 
 
 # Regner ut sekunder det vil ta å nå 0 dP i testsegmentet ved en gitt lekasjerate
 # og lagrer punkter for å lage trend til forventet trykkutvikling
-func integrate_leak_gas(type: String, ori: float)->float:
+func integrate_criteria(P: int, step: float, ori: float = 0.0)->float:
 	var sec: float = 0.0
-	var count: int = 15
-	var step: float = 0.01
-	var p1 = P1
-	var p2 = P2
-	if type == "Criteria":
+	var count: int = 10
+	var s: float = step
+	if P == 1:
 		P2_crit.clear()
 	else:
 		P2_test.clear()
-	while p2 < p1:
+	while P2 < P1:
 		var K: float = 273.15 + T
-		var m1: float = p2 * 100000 * volume * MW / (Z * R * K)
-		var leak = calc_leak_crit_gas(ori, p1 - p2)
-		m1 += leak * step
-		p2 = m1 / (100000 * volume * MW / (Z * R * K))
+		var m1: float = P2 * 100000 * volume * MW / (Z * R * K)
+		var leak: float = calc_leak_crit_gas(ori)
+		m1 += leak * s
+		P2 = m1 / (100000 * volume * MW / (Z * R * K))
 		sec += step
 		if count == 15:
-			if type == "Criteria":
-				P2_crit.append(p2)
+			if P == 1:
+				P2_crit.append(P2-1)
 			else:
-				P2_test.append(p2)
+				P2_test.append(P2-1)
 			count = 0
 		count += 1
+	P2 = float($"%PressureStart".text) + 1
 	return sec
 
 
@@ -175,25 +175,31 @@ func find_real_leak2():
 				break
 			
 		if p0 >= p:
-			return calc_leak_crit_gas(ori, P1 - P2)
+			return calc_leak_crit_gas(ori)
 
 
 # Kalkulerer den høyeste (første) lekkasjeraten under testen fra gjennomsnittet
-func find_real_leak(orifice, kgs):
+func find_real_leak():
 	var num = 0
 	var p0 = P2								#Trykk før test
 	var t0 := 0.0							#Klakulert test varighet
 	var t = test_time						#Test varighet
 	var p = PB								#Trykk etter test
-	var ori_pre = kgs / (P1 - P2) * 25	#Predikerer en sikker økning av orifice før loopen
-	var predicted_orifice = orifice + ori_pre #Orifice testraten tilsvarer
+	var ori_pre = kgs_test / (P1 - P2) * 25	#Predikerer en sikker økning av orifice før loopen
+	var ori_pre2 = (kgs_test * 3600 / test_time) * sqrt(PB / (P2))
+	ori_pre2 *= 0.015
+	var ori = calc_orifice(kgs_test * 3600) #Orifice testraten tilsvarer
+	print("Gjennomsnitt orifice: ",ori)
+	print(ori_pre2 + ori, " TEST2")
+	print(ori_pre + ori, " TEST")
 	var m0 := 0.0							#Masse ved teststart
 	var dt := 1.0 / 50.0 					#Tidsenhet
+	ori = ori + ori_pre
 #	Loop som øker størrelsen på orificen for hver ieterasjon og simulerer trykkoppbygging.
 #	Når simulert sluttrykk (p0) når testens sluttrykk (p) og simulert testvarighet (t0)
 #	er større eller lik testvarighet (test_time) returneres lekkasjeraten for tilsvarende orifice
 	for i in range (1000):
-		predicted_orifice += 0.01
+		ori += 0.01
 		t0 = 0
 		p0 = P2
 		m0 = p0 * 100000 * volume * MW / (Z * R * (T + 273.15))
@@ -203,7 +209,7 @@ func find_real_leak(orifice, kgs):
 			if P1 == 0:
 				P1 = 1
 			var Pr: float = dP / P1
-			var Do : float = predicted_orifice
+			var Do : float = ori
 			var Yo: float = 1.008 - 0.338 * Pr
 			if Pr < 0.29:
 				Yo = 1 - 0.31 * Pr
@@ -220,7 +226,9 @@ func find_real_leak(orifice, kgs):
 				break
 			
 		if t0 <= test_time:
-			return calc_leak_crit_gas(predicted_orifice, P1 - P2)
+			print("Faktisk orifice: ", ori)
+			print(num)
+			return calc_leak_crit_gas(ori)
 
 
 # Setter verdier for testmedie og ventil
@@ -235,9 +243,9 @@ func set_test_variables()->void:
 		Z = valve["Z"]
 	
 	if valve["Di"] == 0:
-		type = "Valve"
+		type = 0
 	else:
-		type = "Check"
+		type = 1
 		Di = valve["Di"]
 		volume = valve["volume"]
 
@@ -270,18 +278,19 @@ func _on_Button_pressed()->void:
 	
 	set_test_variables()
 	
-	if type == "Valve":
+	if type == 0:
+		sec_crit = integrate_leak_005()
 		kgs_crit = 0.05
 	else:
-		kgs_crit = calc_leak_crit_gas(Di / 10, P1 - P2)
-	var crit_orifice = calc_orifice(kgs_crit)
-	sec_crit = integrate_leak_gas("Criteria", Di / 10)
+		kgs_crit = calc_leak_crit_gas()
+		sec_crit = integrate_criteria(1, 0.01)
 	
 	kgs_test = calc_leak_rate_gas()
-	test_orifice = calc_orifice(kgs_test)
-	kgs_real = find_real_leak(test_orifice, kgs_test)
-	test_orifice = calc_orifice(kgs_real)
-	sec_test = integrate_leak_gas("Test", test_orifice)
+	print("Gjennomsnitt lekkasje: ",kgs_test)
+	kgs_real = find_real_leak()
+	print("Faktisk lekkasje: ",kgs_real)
+#	print(find_real_leak2())
+	sec_test = integrate_leak()
 	
 	$"%LeakRate".text = str(kgs_real)
 	$"%CritLeak".text = str(kgs_crit)
