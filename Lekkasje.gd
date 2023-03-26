@@ -27,11 +27,12 @@ var P2_crit: Array = []		# Lagring av trend ved integrering av kriterie
 var P2_test: Array = []		# Lagring av trend ved integrering av test
 var test_orifice: float = 0.0
 
+var search_box = preload("res://ValveSelector.tscn")
 
 # Legger ventilene i nedrekkslisten
-func _ready():
-	for i in VALVES.valves:
-		$"%OptionButton".add_item(i)
+#func _ready():
+#	for i in VALVES.valves:
+#		$"%OptionButton".add_item(i)
 
 
 # Kalkulerer lekkasjekriterie i kg / s
@@ -296,8 +297,9 @@ func _run_calculations()->void:
 
 
 # Klikkevent fra netrekkslisten
-func _on_OptionButton_item_selected(index)->void:
-	tag = $"%OptionButton".get_item_text(index)
+func _set_valve(valve)->void:
+	tag = valve
+	$"%OptionButton".text = tag
 
 
 func calc_leak_new(ori, pipe):
@@ -316,3 +318,8 @@ func calc_leak_new(ori, pipe):
 
 func _on_Trend_resized():
 	init_trend()
+
+
+func _on_OptionButton_pressed():
+	var a = search_box.instance()
+	add_child(a)

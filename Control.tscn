@@ -63,14 +63,13 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 25
 
-[node name="OptionButton" type="OptionButton" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="OptionButton" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 margin_right = 213.0
 margin_bottom = 35.0
 rect_min_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 4 )
-align = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/OptionButton"]
 anchor_right = 1.0
@@ -401,7 +400,7 @@ margin_right = 31.0
 margin_bottom = 14.0
 text = "0"
 
-[connection signal="item_selected" from="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/OptionButton" to="." method="_on_OptionButton_item_selected"]
+[connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/OptionButton" to="." method="_on_OptionButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/Button" to="." method="_run_calculations"]
 [connection signal="mouse_entered" from="VBoxContainer/MarginContainer2/Trend" to="VBoxContainer/MarginContainer2/Trend" method="_on_Trend_mouse_entered"]
 [connection signal="mouse_exited" from="VBoxContainer/MarginContainer2/Trend" to="VBoxContainer/MarginContainer2/Trend" method="_on_Trend_mouse_exited"]
