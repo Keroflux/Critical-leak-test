@@ -1,5 +1,6 @@
 extends Control
 
+var button = preload("res://Tagbutton.tscn")
 
 func _ready():
 	refresh("")
@@ -10,12 +11,12 @@ func refresh(text):
 		child.queue_free()
 	for key in VALVES.valves:
 		if key.match("*" + text.to_upper() + "*"):
-			var button = Button.new()
-			$"%Valves".add_child(button)
-			button.text = key
-			button.name = key
-			button.connect("pressed", get_parent(), "_set_valve", [key])
-			button.connect("pressed", self, "close")
+			var a = button.instance()
+			$"%Valves".add_child(a)
+			a.get_child(0).text = key
+			a.name = key
+			a.get_child(0).connect("pressed", get_parent(), "_set_valve", [key])
+			a.get_child(0).connect("pressed", self, "close")
 
 
 func close():

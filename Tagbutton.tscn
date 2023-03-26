@@ -1,0 +1,164 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://TitilliumWeb-SemiBold.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Tagbutton.gd" type="Script" id=2]
+[ext_resource path="res://Button.tscn" type="PackedScene" id=3]
+
+[sub_resource type="DynamicFont" id=3]
+size = 20
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.113725, 0.666667, 0.796078, 1 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.870588, 0.929412, 0.933333, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.529412, 0.572549, 0.603922, 1 )
+
+[sub_resource type="DynamicFont" id=8]
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=13]
+bg_color = Color( 0.705882, 0.733333, 0.752941, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0, 0.435294, 0.47451, 1 )
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+corner_detail = 16
+
+[sub_resource type="StyleBoxFlat" id=14]
+bg_color = Color( 0, 0.435294, 0.47451, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0, 0.435294, 0.47451, 1 )
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+corner_detail = 16
+
+[sub_resource type="StyleBoxFlat" id=12]
+bg_color = Color( 0.843137, 0.882353, 0.929412, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0, 0.435294, 0.47451, 1 )
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+corner_detail = 16
+
+[node name="Tagbutton" type="Control"]
+anchor_right = 1.0
+margin_right = 3.05176e-05
+margin_bottom = 40.0
+rect_min_size = Vector2( 250, 45 )
+size_flags_horizontal = 3
+size_flags_vertical = 0
+script = ExtResource( 2 )
+
+[node name="Button" type="Button" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 3 )
+custom_styles/hover = SubResource( 1 )
+custom_styles/normal = SubResource( 2 )
+text = "A-23PT0630"
+align = 0
+
+[node name="STID" parent="." instance=ExtResource( 3 )]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -58.0001
+margin_top = -14.5
+margin_right = -8.00003
+margin_bottom = 15.5
+rect_min_size = Vector2( 50, 20 )
+hint_tooltip = "Åpner tag i STID"
+custom_colors/font_color = Color( 1, 0.0705882, 0.203922, 1 )
+custom_colors/font_color_hover = Color( 1, 0.0705882, 0.203922, 1 )
+custom_colors/font_color_pressed = Color( 1, 0.0705882, 0.203922, 1 )
+text = "STID"
+
+[node name="Echo" parent="." instance=ExtResource( 3 )]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -114.0
+margin_top = -14.5
+margin_right = -64.0
+margin_bottom = 15.5
+rect_min_size = Vector2( 50, 20 )
+hint_tooltip = "Åpner tag i echo"
+custom_colors/font_color = Color( 1, 0.0705882, 0.203922, 1 )
+custom_colors/font_color_hover = Color( 1, 0.0705882, 0.203922, 1 )
+custom_colors/font_color_pressed = Color( 1, 0.0705882, 0.203922, 1 )
+text = "echo"
+
+[node name="Hub" parent="." instance=ExtResource( 3 )]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -234.0
+margin_top = -14.5
+margin_right = -178.0
+margin_bottom = 15.5
+rect_min_size = Vector2( 50, 20 )
+hint_tooltip = "Åpner tag i echo"
+custom_colors/font_color = Color( 1, 0.0705882, 0.203922, 1 )
+custom_colors/font_color_hover = Color( 1, 0.0705882, 0.203922, 1 )
+custom_colors/font_color_pressed = Color( 1, 0.0705882, 0.203922, 1 )
+custom_fonts/font = SubResource( 8 )
+custom_styles/hover = SubResource( 13 )
+custom_styles/pressed = SubResource( 14 )
+custom_styles/normal = SubResource( 12 )
+text = "inField"
+
+[node name="SAP" type="Button" parent="."]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -170.0
+margin_top = -14.5
+margin_right = -120.0
+margin_bottom = 15.5
+rect_min_size = Vector2( 50, 20 )
+hint_tooltip = "Åpner tag i echo"
+focus_mode = 0
+custom_colors/font_color = Color( 0.121569, 0.407843, 0.854902, 1 )
+custom_colors/font_color_hover = Color( 0.121569, 0.407843, 0.854902, 1 )
+custom_colors/font_color_pressed = Color( 0.121569, 0.407843, 0.854902, 1 )
+custom_fonts/font = SubResource( 8 )
+custom_styles/hover = SubResource( 13 )
+custom_styles/pressed = SubResource( 14 )
+custom_styles/normal = SubResource( 12 )
+enabled_focus_mode = 0
+text = "SAP"
+
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="STID" to="." method="_on_STID_pressed"]
+[connection signal="pressed" from="Echo" to="." method="_on_Echo_pressed"]
+[connection signal="pressed" from="Hub" to="." method="_on_Hub_pressed"]
+[connection signal="pressed" from="SAP" to="." method="_on_SAP_pressed"]

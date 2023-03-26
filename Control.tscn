@@ -70,6 +70,7 @@ margin_bottom = 35.0
 rect_min_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 4 )
+text = "Velg ventil"
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/OptionButton"]
 anchor_right = 1.0
