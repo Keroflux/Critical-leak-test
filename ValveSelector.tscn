@@ -7,7 +7,7 @@ bg_color = Color( 0.168627, 0.2, 0.258824, 1 )
 
 [node name="ValveSelector" type="Control"]
 anchor_right = 1.0
-margin_bottom = 400.0
+margin_bottom = 450.0
 script = ExtResource( 1 )
 
 [node name="Panel" type="Panel" parent="."]
@@ -18,26 +18,27 @@ anchor_bottom = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 20
-custom_constants/margin_top = 20
+custom_constants/margin_top = 10
 custom_constants/margin_left = 20
-custom_constants/margin_bottom = 20
+custom_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 margin_left = 20.0
-margin_top = 20.0
+margin_top = 10.0
 margin_right = 460.0
-margin_bottom = 380.0
+margin_bottom = 440.0
 
 [node name="Search" type="LineEdit" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 margin_right = 440.0
-margin_bottom = 24.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 0, 30 )
 placeholder_text = "Søk etter ventil"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
-margin_top = 28.0
+margin_top = 34.0
 margin_right = 440.0
-margin_bottom = 360.0
+margin_bottom = 396.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/bg = SubResource( 1 )
@@ -45,8 +46,16 @@ custom_styles/bg = SubResource( 1 )
 [node name="Valves" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
 unique_name_in_owner = true
 margin_right = 440.0
-margin_bottom = 332.0
+margin_bottom = 362.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="Close" type="Button" parent="MarginContainer/VBoxContainer"]
+margin_top = 400.0
+margin_right = 440.0
+margin_bottom = 430.0
+rect_min_size = Vector2( 0, 30 )
+text = "Lukk"
+
 [connection signal="text_changed" from="MarginContainer/VBoxContainer/Search" to="." method="refresh"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Close" to="." method="close"]
