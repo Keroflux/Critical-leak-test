@@ -52,14 +52,31 @@ func calc_leak_crit_gas(ori: float, dp: float)->float:
 	return kg_s
 
 
+func calc_leak_crit_gas2(ori: float, dp: float)->float:
+	var K: float = 273.15 + T
+	var dP: float = dp
+	if P1 == 0:
+		P1 = 1
+	var Pr: float = dP / P1
+	var Do: float = ori
+	var Yo: float = 1.008 - 0.338 * Pr
+	if Pr < 0.29:
+		Yo = 1 - 0.31 * Pr
+	var dg: float = (MW * P1) / (0.083145 * K * Z)
+	var kg_h: float = Do * Do * Yo * 0.62 * 1.265 * pow((dP * dg), 0.5)
+	var kg_s: float = kg_h
+	kg_s = abs(kg_s)
+	return kg_s
+
+
 # Kalkulerer (gjennimsnitt) lekkasje under test i kg / s
 func calc_leak_rate_gas()->float:
 	var K: float = 273.15 + T
 	var m1: float = P2 * 100000 * volume * MW / (Z * R * K)
 	var m2: float = PB * 100000 * volume * MW / (Z * R * K)
 	var kg_s: float = (m1 - m2) / test_time
-	var n: float = (m2 * 1000) / MW
-	var z: float = (PB * 100000 * volume) / (n * (R / 1000) * K)
+#	var n: float = (m2 * 1000) / MW
+#	var z: float = (PB * 100000 * volume) / (n * (R / 1000) * K)
 	kg_s = abs(kg_s)
 	return kg_s
 
@@ -158,8 +175,11 @@ func find_real_leak2(orifice, kgs):
 	var p = PB								#Trykk etter test
 	var ori_pre = kgs / (P1 - P2) * 25	#Predikerer en sikker økning av orifice før loopen
 	var predicted_orifice = orifice + ori_pre #Orifice testraten tilsvarer
-	var gas_const = 100000 * volume * MW / (Z * R * (T + 273.15))
-	var m0 := 0.0							#Masse ved teststart
+	var K = T + 273.15
+	var gas_const = 100000 * volume * MW / (Z * R * K)
+	var d_g = (MW * P1) / (0.08314 * K * Z)
+	var ab = 0.62 * 1.265
+	var m0 = p0 * gas_const			#Masse ved teststart
 	var dt := 0.02 					#Tidsenhet
 	print("Average: ",orifice)
 	print("Predicted: ",predicted_orifice)
@@ -171,12 +191,24 @@ func find_real_leak2(orifice, kgs):
 		predicted_orifice += 0.01
 		t0 = 0
 		p0 = P2
-		m0 = p0 * gas_const
+		var m_0 = m0
 		while p0 < p and t0 <= test_time:
-			var kg_s = calc_leak_crit_gas(predicted_orifice, P1 - p0)
-			m0 += kg_s * dt
-			p0 = m0 / gas_const
+			var dP: float = P1 - p0
+			if P1 == 0:
+				P1 = 1
+			var Pr: float = dP / P1
+			var Do : float = predicted_orifice
+			var Yo: float = 1.008 - 0.338 * Pr
+			if Pr < 0.29:
+				Yo = 1 - 0.31 * Pr
+			var dg: float = d_g
+			var kg_h: float = Do * Do * Yo * ab * pow((dP * dg), 0.5)
+			var kg_s: float = kg_h / 3600
+#			kg_s = abs(kg_s)
+			m_0 += kg_s * dt
+			p0 = m_0 / gas_const
 			t0 += dt
+			
 			numw += 1
 			
 		if t0 <= test_time:
@@ -240,7 +272,6 @@ func _run_calculations()->void:
 		kgs_crit = calc_leak_crit_gas(Di / 10, P1 - P2)
 	var crit_orifice = calc_orifice(kgs_crit)
 	sec_crit = simulate_pressure_buildup("Criteria", Di / 10)
-	
 	kgs_test = calc_leak_rate_gas()
 	test_orifice = calc_orifice(kgs_test)
 	var time_start = OS.get_ticks_msec()
