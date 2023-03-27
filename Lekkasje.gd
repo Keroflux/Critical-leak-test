@@ -109,44 +109,6 @@ func find_real_leak(orifice, kgs):
 	var p = PB								#Trykk etter test
 	var ori_pre = kgs / (P1 - P2) * 25	#Predikerer en sikker økning av orifice før loopen
 	var predicted_orifice = orifice + ori_pre #Orifice testraten tilsvarer
-	var gas_const = 100000 * volume * MW / (Z * R * (T + 273.15))
-	var m0 := 0.0							#Masse ved teststart
-	var dt := 0.02 					#Tidsenhet
-	print("Average: ",orifice)
-	print("Predicted: ",predicted_orifice)
-#	Loop som øker størrelsen på orificen for hver ieterasjon og simulerer trykkoppbygging.
-#	Når simulert sluttrykk (p0) når testens sluttrykk (p) og simulert testvarighet (t0)
-#	er større eller lik testvarighet (test_time) returneres lekkasjeraten for tilsvarende orifice
-	for i in range (1000):
-		numf += 1
-		predicted_orifice += 0.01
-		t0 = 0
-		p0 = P2
-		m0 = p0 * gas_const
-		while p0 < p and t0 <= test_time:
-			var kg_s = calc_leak_crit_gas(predicted_orifice, P1 - p0)
-			m0 += kg_s * dt
-			p0 = m0 / gas_const
-			t0 += dt
-			numw += 1
-			
-		if t0 <= test_time:
-			print("Actual: ", predicted_orifice)
-			print("End pressure: ", p0)
-			print("Number of for: ", numf)
-			print("Number of while: ", numw)
-			return calc_leak_crit_gas(predicted_orifice, p0 - P2)
-
-# Ekstra funksjon for test av optimalsiering
-func find_real_leak2(orifice, kgs):
-	var numw = 0
-	var numf = 0
-	var p0 = P2								#Trykk før test
-	var t0 := 0.0							#Klakulert test varighet
-	var t = test_time						#Test varighet
-	var p = PB								#Trykk etter test
-	var ori_pre = kgs / (P1 - P2) * 25	#Predikerer en sikker økning av orifice før loopen
-	var predicted_orifice = orifice + ori_pre #Orifice testraten tilsvarer
 	var K = T + 273.15
 	var gas_const = 100000 * volume * MW / (Z * R * K)
 	var d_g = (MW * P1) / (0.08314 * K * Z)
@@ -189,6 +151,63 @@ func find_real_leak2(orifice, kgs):
 			print("Number of for: ", numf)
 			print("Number of while: ", numw)
 			return calc_leak_crit_gas(predicted_orifice, p0 - P2)
+
+# Ekstra funksjon for test av optimalsiering
+func find_real_leak2(orifice, kgs):
+	var numw = 0
+	var numf = 0
+	var p0 = P2								#Trykk før test
+	var t0 := 0.0							#Klakulert test varighet
+	var t = test_time						#Test varighet
+	var p = PB								#Trykk etter test
+	var ori_pre = kgs / (P1 - P2) * 25	#Predikerer en sikker økning av orifice før loopen
+	var predicted_orifice = orifice + ori_pre #Orifice testraten tilsvarer
+	var K = T + 273.15
+	var gas_const = 100000 * volume * MW / (Z * R * K)
+	var d_g = (MW * P1) / (0.08314 * K * Z)
+	var ab = 0.62 * 1.265
+	var m0 = p0 * gas_const			#Masse ved teststart
+	var dt := 2.0 					#Tidsenhet
+	print("Average: ",orifice)
+	print("Predicted: ",predicted_orifice)
+#	Loop som øker størrelsen på orificen for hver ieterasjon og simulerer trykkoppbygging.
+#	Når simulert sluttrykk (p0) når testens sluttrykk (p) og simulert testvarighet (t0)
+#	er større eller lik testvarighet (test_time) returneres lekkasjeraten for tilsvarende orifice
+	for i in range (1000):
+		numf += 1
+		predicted_orifice += 0.01
+		t0 = 0
+		p0 = P2
+		var m_0 = m0
+		while p0 < p:
+			var dP: float = P1 - p0
+			if P1 == 0:
+				P1 = 1
+			var Pr: float = dP / P1
+			var Do : float = predicted_orifice
+			var Yo: float = 1.008 - 0.338 * Pr
+			if Pr < 0.29:
+				Yo = 1 - 0.31 * Pr
+			var dg: float = d_g
+			var kg_h: float = Do * Do * Yo * ab * pow((dP * dg), 0.5)
+			var kg_s: float = kg_h / 3600
+#			kg_s = abs(kg_s)
+			m_0 += kg_s * dt
+			p0 = m_0 / gas_const
+			t0 += dt
+			
+			numw += 1
+		
+		if p0 > p + 0.0001:
+			dt *= 0.5
+		else:
+			if t0 <= test_time:
+				print("Time: ", t0)
+				print("Actual: ", predicted_orifice)
+				print("End pressure: ", p0)
+				print("Number of for: ", numf)
+				print("Number of while: ", numw)
+				return calc_leak_crit_gas(predicted_orifice, p0 - P2)
 
 
 # Setter verdier for testmedie og ventil
@@ -249,12 +268,12 @@ func _run_calculations()->void:
 	var sec_crit = simulate_pressure_buildup("Criteria", crit_orifice)
 	var kgs_test = calc_leak_rate_gas()
 	var test_orifice = calc_orifice(kgs_test)
-#	var time_start = OS.get_ticks_msec()
-#	find_real_leak(test_orifice, kgs_test)
-#	print("Loop time: ",OS.get_ticks_msec() - time_start, " ms\n")
-#	time_start = OS.get_ticks_msec()
+	var time_start = OS.get_ticks_msec()
+	find_real_leak(test_orifice, kgs_test)
+	print("Loop time: ",OS.get_ticks_msec() - time_start, " ms\n")
+	time_start = OS.get_ticks_msec()
 	var kgs_real = find_real_leak2(test_orifice, kgs_test)
-#	print("Loop time: ",OS.get_ticks_msec() - time_start, " ms\n")
+	print("Loop time: ",OS.get_ticks_msec() - time_start, " ms\n")
 	test_orifice = calc_orifice(kgs_real)
 	var sec_test = simulate_pressure_buildup("Test", test_orifice)
 	init_trend(sec_test, sec_crit)
