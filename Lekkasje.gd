@@ -17,22 +17,10 @@ var volume: float = 0.11876		# Testvolumet i m3
 const R: float = 8314.5			# Gasskonstanten
 var test_time: float = 900.0	# Testvarighet i sekunder
 
-# Variabler for lagring av resultat av kalkulasjoner
-var kgs_crit: float = 0.0	# Lekkasjekriterie i kg / s 
-var kgs_test: float = 0.0	# Lekkasjerate under test i kg / s
-var kgs_real: float = 0.0	# Den faktiske lekkasjeraten under test i kg / s
-var sec_crit: float = 0.0	# Hvor lang tid i sekunder det tar for å nå 0 dP ved kriterie
-var sec_test: float = 0.0	# Hvor lang tid i sekunder det tar for å nå 0 dP ved test
 var P2_crit: Array = []		# Lagring av trend ved integrering av kriterie
 var P2_test: Array = []		# Lagring av trend ved integrering av test
-var test_orifice: float = 0.0
 
 var search_box = preload("res://ValveSelector.tscn")
-
-# Legger ventilene i nedrekkslisten
-#func _ready():
-#	for i in VALVES.valves:
-#		$"%OptionButton".add_item(i)
 
 
 # Kalkulerer lekkasjekriterie i kg / s
@@ -49,23 +37,6 @@ func calc_leak_crit_gas(ori: float, dp: float)->float:
 	var dg: float = (MW * P1) / (0.08314 * K * Z)
 	var kg_h: float = Do * Do * Yo * 0.62 * 1.265 * pow((dP * dg), 0.5)
 	var kg_s: float = kg_h / 3600
-	kg_s = abs(kg_s)
-	return kg_s
-
-
-func calc_leak_crit_gas2(ori: float, dp: float)->float:
-	var K: float = 273.15 + T
-	var dP: float = dp
-	if P1 == 0:
-		P1 = 1
-	var Pr: float = dP / P1
-	var Do: float = ori
-	var Yo: float = 1.008 - 0.338 * Pr
-	if Pr < 0.29:
-		Yo = 1 - 0.31 * Pr
-	var dg: float = (MW * P1) / (0.083145 * K * Z)
-	var kg_h: float = Do * Do * Yo * 0.62 * 1.265 * pow((dP * dg), 0.5)
-	var kg_s: float = kg_h
 	kg_s = abs(kg_s)
 	return kg_s
 
@@ -166,7 +137,7 @@ func find_real_leak(orifice, kgs):
 			print("Number of while: ", numw)
 			return calc_leak_crit_gas(predicted_orifice, p0 - P2)
 
-
+# Ekstra funksjon for test av optimalsiering
 func find_real_leak2(orifice, kgs):
 	var numw = 0
 	var numf = 0
@@ -246,7 +217,7 @@ func set_test_variables()->void:
 
 
 # Sender verdier til trend og starter tegning
-func init_trend()->void:
+func init_trend(sec_test = 0, sec_crit = 0)->void:
 	$"%Trend".test = P2_test
 	$"%Trend".crit = P2_crit
 	if sec_test >= sec_crit:
@@ -266,24 +237,27 @@ func init_trend()->void:
 # Klikkevent fra "kalkuler" kanppen
 func _run_calculations()->void:
 	set_test_variables()
-	
+	var kgs_crit
+	var crit_orifice
 	if type == "Valve":
 		kgs_crit = 0.05
+		print(kgs_crit)
+		crit_orifice = calc_orifice(kgs_crit)
 	else:
 		kgs_crit = calc_leak_crit_gas(Di / 10, P1 - P2)
-	var crit_orifice = calc_orifice(kgs_crit)
-	sec_crit = simulate_pressure_buildup("Criteria", Di / 10)
-	kgs_test = calc_leak_rate_gas()
-	test_orifice = calc_orifice(kgs_test)
-	var time_start = OS.get_ticks_msec()
-	var kgstest = find_real_leak(test_orifice, kgs_test)
-	print("Loop time: ",OS.get_ticks_msec() - time_start, " ms\n")
-	time_start = OS.get_ticks_msec()
-	kgs_real = find_real_leak2(test_orifice, kgs_test)
-	print("Loop time: ",OS.get_ticks_msec() - time_start, " ms\n")
+		crit_orifice = Di / 10
+	var sec_crit = simulate_pressure_buildup("Criteria", crit_orifice)
+	var kgs_test = calc_leak_rate_gas()
+	var test_orifice = calc_orifice(kgs_test)
+#	var time_start = OS.get_ticks_msec()
+#	find_real_leak(test_orifice, kgs_test)
+#	print("Loop time: ",OS.get_ticks_msec() - time_start, " ms\n")
+#	time_start = OS.get_ticks_msec()
+	var kgs_real = find_real_leak2(test_orifice, kgs_test)
+#	print("Loop time: ",OS.get_ticks_msec() - time_start, " ms\n")
 	test_orifice = calc_orifice(kgs_real)
-	sec_test = simulate_pressure_buildup("Test", test_orifice)
-	init_trend()
+	var sec_test = simulate_pressure_buildup("Test", test_orifice)
+	init_trend(sec_test, sec_crit)
 	
 	$"%LeakRate".text = str(kgs_real)
 	$"%CritLeak".text = str(kgs_crit)
@@ -299,7 +273,7 @@ func _run_calculations()->void:
 # Klikkevent fra netrekkslisten
 func _set_valve(valve)->void:
 	tag = valve
-	$"%OptionButton".text = tag
+	$"%ValveSearch".text = tag
 
 
 func calc_leak_new(ori, pipe):
