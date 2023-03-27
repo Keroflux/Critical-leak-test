@@ -21,6 +21,7 @@ var P2_crit: Array = []		# Lagring av trend ved integrering av kriterie
 var P2_test: Array = []		# Lagring av trend ved integrering av test
 
 var search_box = preload("res://ValveSelector.tscn")
+var results_box = preload("res://ResultsPage.tscn")
 
 
 # Kalkulerer lekkasjekriterie i kg / s
@@ -277,6 +278,13 @@ func _run_calculations()->void:
 	test_orifice = calc_orifice(kgs_real)
 	var sec_test = simulate_pressure_buildup("Test", test_orifice)
 	init_trend(sec_test, sec_crit)
+	
+	var a = results_box.instance()
+	a.kgs_crit = kgs_crit
+	a.kgs_test = kgs_real
+	a.sec_crit = sec_crit
+	a.sec_test = sec_test
+	add_child(a)
 	
 	$"%LeakRate".text = str(kgs_real)
 	$"%CritLeak".text = str(kgs_crit)

@@ -45,19 +45,19 @@ anchor_bottom = 1.0
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 margin_right = 480.0
 margin_bottom = 370.0
-custom_constants/margin_right = 25
+custom_constants/margin_right = 20
 custom_constants/margin_top = 25
-custom_constants/margin_left = 25
+custom_constants/margin_left = 20
 custom_constants/margin_bottom = 10
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
-margin_left = 25.0
+margin_left = 20.0
 margin_top = 25.0
-margin_right = 455.0
+margin_right = 460.0
 margin_bottom = 360.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer/HBoxContainer"]
-margin_right = 213.0
+margin_right = 218.0
 margin_bottom = 335.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -65,7 +65,7 @@ custom_constants/separation = 25
 
 [node name="ValveSearch" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
-margin_right = 213.0
+margin_right = 218.0
 margin_bottom = 35.0
 rect_min_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
@@ -83,7 +83,7 @@ valign = 2
 [node name="PressureStart" type="LineEdit" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 margin_top = 60.0
-margin_right = 213.0
+margin_right = 218.0
 margin_bottom = 95.0
 rect_min_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
@@ -111,7 +111,7 @@ __meta__ = {
 [node name="PressureAfter" type="LineEdit" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 margin_top = 120.0
-margin_right = 213.0
+margin_right = 218.0
 margin_bottom = 155.0
 rect_min_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
@@ -132,7 +132,7 @@ valign = 1
 [node name="TestTime" type="LineEdit" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 margin_top = 180.0
-margin_right = 213.0
+margin_right = 218.0
 margin_bottom = 215.0
 rect_min_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
@@ -153,7 +153,7 @@ valign = 1
 [node name="PressureExternal" type="LineEdit" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 margin_top = 240.0
-margin_right = 213.0
+margin_right = 218.0
 margin_bottom = 275.0
 rect_min_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
@@ -174,7 +174,7 @@ valign = 1
 [node name="Temperatur" type="LineEdit" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 margin_top = 300.0
-margin_right = 213.0
+margin_right = 218.0
 margin_bottom = 335.0
 rect_min_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
@@ -193,8 +193,8 @@ align = 1
 valign = 1
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/MarginContainer/HBoxContainer"]
-margin_left = 217.0
-margin_right = 430.0
+margin_left = 222.0
+margin_right = 440.0
 margin_bottom = 335.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -202,7 +202,7 @@ custom_constants/separation = 25
 
 [node name="Nitrogen" type="CheckBox" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true
-margin_right = 213.0
+margin_right = 218.0
 margin_bottom = 35.0
 rect_min_size = Vector2( 0, 35 )
 custom_fonts/font = ExtResource( 4 )
@@ -219,7 +219,7 @@ valign = 2
 [node name="CritLeakSec" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true
 margin_top = 60.0
-margin_right = 213.0
+margin_right = 218.0
 margin_bottom = 95.0
 rect_min_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
@@ -241,7 +241,7 @@ valign = 2
 [node name="LeakSec" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true
 margin_top = 120.0
-margin_right = 213.0
+margin_right = 218.0
 margin_bottom = 155.0
 rect_min_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
@@ -263,7 +263,7 @@ valign = 2
 [node name="CritLeak" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true
 margin_top = 180.0
-margin_right = 213.0
+margin_right = 218.0
 margin_bottom = 215.0
 rect_min_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
@@ -285,7 +285,7 @@ valign = 2
 [node name="LeakRate" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true
 margin_top = 240.0
-margin_right = 213.0
+margin_right = 218.0
 margin_bottom = 275.0
 rect_min_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
@@ -305,7 +305,7 @@ align = 1
 
 [node name="Button" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
 margin_top = 300.0
-margin_right = 213.0
+margin_right = 218.0
 margin_bottom = 335.0
 rect_min_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
