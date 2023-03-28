@@ -241,7 +241,7 @@ func set_test_variables()->void:
 
 
 # Sender verdier til trend og starter tegning
-func init_trend(sec_test = 0, sec_crit = 0)->void:
+func init_trend(sec_test = 0, sec_crit = 0)->void: # TODO: inverter trenden ved negativ trykktest
 	$"%Trend".test = P2_test
 	$"%Trend".crit = P2_crit
 	if sec_test >= sec_crit:
