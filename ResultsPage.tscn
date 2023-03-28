@@ -26,21 +26,21 @@ border_width_bottom = 1
 
 [node name="ResultsPage" type="Control"]
 anchor_right = 1.0
-margin_bottom = 295.0
+margin_bottom = 348.0
 script = ExtResource( 2 )
 
 [node name="MarginContainer2" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 10
-custom_constants/margin_top = 20
+custom_constants/margin_top = 10
 custom_constants/margin_left = 10
 
 [node name="Panel" type="Panel" parent="MarginContainer2"]
 margin_left = 10.0
-margin_top = 20.0
+margin_top = 10.0
 margin_right = 470.0
-margin_bottom = 295.0
+margin_bottom = 348.0
 custom_styles/panel = SubResource( 1 )
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/Panel"]
@@ -55,7 +55,7 @@ custom_constants/margin_bottom = 10
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 440.0
-margin_bottom = 265.0
+margin_bottom = 330.0
 custom_constants/separation = 15
 
 [node name="Name" type="Label" parent="MarginContainer2/Panel/MarginContainer/VBoxContainer2"]
@@ -70,13 +70,40 @@ align = 1
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2/Panel/MarginContainer/VBoxContainer2"]
 margin_top = 41.0
 margin_right = 420.0
-margin_bottom = 181.0
+margin_bottom = 265.0
 custom_constants/separation = 0
 
-[node name="CriteriaKGS" type="HBoxContainer" parent="MarginContainer2/Panel/MarginContainer/VBoxContainer2/VBoxContainer"]
+[node name="Tag" type="HBoxContainer" parent="MarginContainer2/Panel/MarginContainer/VBoxContainer2/VBoxContainer"]
 unique_name_in_owner = true
 margin_right = 420.0
 margin_bottom = 28.0
+custom_constants/separation = -1
+
+[node name="Name" type="Label" parent="MarginContainer2/Panel/MarginContainer/VBoxContainer2/VBoxContainer/Tag"]
+margin_right = 210.0
+margin_bottom = 28.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
+text = "Ventil: "
+align = 2
+
+[node name="Result" type="Label" parent="MarginContainer2/Panel/MarginContainer/VBoxContainer2/VBoxContainer/Tag"]
+margin_left = 209.0
+margin_right = 420.0
+margin_bottom = 28.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
+text = " 3,875 kg / s"
+
+[node name="CriteriaKGS" type="HBoxContainer" parent="MarginContainer2/Panel/MarginContainer/VBoxContainer2/VBoxContainer"]
+unique_name_in_owner = true
+margin_top = 28.0
+margin_right = 420.0
+margin_bottom = 56.0
 custom_constants/separation = -1
 
 [node name="Name" type="Label" parent="MarginContainer2/Panel/MarginContainer/VBoxContainer2/VBoxContainer/CriteriaKGS"]
@@ -88,7 +115,6 @@ custom_fonts/font = SubResource( 2 )
 custom_styles/normal = SubResource( 3 )
 text = "Kriterie lekkasjerate: "
 align = 2
-percent_visible = -0.047619
 
 [node name="Result" type="Label" parent="MarginContainer2/Panel/MarginContainer/VBoxContainer2/VBoxContainer/CriteriaKGS"]
 margin_left = 209.0
@@ -102,9 +128,9 @@ text = " 3,875 kg / s"
 
 [node name="TestKGS" type="HBoxContainer" parent="MarginContainer2/Panel/MarginContainer/VBoxContainer2/VBoxContainer"]
 unique_name_in_owner = true
-margin_top = 28.0
+margin_top = 56.0
 margin_right = 420.0
-margin_bottom = 56.0
+margin_bottom = 84.0
 custom_constants/separation = -1
 
 [node name="Name" type="Label" parent="MarginContainer2/Panel/MarginContainer/VBoxContainer2/VBoxContainer/TestKGS"]
@@ -129,9 +155,9 @@ text = " 3,875 kg / s"
 
 [node name="CriteriaTime" type="HBoxContainer" parent="MarginContainer2/Panel/MarginContainer/VBoxContainer2/VBoxContainer"]
 unique_name_in_owner = true
-margin_top = 56.0
+margin_top = 84.0
 margin_right = 420.0
-margin_bottom = 84.0
+margin_bottom = 112.0
 custom_constants/separation = -1
 
 [node name="Name" type="Label" parent="MarginContainer2/Panel/MarginContainer/VBoxContainer2/VBoxContainer/CriteriaTime"]
@@ -156,9 +182,9 @@ text = " 3,875 Sekunder"
 
 [node name="TestTime" type="HBoxContainer" parent="MarginContainer2/Panel/MarginContainer/VBoxContainer2/VBoxContainer"]
 unique_name_in_owner = true
-margin_top = 84.0
+margin_top = 112.0
 margin_right = 420.0
-margin_bottom = 112.0
+margin_bottom = 140.0
 custom_constants/separation = -1
 
 [node name="Name" type="Label" parent="MarginContainer2/Panel/MarginContainer/VBoxContainer2/VBoxContainer/TestTime"]
@@ -181,11 +207,65 @@ custom_fonts/font = SubResource( 2 )
 custom_styles/normal = SubResource( 3 )
 text = " 3,875 Sekunder"
 
+[node name="CriteriaOri" type="HBoxContainer" parent="MarginContainer2/Panel/MarginContainer/VBoxContainer2/VBoxContainer"]
+unique_name_in_owner = true
+margin_top = 140.0
+margin_right = 420.0
+margin_bottom = 168.0
+custom_constants/separation = -1
+
+[node name="Name" type="Label" parent="MarginContainer2/Panel/MarginContainer/VBoxContainer2/VBoxContainer/CriteriaOri"]
+margin_right = 210.0
+margin_bottom = 28.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
+text = "Kriterie orifice: "
+align = 2
+
+[node name="Result" type="Label" parent="MarginContainer2/Panel/MarginContainer/VBoxContainer2/VBoxContainer/CriteriaOri"]
+margin_left = 209.0
+margin_right = 420.0
+margin_bottom = 28.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
+text = " 3,875 Sekunder"
+
+[node name="TestOri" type="HBoxContainer" parent="MarginContainer2/Panel/MarginContainer/VBoxContainer2/VBoxContainer"]
+unique_name_in_owner = true
+margin_top = 168.0
+margin_right = 420.0
+margin_bottom = 196.0
+custom_constants/separation = -1
+
+[node name="Name" type="Label" parent="MarginContainer2/Panel/MarginContainer/VBoxContainer2/VBoxContainer/TestOri"]
+margin_right = 210.0
+margin_bottom = 28.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
+text = "Test orifice: "
+align = 2
+
+[node name="Result" type="Label" parent="MarginContainer2/Panel/MarginContainer/VBoxContainer2/VBoxContainer/TestOri"]
+margin_left = 209.0
+margin_right = 420.0
+margin_bottom = 28.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
+text = " 3,875 Sekunder"
+
 [node name="Accepted" type="HBoxContainer" parent="MarginContainer2/Panel/MarginContainer/VBoxContainer2/VBoxContainer"]
 unique_name_in_owner = true
-margin_top = 112.0
+margin_top = 196.0
 margin_right = 420.0
-margin_bottom = 140.0
+margin_bottom = 224.0
 custom_constants/separation = -1
 
 [node name="Name" type="Label" parent="MarginContainer2/Panel/MarginContainer/VBoxContainer2/VBoxContainer/Accepted"]
@@ -209,9 +289,9 @@ custom_styles/normal = SubResource( 3 )
 text = " Godkjent!"
 
 [node name="Close" type="Button" parent="MarginContainer2/Panel/MarginContainer/VBoxContainer2"]
-margin_top = 196.0
+margin_top = 280.0
 margin_right = 420.0
-margin_bottom = 226.0
+margin_bottom = 310.0
 rect_min_size = Vector2( 0, 30 )
 text = "Tilbake"
 

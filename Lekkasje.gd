@@ -284,17 +284,10 @@ func _run_calculations()->void:
 	a.kgs_test = kgs_real
 	a.sec_crit = sec_crit
 	a.sec_test = sec_test
+	a.ori_crit = crit_orifice
+	a.ori_test = test_orifice
+	a.tag = tag
 	add_child(a)
-	
-	$"%LeakRate".text = str(kgs_real)
-	$"%CritLeak".text = str(kgs_crit)
-	$"%CritLeakSec".text = str(sec_crit)
-	$"%LeakSec".text = str(sec_test)
-
-	if kgs_real > kgs_crit:
-		$"%LeakRate".get_stylebox("normal").bg_color = Color(0.583008, 0.04327, 0.04327)
-	else:
-		$"%LeakRate".get_stylebox("normal").bg_color = Color(0.141176, 0.396078, 0.078431)
 
 
 # Klikkevent fra netrekkslisten
