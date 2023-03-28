@@ -233,6 +233,10 @@ func set_test_variables()->void:
 	P1 = float($"%PressureExternal".text) + 1
 	PB = float($"%PressureAfter".text) + 1
 	T = float($"%Temperatur".text)
+	if P2 > P1:
+		P1 = float($"%PressureStart".text) + 1
+		P2 = float($"%PressureExternal".text) + 1
+		PB = float($"%PressureStart".text) + 1
 	test_time = float($"%TestTime".text)
 
 
