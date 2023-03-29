@@ -54,6 +54,17 @@ func calc_leak_rate_gas()->float:
 	return kg_s
 
 
+func calc_leak_rate_trend(pb, time, p2 = 1)->float:
+	var K: float = 273.15 + T
+	var m1: float = p2 * 100000 * volume * MW / (Z * R * K)
+	var m2: float = pb * 100000 * volume * MW / (Z * R * K)
+	if time == 0:
+		return 0.0
+	var kg_s: float = (m1 - m2) / time
+	kg_s = abs(kg_s)
+	return kg_s
+
+
 # Kalkulering orifice diameter ved gitt lekkasje
 func calc_orifice(kgs: float)->float:
 	var kgh = kgs * 3600
@@ -318,6 +329,6 @@ func _on_Trend_resized():
 	init_trend()
 
 
-func _on_OptionButton_pressed():
+func _open_Valve_search():
 	var a = search_box.instance()
 	add_child(a)
