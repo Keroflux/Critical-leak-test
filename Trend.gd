@@ -18,6 +18,7 @@ var marker_kgs : Label
 
 
 func _ready():
+	set_process(false)
 	root = get_tree().get_root().get_node("Lekkasje")
 	$TrendLine.color = Color(1.0, 1.0, 1.0)
 	$TrendLine2.color = Color(1.0 , 0.0, 0.0)
@@ -89,6 +90,7 @@ func place_sec_marks():
 
 
 func _on_Trend_mouse_entered():
+	set_process(true)
 	show_marker = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	marker_s = marker_label.instance()
@@ -100,6 +102,7 @@ func _on_Trend_mouse_entered():
 
 
 func _on_Trend_mouse_exited():
+	set_process(false)
 	show_marker = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	marker_s.queue_free()
