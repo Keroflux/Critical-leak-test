@@ -272,25 +272,33 @@ func init_trend(sec_test = 0, sec_crit = 0)->void: # TODO: inverter trenden ved 
 # Klikkevent fra "kalkuler" kanppen
 func _run_calculations()->void:
 	set_test_variables()
-	var kgs_crit
-	var crit_orifice
-	if type == "Valve":
-		kgs_crit = 0.05
-		crit_orifice = calc_orifice_gas(kgs_crit)
-	else:
-		kgs_crit = max_leak_gas(Di / 10, P1 - P2)
-		crit_orifice = Di / 10
-	var sec_crit = simulate_gas("Criteria", crit_orifice)
-	var kgs_test = avg_leak_gas()
-	var test_orifice = calc_orifice_gas(kgs_test)
-#	var time_start = OS.get_ticks_msec()
-#	find_real_leak_gas(test_orifice, kgs_test)
-#	print("Loop time: ",OS.get_ticks_msec() - time_start, " ms\n")
-#	time_start = OS.get_ticks_msec()
-	var kgs_real = find_real_leak_gas2(test_orifice, kgs_test)
-#	print("Loop time: ",OS.get_ticks_msec() - time_start, " ms\n")
-	test_orifice = calc_orifice_gas(kgs_real)
-	var sec_test = simulate_gas("Test", test_orifice)
+	
+	var kgs_crit := 0.0
+	var crit_orifice := 0.0
+	var sec_crit := 0.0
+	var kgs_test := 0.0
+	var test_orifice := 0.0
+	var kgs_real := 0.0
+	var sec_test := 0.0
+	
+	if medie == "Gass" or medie == "Nitrogen":
+		if type == "Valve":
+			kgs_crit = 0.05
+			crit_orifice = calc_orifice_gas(kgs_crit)
+		else:
+			kgs_crit = max_leak_gas(Di / 10, P1 - P2)
+			crit_orifice = Di / 10
+		sec_crit = simulate_gas("Criteria", crit_orifice)
+		kgs_test = avg_leak_gas()
+		test_orifice = calc_orifice_gas(kgs_test)
+	#	var time_start = OS.get_ticks_msec()
+	#	find_real_leak_gas(test_orifice, kgs_test)
+	#	print("Loop time: ",OS.get_ticks_msec() - time_start, " ms\n")
+	#	time_start = OS.get_ticks_msec()
+		kgs_real = find_real_leak_gas2(test_orifice, kgs_test)
+	#	print("Loop time: ",OS.get_ticks_msec() - time_start, " ms\n")
+		test_orifice = calc_orifice_gas(kgs_real)
+		sec_test = simulate_gas("Test", test_orifice)
 	init_trend(sec_test, sec_crit)
 	
 	var a = results_box.instance()
