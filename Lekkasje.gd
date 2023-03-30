@@ -297,6 +297,7 @@ func _run_calculations()->void:
 	a.ori_crit = crit_orifice
 	a.ori_test = test_orifice
 	a.tag = tag
+	a.result = P2_test
 	add_child(a)
 
 
