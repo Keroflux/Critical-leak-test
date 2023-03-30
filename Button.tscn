@@ -2,6 +2,9 @@
 
 [ext_resource path="res://TitilliumWeb-SemiBold.ttf" type="DynamicFontData" id=1]
 
+[sub_resource type="DynamicFont" id=8]
+font_data = ExtResource( 1 )
+
 [sub_resource type="StyleBoxFlat" id=13]
 bg_color = Color( 0.705882, 0.733333, 0.752941, 1 )
 border_width_left = 2
@@ -41,26 +44,20 @@ corner_radius_bottom_right = 14
 corner_radius_bottom_left = 14
 corner_detail = 16
 
-[sub_resource type="DynamicFont" id=8]
-font_data = ExtResource( 1 )
-
 [node name="Reload" type="Button"]
 margin_left = 204.0
 margin_right = 325.0
 margin_bottom = 30.0
-rect_min_size = Vector2( 100, 20 )
+rect_min_size = Vector2( 100, 15 )
 hint_tooltip = "Lagrer .txt fil med TAG i
 Documents"
 focus_mode = 0
-custom_styles/hover = SubResource( 13 )
-custom_styles/pressed = SubResource( 14 )
-custom_styles/normal = SubResource( 12 )
-custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 0.239216, 0.239216, 0.239216, 1 )
 custom_colors/font_color_hover = Color( 0.239216, 0.239216, 0.239216, 1 )
 custom_colors/font_color_pressed = Color( 0.239216, 0.239216, 0.239216, 1 )
+custom_fonts/font = SubResource( 8 )
+custom_styles/hover = SubResource( 13 )
+custom_styles/pressed = SubResource( 14 )
+custom_styles/normal = SubResource( 12 )
 enabled_focus_mode = 0
 text = "   Søke etter tag  "
-__meta__ = {
-"_edit_use_anchors_": false
-}
