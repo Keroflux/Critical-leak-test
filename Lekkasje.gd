@@ -92,6 +92,8 @@ func simulate_gas(type: String, ori: float)->float:
 		P2_crit.clear()
 	else:
 		P2_test.clear()
+	if ori <= 0:
+		return 0.0
 	while p2 < p1:
 		var m1: float = p2 * gas_const
 		var leak = max_leak_gas(ori, p1 - p2)
@@ -175,6 +177,8 @@ func find_real_leak_gas2(orifice, kgs):
 	var ab = 0.62 * 1.265
 	var m0 = p0 * gas_const			#Masse ved teststart
 	var dt := 2.0 					#Tidsenhet
+	if kgs <= 0:
+		return 0.0
 #	print("Average: ",orifice)
 #	print("Predicted: ",predicted_orifice)
 #	Loop som øker størrelsen på orificen for hver ieterasjon og simulerer trykkoppbygging.
