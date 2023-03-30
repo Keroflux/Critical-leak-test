@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Lekkasje.gd" type="Script" id=1]
 [ext_resource path="res://Trend.gd" type="Script" id=2]
@@ -21,6 +21,27 @@ corner_radius_bottom_left = 5
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0, 0.439216, 0.47451, 1 )
 border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0, 0.384314, 0.419608, 1 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0, 0.384314, 0.419608, 1 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0, 0.439216, 0.47451, 1 )
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
@@ -200,16 +221,22 @@ text = "Temperatur"
 align = 1
 valign = 1
 
-[node name="Nitrogen" type="CheckBox" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="Medie" type="OptionButton" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true
 margin_top = 140.0
 margin_right = 218.0
 margin_bottom = 175.0
 rect_min_size = Vector2( 0, 35 )
 custom_fonts/font = ExtResource( 4 )
-text = "Nitrogen"
+custom_styles/hover = SubResource( 6 )
+custom_styles/pressed = SubResource( 7 )
+custom_styles/normal = SubResource( 5 )
+text = "Gass"
+align = 1
+items = [ "Gass", null, false, 0, null, "Nitrogen", null, false, 1, null, "Væske", null, false, 2, null ]
+selected = 0
 
-[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/Nitrogen"]
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/Medie"]
 anchor_right = 1.0
 margin_top = -17.0
 custom_fonts/font = ExtResource( 5 )
@@ -223,15 +250,15 @@ margin_right = 440.0
 margin_bottom = 315.0
 
 [node name="Button" type="Button" parent="VBoxContainer/MarginContainer/VBoxContainer/CenterContainer"]
-margin_left = 145.0
-margin_right = 295.0
+margin_left = 126.0
+margin_right = 314.0
 margin_bottom = 35.0
 rect_min_size = Vector2( 150, 35 )
 size_flags_horizontal = 3
 custom_fonts/font = SubResource( 4 )
 custom_styles/hover = SubResource( 3 )
 custom_styles/normal = SubResource( 2 )
-text = "Kalkuler!"
+text = " Simuler lekkasjerater "
 
 [node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer"]
 margin_top = 365.0
@@ -322,6 +349,7 @@ margin_bottom = 14.0
 text = "0"
 
 [connection signal="pressed" from="VBoxContainer/MarginContainer/VBoxContainer/ValveSearch" to="." method="_open_Valve_search"]
+[connection signal="item_selected" from="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/Medie" to="." method="_on_Medie_item_selected"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer/VBoxContainer/CenterContainer/Button" to="." method="_run_calculations"]
 [connection signal="mouse_entered" from="VBoxContainer/MarginContainer2/Trend" to="VBoxContainer/MarginContainer2/Trend" method="_on_Trend_mouse_entered"]
 [connection signal="mouse_exited" from="VBoxContainer/MarginContainer2/Trend" to="VBoxContainer/MarginContainer2/Trend" method="_on_Trend_mouse_exited"]
