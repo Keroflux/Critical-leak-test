@@ -221,6 +221,25 @@ func find_real_leak_gas2(orifice, kgs):
 				return max_leak_gas(predicted_orifice, p0 - P2)
 
 
+func leak_liquid():
+	var t = [0, 120, 240, 360, 480, 600]
+	var p = [0.57, 0.59, 0.6, 0.61, 0.62, 0.63]
+	var K = 15000
+	var d = []
+	var q = []
+	for i in p.size():
+		if i == 0:
+			d.append(847)
+		else:
+			var dn = (((p[i] - p[i-1]) / K) + 1) * d[i-1]
+			d.append(dn)
+	for i in d.size():
+		if i > 0:
+			var qn = ((d[i] - d[i-1]) / (t[i] - t[i-1])) / 0.03664
+			q.append(qn)
+	return q
+
+
 # Setter verdier for testmedie og ventil
 func set_test_variables()->void:
 	var valve = VALVES.valves[tag]
@@ -299,6 +318,8 @@ func _run_calculations()->void:
 	#	print("Loop time: ",OS.get_ticks_msec() - time_start, " ms\n")
 		test_orifice = calc_orifice_gas(kgs_real)
 		sec_test = simulate_gas("Test", test_orifice)
+	else:
+		print(leak_liquid())
 	init_trend(sec_test, sec_crit)
 	
 	var a = results_box.instance()
