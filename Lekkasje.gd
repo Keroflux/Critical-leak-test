@@ -223,7 +223,7 @@ func find_real_leak_gas2(orifice, kgs):
 
 func leak_liquid():
 	var t = [0, 120, 240, 360, 480, 600]
-	var p = [0.57, 0.59, 0.6, 0.61, 0.62, 0.63]
+	var p = [0.57, 0.59, 0.6, 0.61, 0.62, 1.63]
 	var K = 15000
 	var d = []
 	var q = []
@@ -235,7 +235,7 @@ func leak_liquid():
 			d.append(dn)
 	for i in d.size():
 		if i > 0:
-			var qn = ((d[i] - d[i-1]) / (t[i] - t[i-1])) / 0.03664
+			var qn = ((d[i] - d[i-1]) / (t[i] - t[i-1])) * 0.03664
 			q.append(qn)
 	return q
 
