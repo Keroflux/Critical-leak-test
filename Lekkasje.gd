@@ -16,6 +16,8 @@ var volume: float = 0.11876		# Testvolumet i m3
 var MW: float = 28.01 			# MOL vekt for test medie
 var Di: float= 372.0 			# Indre rør diameter
 var Z: float = 0.98 			# Kompressabilitet til testmedie
+var dens: float = 847			# Densitet i g / l
+var elasticity: float = 150000	# Elastisitet...
 
 const R: float = 8314.5			# Gasskonstanten
 
@@ -221,9 +223,9 @@ func find_real_leak_gas2(orifice, kgs):
 				return max_leak_gas(predicted_orifice, p0 - P2)
 
 
-func leak_liquid():
-	var t = [0, 120, 240, 360, 480, 600]
-	var p = [0.57, 0.59, 0.6, 0.61, 0.62, 1.63]
+func avg_leak_liquid_test():
+	var t = [0, 10, 240, 360, 480, 600]
+	var p = [0.5, 1.0, 0.6, 0.61, 0.62, 1.63]
 	var K = 15000
 	var d = []
 	var q = []
@@ -240,9 +242,27 @@ func leak_liquid():
 	return q
 
 
+func avg_leak_liquid():
+	var t = test_time
+	var dP = P1 - PB
+	var K = elasticity
+	var d = dens
+	var v = volume
+	var dn = ((dP / K) + 1) * d
+	var q = ((dn - d) / test_time) * v
+	return q
+
+
+func calc_orifice_liquid(kgs: float):
+	var dis_coef = 0.6
+	var ori = kgs / (dis_coef * 847 * sqrt(2 * P1 - P2 / 847))
+	return ori
+
+
 # Setter verdier for testmedie og ventil
 func set_test_variables()->void:
-	var valve = VALVES.valves[tag]
+	var valve : Dictionary = VALVES.valves[tag]
+	volume = valve["volume"]
 	
 	if medie == "Nitrogen":
 		MW = 28.01
@@ -251,12 +271,15 @@ func set_test_variables()->void:
 		MW = valve["MW"]
 		Z = valve["Z"]
 	
-	if valve["Di"] == 0:
+	if valve["type"] == "Valve":
 		type = "Valve"
 	else:
 		type = "Check"
 		Di = valve["Di"]
-		volume = valve["volume"]
+	
+	if valve.has("Dens"):
+		dens = valve["Dens"]
+		elasticity = valve["K"]
 	
 	P2 = float($"%PressureStart".text) + 1
 	P1 = float($"%PressureExternal".text) + 1
@@ -319,7 +342,8 @@ func _run_calculations()->void:
 		test_orifice = calc_orifice_gas(kgs_real)
 		sec_test = simulate_gas("Test", test_orifice)
 	else:
-		print(leak_liquid())
+		print(avg_leak_liquid_test())
+		print(avg_leak_liquid())
 	init_trend(sec_test, sec_crit)
 	
 	var a = results_box.instance()
