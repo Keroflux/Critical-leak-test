@@ -17,7 +17,7 @@ var MW: float = 28.01 			# MOL vekt for test medie
 var Di: float= 372.0 			# Indre rør diameter
 var Z: float = 0.98 			# Kompressabilitet til testmedie
 var dens: float = 847			# Densitet i g / l
-var elasticity: float = 150000	# Elastisitet...
+var elasticity: float = 15000	# Elastisitet...
 
 const R: float = 8314.5			# Gasskonstanten
 
@@ -224,17 +224,18 @@ func find_real_leak_gas2(orifice, kgs):
 
 
 func avg_leak_liquid_test():
-	var t = [0, 10, 240, 360, 480, 600]
-	var p = [0.5, 1.0, 0.6, 0.61, 0.62, 1.63]
-	var K = 15000
+	var t = [0, 10]
+	var p = [0.5, 1.0]
+	var k = 15000
 	var d = []
 	var q = []
 	for i in p.size():
 		if i == 0:
 			d.append(847)
 		else:
-			var dn = (((p[i] - p[i-1]) / K) + 1) * d[i-1]
+			var dn = (((p[i] - p[i-1]) / k) + 1) * d[i-1]
 			d.append(dn)
+			print(k)
 	for i in d.size():
 		if i > 0:
 			var qn = ((d[i] - d[i-1]) / (t[i] - t[i-1])) * 0.03664
@@ -244,11 +245,12 @@ func avg_leak_liquid_test():
 
 func avg_leak_liquid():
 	var t = test_time
-	var dP = P1 - PB
+	var dP = PB - P2
 	var K = elasticity
 	var d = dens
 	var v = volume
 	var dn = ((dP / K) + 1) * d
+	print(K)
 	var q = ((dn - d) / test_time) * v
 	return q
 
