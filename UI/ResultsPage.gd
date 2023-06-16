@@ -20,8 +20,15 @@ func _ready():
 	$"%TestTime/Result".text = " " + str(sec_test) + " Sekunder"
 	$"%CriteriaOri/Result".text = " " + str(ori_crit) + " mm"
 	$"%TestOri/Result".text = " " + str(ori_test) + " mm"
-	if kgs_test > kgs_crit:
-		$"%Accepted/Result".text = " Underkjent"
+	
+	if kgs_crit == 0.05:
+		if kgs_test >= 0.5:
+			$"%Accepted/Result".text = " Underkjent"
+		elif kgs_test >= 0.05:
+			$"%Accepted/Result".text = " Syk, bør skjekkes"
+	else:
+		if kgs_test > kgs_crit:
+			$"%Accepted/Result".text = " Underkjent!"
 
 
 func _on_Close_pressed():
