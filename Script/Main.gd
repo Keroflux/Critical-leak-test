@@ -274,7 +274,7 @@ func set_test_variables()->void:
 		Z = valve["Z"]
 	
 	if valve["type"] == "valve":
-		type = "valve"
+		type = "Valve"
 	else:
 		type = "Check"
 		Di = valve["Di"]
@@ -326,7 +326,7 @@ func _run_calculations()->void:
 	var sec_test := 0.0
 	
 	if medie == "Gass" or medie == "Nitrogen":
-		if type == "valve":
+		if type == "Valve":
 			kgs_crit = 0.05
 			crit_orifice = calc_orifice_gas(kgs_crit)
 		else:
@@ -357,6 +357,7 @@ func _run_calculations()->void:
 	a.ori_test = test_orifice
 	a.tag = tag
 	a.result = P2_test
+	a.type = type
 	add_child(a)
 
 

@@ -6,9 +6,10 @@ var sec_crit = 0
 var sec_test = 0
 var ori_test = 0
 var ori_crit = 0
-var tag = ""
+var tag := ""
+var type := ""
 var result : Array = []
-var parent
+var parent : Control
 
 
 func _ready():
@@ -21,7 +22,7 @@ func _ready():
 	$"%CriteriaOri/Result".text = " " + str(ori_crit) + " mm"
 	$"%TestOri/Result".text = " " + str(ori_test) + " mm"
 	
-	if kgs_crit == 0.05:
+	if type == "Valve":
 		if kgs_test >= 0.5:
 			$"%Accepted/Result".text = " Underkjent"
 		elif kgs_test >= 0.05:
@@ -53,8 +54,8 @@ func store_result_as_csv():
 		JavaScript.download_buffer(csv.to_utf8(), file_name)
 	
 	else:
-		var dir = OS.get_system_dir(2)
-		var file = File.new()
+		var dir := OS.get_system_dir(2)
+		var file : File = File.new()
 		file.open(dir + "\\" + file_name, File.WRITE)
 		for i in result.size():
 			if i == 0:
