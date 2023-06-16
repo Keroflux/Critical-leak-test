@@ -262,7 +262,7 @@ func calc_orifice_liquid(kgs: float):
 
 
 # Setter verdier for testmedie og ventil
-func set_test_variables()->void:
+func set_test_variables()->bool:
 	var valve : Dictionary = VALVES.valves[tag]
 	volume = valve["volume"]
 	
@@ -293,6 +293,11 @@ func set_test_variables()->void:
 		PB = float($"%PressureStart".text) + 1
 	
 	test_time = float($"%TestTime".text)
+	var zero_list := [P2, P1, PB, T, test_time, P1-P2]
+	for i in zero_list:
+		if i <= 0:
+			return false
+	return true
 
 
 # Sender verdier til trend og starter tegning
@@ -315,8 +320,8 @@ func init_trend(sec_test = 0, sec_crit = 0)->void: # TODO: inverter trenden ved 
 
 # Klikkevent fra "kalkuler" kanppen
 func _run_calculations()->void:
-	set_test_variables()
-	
+	if not set_test_variables():
+		return
 	var kgs_crit := 0.0
 	var crit_orifice := 0.0
 	var sec_crit := 0.0
