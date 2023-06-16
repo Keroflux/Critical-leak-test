@@ -110,7 +110,6 @@ margin_bottom = 35.0
 rect_min_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 5 )
-text = "0"
 align = 1
 placeholder_text = "BARG"
 
@@ -123,14 +122,14 @@ margin_top = -15.0
 margin_bottom = -1.0
 custom_constants/line_spacing = 0
 custom_fonts/font = ExtResource( 2 )
-text = "Trykk testvolum før"
+text = "Starttrykk"
 align = 1
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="TestTime" type="LineEdit" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="PressureExternal" type="LineEdit" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 margin_top = 70.0
 margin_right = 218.0
@@ -138,29 +137,8 @@ margin_bottom = 105.0
 rect_min_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 5 )
-text = "10"
 align = 1
-
-[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TestTime"]
-anchor_right = 1.0
-margin_left = 1.0
-margin_top = -17.0
-margin_right = -1.0
-custom_fonts/font = ExtResource( 2 )
-text = "Test varighet sekund"
-align = 1
-valign = 1
-
-[node name="PressureExternal" type="LineEdit" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
-unique_name_in_owner = true
-margin_top = 140.0
-margin_right = 218.0
-margin_bottom = 175.0
-rect_min_size = Vector2( 0, 35 )
-size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 5 )
-text = "7"
-align = 1
+placeholder_text = "BARG"
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/PressureExternal"]
 anchor_right = 1.0
@@ -169,6 +147,27 @@ margin_top = -17.0
 margin_right = -1.0
 custom_fonts/font = ExtResource( 2 )
 text = "Driftstrykk"
+align = 1
+valign = 1
+
+[node name="Temperatur" type="LineEdit" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+margin_top = 140.0
+margin_right = 218.0
+margin_bottom = 175.0
+rect_min_size = Vector2( 0, 35 )
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 5 )
+align = 1
+placeholder_text = "*C"
+
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Temperatur"]
+anchor_right = 1.0
+margin_left = 1.0
+margin_top = -17.0
+margin_right = -1.0
+custom_fonts/font = ExtResource( 2 )
+text = "Temperatur"
 align = 1
 valign = 1
 
@@ -187,8 +186,8 @@ margin_bottom = 35.0
 rect_min_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 5 )
-text = "5"
 align = 1
+placeholder_text = "BARG"
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/PressureAfter"]
 anchor_right = 1.0
@@ -196,11 +195,11 @@ margin_left = 1.0
 margin_top = -17.0
 margin_right = -1.0
 custom_fonts/font = ExtResource( 2 )
-text = "Trykk testvolum etter"
+text = "Sluttrykk"
 align = 1
 valign = 1
 
-[node name="Temperatur" type="LineEdit" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="TestTime" type="LineEdit" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true
 margin_top = 70.0
 margin_right = 218.0
@@ -208,16 +207,16 @@ margin_bottom = 105.0
 rect_min_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 5 )
-text = "15"
 align = 1
+placeholder_text = "Sekunder"
 
-[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/Temperatur"]
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/TestTime"]
 anchor_right = 1.0
 margin_left = 1.0
 margin_top = -17.0
 margin_right = -1.0
 custom_fonts/font = ExtResource( 2 )
-text = "Temperatur"
+text = "Varighet"
 align = 1
 valign = 1
 
