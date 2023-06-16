@@ -24,8 +24,8 @@ const R: float = 8314.5			# Gasskonstanten
 var P2_crit: Array = []			# Lagring av trend ved integrering av kriterie
 var P2_test: Array = []			# Lagring av trend ved integrering av test
 
-var search_box = preload("res://ValveSelector.tscn")
-var results_box = preload("res://ResultsPage.tscn")
+var search_box = preload("res://UI/ValveSelector.tscn")
+var results_box = preload("res://UI/ResultsPage.tscn")
 
 
 # Kalkulerer lekkasjekriterie i kg / s
@@ -273,8 +273,8 @@ func set_test_variables()->void:
 		MW = valve["MW"]
 		Z = valve["Z"]
 	
-	if valve["type"] == "Valve":
-		type = "Valve"
+	if valve["type"] == "valve":
+		type = "valve"
 	else:
 		type = "Check"
 		Di = valve["Di"]
@@ -326,7 +326,7 @@ func _run_calculations()->void:
 	var sec_test := 0.0
 	
 	if medie == "Gass" or medie == "Nitrogen":
-		if type == "Valve":
+		if type == "valve":
 			kgs_crit = 0.05
 			crit_orifice = calc_orifice_gas(kgs_crit)
 		else:

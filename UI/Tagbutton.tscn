@@ -1,12 +1,14 @@
 [gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://TitilliumWeb-SemiBold.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://Tagbutton.gd" type="Script" id=2]
-[ext_resource path="res://Button.tscn" type="PackedScene" id=3]
+[ext_resource path="res://UI/Button.tscn" type="PackedScene" id=1]
+[ext_resource path="res://UI/Tagbutton.gd" type="Script" id=2]
+
+[sub_resource type="DynamicFontData" id=16]
+font_path = "res://UI//Font/TitilliumWeb-SemiBold.ttf"
 
 [sub_resource type="DynamicFont" id=3]
 size = 24
-font_data = ExtResource( 1 )
+font_data = SubResource( 16 )
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.113725, 0.666667, 0.796078, 1 )
@@ -33,10 +35,10 @@ corner_radius_bottom_left = 25
 
 [sub_resource type="DynamicFont" id=15]
 size = 20
-font_data = ExtResource( 1 )
+font_data = SubResource( 16 )
 
 [sub_resource type="DynamicFont" id=8]
-font_data = ExtResource( 1 )
+font_data = SubResource( 16 )
 
 [sub_resource type="StyleBoxFlat" id=13]
 bg_color = Color( 0.705882, 0.733333, 0.752941, 1 )
@@ -133,7 +135,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
-[node name="STID" parent="Button/VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource( 3 )]
+[node name="STID" parent="Button/VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource( 1 )]
 margin_left = 0.0
 margin_top = 1.0
 margin_right = 50.0
@@ -145,7 +147,7 @@ custom_colors/font_color_hover = Color( 1, 0.0705882, 0.203922, 1 )
 custom_colors/font_color_pressed = Color( 1, 0.0705882, 0.203922, 1 )
 text = "STID"
 
-[node name="Echo" parent="Button/VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource( 3 )]
+[node name="Echo" parent="Button/VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource( 1 )]
 margin_left = 0.0
 margin_top = 35.0
 margin_right = 50.0
@@ -157,7 +159,7 @@ custom_colors/font_color_hover = Color( 1, 0.0705882, 0.203922, 1 )
 custom_colors/font_color_pressed = Color( 1, 0.0705882, 0.203922, 1 )
 text = "echo"
 
-[node name="Hub" parent="Button/VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource( 3 )]
+[node name="Hub" parent="Button/VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource( 1 )]
 margin_left = 0.0
 margin_top = 69.0
 margin_right = 50.0

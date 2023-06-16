@@ -1,6 +1,6 @@
 extends Control
 
-var button = preload("res://Tagbutton.tscn")
+var button = preload("res://UI/Tagbutton.tscn")
 
 func _ready():
 	refresh("")

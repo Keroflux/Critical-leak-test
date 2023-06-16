@@ -11,12 +11,12 @@ config_version=4
 [application]
 
 config/name="Lekkasjetest"
-run/main_scene="res://Control.tscn"
+run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
-VALVES="*res://VALVES.gd"
+VALVES="*res://Script/VALVES.gd"
 
 [display]
 

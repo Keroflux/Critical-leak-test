@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://ValveSelector.gd" type="Script" id=1]
-[ext_resource path="res://TitilliumWeb-SemiBold.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://UI/ValveSelector.gd" type="Script" id=1]
+[ext_resource path="res://UI/Font/TitilliumWeb-SemiBold.ttf" type="DynamicFontData" id=2]
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.113725, 0.278431, 0.380392, 1 )

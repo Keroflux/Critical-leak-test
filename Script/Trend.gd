@@ -8,9 +8,9 @@ var seconds = 0
 var max_pressure = 0
 var min_pressure = 0
 var show_marker := false
-var sec_mark = preload("res://SecondsMarker.tscn")
-var pres_mark = preload("res://PressureMark.tscn")
-var marker_label = preload("res://MarkerLabel.tscn")
+var sec_mark = preload("res://UI/SecondsMarker.tscn")
+var pres_mark = preload("res://UI/PressureMark.tscn")
+var marker_label = preload("res://UI/MarkerLabel.tscn")
 
 var marker_s : Label
 var marker_p : Label
@@ -19,7 +19,7 @@ var marker_kgs : Label
 
 func _ready():
 	set_process(false)
-	root = get_tree().get_root().get_node("Lekkasje")
+	root = get_tree().get_root().get_node("Main")
 	$TrendLine.color = Color(1.0, 1.0, 1.0)
 	$TrendLine2.color = Color(1.0 , 0.0, 0.0)
 	place_sec_marks()
