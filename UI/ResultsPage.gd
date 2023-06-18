@@ -22,7 +22,7 @@ func _ready():
 	$"%CriteriaOri/Result".text = " " + str(ori_crit) + " mm"
 	$"%TestOri/Result".text = " " + str(ori_test) + " mm"
 	
-	if type == "Valve":
+	if type == "valve":
 		if kgs_test >= 0.5:
 			$"%Accepted/Result".text = " Underkjent"
 		elif kgs_test >= 0.05:
