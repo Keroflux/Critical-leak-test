@@ -124,7 +124,7 @@ func find_real_leak_gas2(orifice, kg_s, p_out, p_in, p_end, time, vol, mol_w, co
 #		numf += 1
 		predicted_orifice += 0.01
 		t0 = 0
-		p0 = P2
+		p0 = p_in
 		var m_0 = m0
 		while p0 < p:
 			var dP: float = p_out - p0
