@@ -16,6 +16,9 @@ var marker_s : Label
 var marker_p : Label
 var marker_kgs : Label
 
+var p2 : float
+var gc : float
+
 
 func _ready():
 	set_process(false)
@@ -36,7 +39,7 @@ func _draw():
 		var mouse_norm_y = 1 - mouse.y / rect_size.y
 		var sec = mouse_norm_x * seconds
 		var pres = (mouse_norm_y * (max_pressure - min_pressure) + min_pressure)
-		var kgs = root.calc_leak_rate_trend(pres + 1, sec)
+		var kgs = calc_leak_rate_trend(pres+1, sec, gc, p2)
 		
 		draw_line(Vector2(mouse.x, 0), Vector2(mouse.x, rect_size.y), Color(0.094118, 0.513726, 0.917647))
 		draw_line(Vector2(0, mouse.y), Vector2(rect_size.x, mouse.y), Color(0.094118, 0.513726, 0.917647))
@@ -47,6 +50,16 @@ func _draw():
 		marker_p.text = str(stepify(pres, 0.1))
 		marker_kgs.rect_position = Vector2(mouse.x - (marker_kgs.rect_size.x / 2), -marker_kgs.rect_size.y)
 		marker_kgs.text = str(stepify(kgs, 0.001))
+
+
+func calc_leak_rate_trend(p_end, time, gas_c, p_in = 1)->float:
+	var m1: float = p_in * gas_c
+	var m2: float = p_end * gas_c
+	if time == 0:
+		return 0.0
+	var kg_s: float = (m1 - m2) / time
+	kg_s = abs(kg_s)
+	return kg_s
 
 
 func calculate_point_distance() -> void:

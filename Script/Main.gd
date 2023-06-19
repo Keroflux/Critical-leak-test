@@ -55,17 +55,6 @@ func avg_leak_gas(p_in, p_end, vol, time, kelvin, comp_f, mol_w)->float:
 	return kg_s
 
 
-# Satans jævelskap, morgendagens problem!
-func calc_leak_rate_trend(pb, time, p2 = 1)->float:
-	var m1: float = p2 * 100000 * volume * MW / (Z * R * T)
-	var m2: float = pb * 100000 * volume * MW / (Z * R * T)
-	if time == 0:
-		return 0.0
-	var kg_s: float = (m1 - m2) / time
-	kg_s = abs(kg_s)
-	return kg_s
-
-
 # Kalkulering orifice diameter ved gitt lekkasje
 func calc_orifice_gas(kg_s: float, p_out, p_in, mol_w, kelvin, comp_f)->float:
 	var kg_h = kg_s * 3600
@@ -205,19 +194,22 @@ func calc_orifice_liquid(kgs: float):
 
 
 # Sender verdier til trend og starter tegning
-func init_trend(sec_test = 0, sec_crit = 0)->void: # TODO: inverter trenden ved negativ trykktest
+func init_trend(p_out, p_in, sec_test = 0, sec_crit = 0)->void: # TODO: inverter trenden ved negativ trykktest
 	$"%Trend".test = P2_test
 	$"%Trend".crit = P2_crit
 	if sec_test >= sec_crit:
 		$"%Trend".seconds = sec_test
 	else:
 		$"%Trend".seconds = sec_crit
-	$"%Trend".max_pressure = P1 - 1
-	$"%Trend".min_pressure = P2 - 1
-	$"%Trend".calculate_point_distance()
-	$"%Trend".place_sec_marks()
+	$"%Trend".max_pressure = p_out - 1
+	$"%Trend".min_pressure = p_in - 1
 	$"%TrendLine".data_points = P2_test
 	$"%TrendLine2".data_points = P2_crit
+
+
+func run_trend():
+	$"%Trend".calculate_point_distance()
+	$"%Trend".place_sec_marks()
 	$"%TrendLine".trend_run()
 	$"%TrendLine2".trend_run()
 
@@ -289,7 +281,11 @@ func _run_calculations()->void:
 	else:
 		print(avg_leak_liquid_test())
 		print(avg_leak_liquid())
-	init_trend(sec_test, sec_crit)
+	
+	$"%Trend".gc = 100000 * test_volume * M_W / (z* R * T_K)
+	$"%Trend".p2 = P_2
+	init_trend(P_1, P_2, sec_test, sec_crit)
+	run_trend()
 	
 	# Vis resultatet av simuleringen
 	var a = results_box.instance()
@@ -327,7 +323,7 @@ func calc_leak_new(ori, pipe):
 
 
 func _on_Trend_resized():
-	init_trend()
+	run_trend()
 
 
 func _open_Valve_search():
