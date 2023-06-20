@@ -4,21 +4,6 @@ var tag : String = "A-VC23-0263"
 var type : String = "Check"
 var medie : String = "Gass"
 
-# Variabler til bruk i kalkulering av lekkasjerater
-# Blir satt av bruker
-var P1: float = 2.0 			# Trykk utenfor testvolum
-var P2: float = 1.0 			# Trykk i testvolum før test
-var PB: float = 1.0 			# Trykk i testvolum etter test
-var T: float = 288.15 			# Temperatur test medie i Kelvin
-var test_time: float = 900.0	# Testvarighet i sekunder
-var volume: float = 0.11876		# Testvolumet i m3
-# Blir satt av valgt ventil
-var MW: float = 28.01 			# MOL vekt for test medie
-var Di: float= 372.0 			# Indre rør diameter
-var Z: float = 0.98 			# Kompressabilitet til testmedie
-var dens: float = 847			# Densitet i g / l
-var elasticity: float = 15000	# Elastisitet...
-
 const R: float = 8314.5			# Gasskonstanten
 const K: float = 273.15
 
@@ -100,13 +85,13 @@ func simulate_gas(crit: bool, ori: float, p_out, p_in, vol, mol_w, comp_f, kelvi
 
 
 # Ekstra funksjon for test av optimalsiering
-func find_real_leak_gas2(orifice, kg_s, p_out, p_in, p_end, time, vol, mol_w, comp_f, kelvin):
+func find_real_leak_gas(orifice, kg_s, p_out, p_start, p_end, time, vol, mol_w, comp_f, kelvin):
 #	var numw = 0
 #	var numf = 0
-	var p0 = p_in								#Trykk før test
+	var p0 = p_start								#Trykk før test
 	var t0 := 0.0							#Klakulert test varighet
 	var p = p_end								#Trykk etter test
-	var ori_pre = kg_s / (p_out - p_in) * 25	#Predikerer en sikker økning av orifice før loopen
+	var ori_pre = kg_s / (p_out - p_start) * 25	#Predikerer en sikker økning av orifice før loopen
 	var predicted_orifice = orifice + ori_pre #Orifice testraten tilsvarer
 	var gas_const = 100000 * vol * mol_w / (comp_f * R * kelvin)
 	var d_g = (mol_w * p_out) / (0.08314 * kelvin * comp_f)
@@ -124,7 +109,7 @@ func find_real_leak_gas2(orifice, kg_s, p_out, p_in, p_end, time, vol, mol_w, co
 #		numf += 1
 		predicted_orifice += 0.01
 		t0 = 0
-		p0 = p_in
+		p0 = p_start
 		var m_0 = m0
 		while p0 < p:
 			var dP: float = p_out - p0
@@ -152,7 +137,7 @@ func find_real_leak_gas2(orifice, kg_s, p_out, p_in, p_end, time, vol, mol_w, co
 #				print("End pressure: ", p0)
 #				print("Number of for: ", numf)
 #				print("Number of while: ", numw)
-				return max_leak_gas(predicted_orifice, p0 - p_in, p_out, mol_w, kelvin, comp_f)
+				return max_leak_gas(predicted_orifice, p0 - p_start, p_out, mol_w, kelvin, comp_f)
 
 
 func avg_leak_liquid_test():
@@ -175,21 +160,17 @@ func avg_leak_liquid_test():
 	return q
 
 
-func avg_leak_liquid():
-	var t = test_time
-	var dP = PB - P2
-	var K = elasticity
-	var d = dens
-	var v = volume
-	var dn = ((dP / K) + 1) * d
+func avg_leak_liquid(p_start, p_end, time, elast, dens, volume):
+	var dP = p_end - p_start
+	var dn = ((dP / elast) + 1) * dens
 	print(K)
-	var q = ((dn - d) / test_time) * v
+	var q = ((dn - dens) / time) * volume
 	return q
 
 
-func calc_orifice_liquid(kgs: float):
+func calc_orifice_liquid(kgs: float, p_out, p_start):
 	var dis_coef = 0.6
-	var ori = kgs / (dis_coef * 847 * sqrt(2 * P1 - P2 / 847))
+	var ori = kgs / (dis_coef * 847 * sqrt(2 * p_out - p_start / 847))
 	return ori
 
 
@@ -274,13 +255,13 @@ func _run_calculations()->void:
 	#	find_real_leak_gas(test_orifice, kgs_test)
 	#	print("Loop time: ",OS.get_ticks_msec() - time_start, " ms\n")
 	#	time_start = OS.get_ticks_msec()
-		kgs_real = find_real_leak_gas2(test_orifice, kgs_test, P_1, P_2, P_B, time, test_volume, M_W, z, T_K)
+		kgs_real = find_real_leak_gas(test_orifice, kgs_test, P_1, P_2, P_B, time, test_volume, M_W, z, T_K)
 	#	print("Loop time: ",OS.get_ticks_msec() - time_start, " ms\n")
 		test_orifice = calc_orifice_gas(kgs_real, P_1, P_2, M_W, T_K, z)
 		sec_test = simulate_gas(false, test_orifice, P_1, P_2, test_volume, M_W, z, T_K)
 	else:
 		print(avg_leak_liquid_test())
-		print(avg_leak_liquid())
+		print(avg_leak_liquid(P_2, P_B, time, elast, density, test_volume))
 	
 	$"%Trend".gc = 100000 * test_volume * M_W / (z* R * T_K)
 	$"%Trend".p2 = P_2
@@ -308,18 +289,18 @@ func _set_valve(valve)->void:
 	$"%ValveSearch".text = tag
 
 
-func calc_leak_new(ori, pipe):
-	var K = 273.15 + T
-	var p1 = P1 * 100000.0
-	var p2 = P2 * 100000.0
-	var dP: float = p1 - p2
-	var C = 0.62
-	var beta = ori / pipe
-	var dg = (MW * p1) / (8314 * K * Z)
-	var e = 1.0
-	var d2 = ori * ori
-	var Qm = (C / sqrt(1 - pow(beta, 4))) * e * (PI / 4) * d2 * sqrt(2 * dg * dP)
-	print(Qm)
+#func calc_leak_new(ori, pipe):
+#	var K = 273.15 + T
+#	var p1 = P1 * 100000.0
+#	var p2 = P2 * 100000.0
+#	var dP: float = p1 - p2
+#	var C = 0.62
+#	var beta = ori / pipe
+#	var dg = (MW * p1) / (8314 * K * Z)
+#	var e = 1.0
+#	var d2 = ori * ori
+#	var Qm = (C / sqrt(1 - pow(beta, 4))) * e * (PI / 4) * d2 * sqrt(2 * dg * dP)
+#	print(Qm)
 
 
 func _on_Trend_resized():
