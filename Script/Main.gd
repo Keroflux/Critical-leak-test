@@ -211,8 +211,8 @@ func _run_calculations()->void:
 	var z := 0.0
 	var M_W := 28.01
 	var d_i := 0.0
-	var density := 0.0
-	var elast := 0.0
+	var density := 847.0
+	var elast := 15000.0
 	
 	var valve : Dictionary = VALVES.valves[tag]
 	var test_volume = valve["volume"]
@@ -260,8 +260,7 @@ func _run_calculations()->void:
 		test_orifice = calc_orifice_gas(kgs_real, P_1, P_2, M_W, T_K, z)
 		sec_test = simulate_gas(false, test_orifice, P_1, P_2, test_volume, M_W, z, T_K)
 	else:
-		print(avg_leak_liquid_test())
-		print(avg_leak_liquid(P_2, P_B, time, elast, density, test_volume))
+		kgs_real = avg_leak_liquid(P_2, P_B, time, elast, density, test_volume)
 	
 	$"%Trend".gc = 100000 * test_volume * M_W / (z* R * T_K)
 	$"%Trend".p2 = P_2
