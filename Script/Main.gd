@@ -41,9 +41,9 @@ func avg_leak_gas(p_in, p_end, vol, time, kelvin, comp_f, mol_w)->float:
 
 
 # Kalkulering orifice diameter ved gitt lekkasje
-func calc_orifice_gas(kg_s: float, p_out, p_in, mol_w, kelvin, comp_f)->float:
+func calc_orifice_gas(kg_s: float, p_out, p_start, mol_w, kelvin, comp_f)->float:
 	var kg_h = kg_s * 3600
-	var dP: float = p_out - p_in
+	var dP: float = p_out - p_start
 	var Pr: float = dP / p_out
 	var Yo: float = 1.008 - 0.338 * Pr
 	if Pr < 0.29:
@@ -55,12 +55,12 @@ func calc_orifice_gas(kg_s: float, p_out, p_in, mol_w, kelvin, comp_f)->float:
 
 # Regner ut sekunder det vil ta å nå 0 dP i testsegmentet ved en gitt orifice
 # og lagrer punkter for å lage trend til forventet trykkutvikling
-func simulate_gas(crit: bool, ori: float, p_out, p_in, vol, mol_w, comp_f, kelvin)->float:
+func simulate_gas(crit: bool, ori: float, p_out, p_start, vol, mol_w, comp_f, kelvin)->float:
 	var sec: float = 0.0
 	var count: int = 15
 	var step: float = 0.01
 	var p1 = p_out
-	var p2 = p_in
+	var p2 = p_start
 	var gas_const = 100000 * vol * mol_w / (comp_f * R * kelvin)
 	if crit:
 		P2_crit.clear()
@@ -163,7 +163,6 @@ func avg_leak_liquid_test():
 func avg_leak_liquid(p_start, p_end, time, elast, dens, volume):
 	var dP = p_end - p_start
 	var dn = ((dP / elast) + 1) * dens
-	print(K)
 	var q = ((dn - dens) / time) * volume
 	return q
 
@@ -199,25 +198,25 @@ func run_trend():
 func _run_calculations()->void:
 	# Sett variabler fra testen
 	var time = float($"%TestTime".text)
-	var P_1 = float($"%PressureExternal".text) + 1
-	var P_2 = float($"%PressureStart".text) + 1
-	var P_B = float($"%PressureAfter".text) + 1
-	var T_K = float($"%Temperatur".text) + K
-	if P_2 > P_1: # Positiv dp? Flip trykkene
-		P_1 = float($"%PressureStart".text) + 1
-		P_2 = float($"%PressureExternal".text) + 1
-		P_B = float($"%PressureStart".text) + 1
+	var p_out = float($"%PressureExternal".text) + 1
+	var p_start = float($"%PressureStart".text) + 1
+	var p_end = float($"%PressureAfter".text) + 1
+	var temp_k = float($"%Temperatur".text) + K
+	if p_start > p_out: # Positiv dp? Flip trykkene
+		p_out = float($"%PressureStart".text) + 1
+		p_start = float($"%PressureExternal".text) + 1
+		p_end = float($"%PressureStart".text) + 1
 	
 	var z := 0.0
-	var M_W := 28.01
+	var mol_w := 28.01
 	var d_i := 0.0
 	var density := 847.0
 	var elast := 15000.0
 	
 	var valve : Dictionary = VALVES.valves[tag]
-	var test_volume = valve["volume"]
+	var volume = valve["volume"]
 	if not medie == "Nitrogen":
-		M_W = valve["MW"]
+		mol_w = valve["MW"]
 		z = valve["Z"]
 	if valve["type"] == "check":
 		d_i = valve["Di"]
@@ -226,7 +225,7 @@ func _run_calculations()->void:
 		elast = valve["K"]
 	
 	# Sjekk om det er fare for å lage et sort hull
-	var zero_list := [P_2, P_1, P_B, T_K, time, P_1-P_2]
+	var zero_list := [p_start, p_out, p_end, temp_k, time, p_out-p_start]
 	for i in zero_list:
 		if i <= 0:
 			return
@@ -244,27 +243,27 @@ func _run_calculations()->void:
 	if medie == "Gass" or medie == "Nitrogen":
 		if type == "valve":
 			kgs_crit = 0.05
-			crit_orifice = calc_orifice_gas(kgs_crit, P_1, P_2, M_W, T_K, z)
+			crit_orifice = calc_orifice_gas(kgs_crit, p_out, p_start, mol_w, temp_k, z)
 		else:
-			kgs_crit = max_leak_gas(d_i / 10, P_1 - P_2, P_1, M_W, T_K, z)
+			kgs_crit = max_leak_gas(d_i / 10, p_out - p_start, p_out, mol_w, temp_k, z)
 			crit_orifice = d_i / 10
-		sec_crit = simulate_gas(true, crit_orifice, P_1, P_2, test_volume, M_W, z, T_K)
-		kgs_test = avg_leak_gas(P_2, P_B, test_volume, time, T_K, z, M_W)
-		test_orifice = calc_orifice_gas(kgs_test, P_1, P_2, M_W, T_K, z)
+		sec_crit = simulate_gas(true, crit_orifice, p_out, p_start, volume, mol_w, z, temp_k)
+		kgs_test = avg_leak_gas(p_start, p_end, volume, time, temp_k, z, mol_w)
+		test_orifice = calc_orifice_gas(kgs_test, p_out, p_start, mol_w, temp_k, z)
 	#	var time_start = OS.get_ticks_msec()
 	#	find_real_leak_gas(test_orifice, kgs_test)
 	#	print("Loop time: ",OS.get_ticks_msec() - time_start, " ms\n")
 	#	time_start = OS.get_ticks_msec()
-		kgs_real = find_real_leak_gas(test_orifice, kgs_test, P_1, P_2, P_B, time, test_volume, M_W, z, T_K)
+		kgs_real = find_real_leak_gas(test_orifice, kgs_test, p_out, p_start, p_end, time, volume, mol_w, z, temp_k)
 	#	print("Loop time: ",OS.get_ticks_msec() - time_start, " ms\n")
-		test_orifice = calc_orifice_gas(kgs_real, P_1, P_2, M_W, T_K, z)
-		sec_test = simulate_gas(false, test_orifice, P_1, P_2, test_volume, M_W, z, T_K)
+		test_orifice = calc_orifice_gas(kgs_real, p_out, p_start, mol_w, temp_k, z)
+		sec_test = simulate_gas(false, test_orifice, p_out, p_start, volume, mol_w, z, temp_k)
 	else:
-		kgs_real = avg_leak_liquid(P_2, P_B, time, elast, density, test_volume)
+		kgs_real = avg_leak_liquid(p_start, p_end, time, elast, density, volume)
 	
-	$"%Trend".gc = 100000 * test_volume * M_W / (z* R * T_K)
-	$"%Trend".p2 = P_2
-	init_trend(P_1, P_2, sec_test, sec_crit)
+	$"%Trend".gc = 100000 * volume * mol_w / (z* R * temp_k)
+	$"%Trend".p2 = p_start
+	init_trend(p_out, p_start, sec_test, sec_crit)
 	run_trend()
 	
 	# Vis resultatet av simuleringen
