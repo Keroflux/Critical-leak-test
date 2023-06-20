@@ -28,7 +28,7 @@ func _ready():
 	place_sec_marks()
 
 
-func _process(delta):
+func _process(_delta):
 	update()
 
 

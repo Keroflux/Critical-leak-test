@@ -70,14 +70,14 @@ func calc_orifice_gas(kg_s: float, p_out, p_in, mol_w, kelvin, comp_f)->float:
 
 # Regner ut sekunder det vil ta å nå 0 dP i testsegmentet ved en gitt orifice
 # og lagrer punkter for å lage trend til forventet trykkutvikling
-func simulate_gas(type: String, ori: float, p_out, p_in, vol, mol_w, comp_f, kelvin)->float:
+func simulate_gas(crit: bool, ori: float, p_out, p_in, vol, mol_w, comp_f, kelvin)->float:
 	var sec: float = 0.0
 	var count: int = 15
 	var step: float = 0.01
 	var p1 = p_out
 	var p2 = p_in
 	var gas_const = 100000 * vol * mol_w / (comp_f * R * kelvin)
-	if type == "Criteria":
+	if crit:
 		P2_crit.clear()
 	else:
 		P2_test.clear()
@@ -90,7 +90,7 @@ func simulate_gas(type: String, ori: float, p_out, p_in, vol, mol_w, comp_f, kel
 		p2 = m1 / gas_const
 		sec += step
 		if count == 15:
-			if type == "Criteria":
+			if crit:
 				P2_crit.append(p2)
 			else:
 				P2_test.append(p2)
@@ -120,7 +120,7 @@ func find_real_leak_gas2(orifice, kg_s, p_out, p_in, p_end, time, vol, mol_w, co
 #	Loop som øker størrelsen på orificen for hver ieterasjon og simulerer trykkoppbygging.
 #	Når simulert sluttrykk (p0) når testens sluttrykk (p) og simulert testvarighet (t0)
 #	er større eller lik testvarighet (test_time) returneres lekkasjeraten for tilsvarende orifice
-	for i in range (1000):
+	for _i in range (1000):
 #		numf += 1
 		predicted_orifice += 0.01
 		t0 = 0
@@ -267,7 +267,7 @@ func _run_calculations()->void:
 		else:
 			kgs_crit = max_leak_gas(d_i / 10, P_1 - P_2, P_1, M_W, T_K, z)
 			crit_orifice = d_i / 10
-		sec_crit = simulate_gas("Criteria", crit_orifice, P_1, P_2, test_volume, M_W, z, T_K)
+		sec_crit = simulate_gas(true, crit_orifice, P_1, P_2, test_volume, M_W, z, T_K)
 		kgs_test = avg_leak_gas(P_2, P_B, test_volume, time, T_K, z, M_W)
 		test_orifice = calc_orifice_gas(kgs_test, P_1, P_2, M_W, T_K, z)
 	#	var time_start = OS.get_ticks_msec()
@@ -277,7 +277,7 @@ func _run_calculations()->void:
 		kgs_real = find_real_leak_gas2(test_orifice, kgs_test, P_1, P_2, P_B, time, test_volume, M_W, z, T_K)
 	#	print("Loop time: ",OS.get_ticks_msec() - time_start, " ms\n")
 		test_orifice = calc_orifice_gas(kgs_real, P_1, P_2, M_W, T_K, z)
-		sec_test = simulate_gas("Test", test_orifice, P_1, P_2, test_volume, M_W, z, T_K)
+		sec_test = simulate_gas(false, test_orifice, P_1, P_2, test_volume, M_W, z, T_K)
 	else:
 		print(avg_leak_liquid_test())
 		print(avg_leak_liquid())
