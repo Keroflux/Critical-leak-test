@@ -1,43 +1,38 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://c3ghr4j6xnc0v"]
 
-[ext_resource path="res://UI/Font/TitilliumWeb-SemiBold.ttf" type="FontFile" id=1]
-
-[sub_resource type="FontFile" id=8]
-font_data = ExtResource( 1 )
-
-[sub_resource type="StyleBoxFlat" id=13]
-bg_color = Color( 0.705882, 0.733333, 0.752941, 1 )
+[sub_resource type="StyleBoxFlat" id="12"]
+bg_color = Color(0.843137, 0.882353, 0.929412, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color( 0, 0.435294, 0.47451, 1 )
+border_color = Color(0, 0.435294, 0.47451, 1)
 corner_radius_top_left = 14
 corner_radius_top_right = 14
 corner_radius_bottom_right = 14
 corner_radius_bottom_left = 14
 corner_detail = 16
 
-[sub_resource type="StyleBoxFlat" id=14]
-bg_color = Color( 0, 0.435294, 0.47451, 1 )
+[sub_resource type="StyleBoxFlat" id="13"]
+bg_color = Color(0.705882, 0.733333, 0.752941, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color( 0, 0.435294, 0.47451, 1 )
+border_color = Color(0, 0.435294, 0.47451, 1)
 corner_radius_top_left = 14
 corner_radius_top_right = 14
 corner_radius_bottom_right = 14
 corner_radius_bottom_left = 14
 corner_detail = 16
 
-[sub_resource type="StyleBoxFlat" id=12]
-bg_color = Color( 0.843137, 0.882353, 0.929412, 1 )
+[sub_resource type="StyleBoxFlat" id="14"]
+bg_color = Color(0, 0.435294, 0.47451, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color( 0, 0.435294, 0.47451, 1 )
+border_color = Color(0, 0.435294, 0.47451, 1)
 corner_radius_top_left = 14
 corner_radius_top_right = 14
 corner_radius_bottom_right = 14
@@ -45,19 +40,17 @@ corner_radius_bottom_left = 14
 corner_detail = 16
 
 [node name="Reload" type="Button"]
+custom_minimum_size = Vector2(100, 15)
 offset_left = 204.0
 offset_right = 325.0
 offset_bottom = 30.0
-custom_minimum_size = Vector2( 100, 15 )
 tooltip_text = "Lagrer .txt fil med TAG i
 Documents"
 focus_mode = 0
-theme_override_colors/font_color = Color( 0.239216, 0.239216, 0.239216, 1 )
-theme_override_colors/font_hover_color = Color( 0.239216, 0.239216, 0.239216, 1 )
-theme_override_colors/font_pressed_color = Color( 0.239216, 0.239216, 0.239216, 1 )
-theme_override_fonts/font = SubResource( 8 )
-theme_override_styles/hover = SubResource( 13 )
-theme_override_styles/pressed = SubResource( 14 )
-theme_override_styles/normal = SubResource( 12 )
-focus_mode = 0
+theme_override_colors/font_color = Color(0.239216, 0.239216, 0.239216, 1)
+theme_override_colors/font_pressed_color = Color(0.239216, 0.239216, 0.239216, 1)
+theme_override_colors/font_hover_color = Color(0.239216, 0.239216, 0.239216, 1)
+theme_override_styles/normal = SubResource("12")
+theme_override_styles/hover = SubResource("13")
+theme_override_styles/pressed = SubResource("14")
 text = "   Søke etter tag  "

@@ -1,20 +1,18 @@
-[gd_scene format=2]
+[gd_scene format=3 uid="uid://i74bm00vytts"]
 
 [node name="ColorRect" type="ColorRect"]
+anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -1.0
 offset_right = -0.5
 offset_bottom = 40.0
-rotation = 180.0
 mouse_filter = 2
-color = Color( 1, 1, 1, 0.509804 )
+color = Color(1, 1, 1, 0.509804)
 
 [node name="Label" type="Label" parent="."]
+layout_mode = 0
 offset_left = 19.0
 offset_right = 59.0
 offset_bottom = 14.0
-rotation = 180.0
 text = "0.23"
-align = 1
-valign = 1

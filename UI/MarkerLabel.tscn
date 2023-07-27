@@ -1,9 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://cfvs7604gb3c6"]
 
-[ext_resource path="res://UI/Font/Font14.tres" type="FontFile" id=1]
-
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0, 0, 0, 1 )
+[sub_resource type="StyleBoxFlat" id="1"]
+bg_color = Color(0, 0, 0, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
@@ -12,7 +10,5 @@ corner_radius_bottom_left = 5
 [node name="MarkerLabel" type="Label"]
 offset_right = 40.0
 offset_bottom = 14.0
-theme_override_fonts/font = ExtResource( 1 )
-theme_override_styles/normal = SubResource( 1 )
+theme_override_styles/normal = SubResource("1")
 text = "10.56"
-align = 1

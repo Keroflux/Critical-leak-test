@@ -1,0 +1,8 @@
+res://default_env.tres
+res://UI/AddValve.tscn
+res://Main.tscn
+res://UI/Button.tscn
+res://UI/MarkerLabel.tscn
+res://UI/ResultsPage.tscn
+res://UI/SecondsMarker.tscn
+res://UI/Tagbutton.tscn
