@@ -6,3 +6,9 @@ res://UI/MarkerLabel.tscn
 res://UI/ResultsPage.tscn
 res://UI/SecondsMarker.tscn
 res://UI/Tagbutton.tscn
+res://UI/PressureMark.tscn
+res://UI/ValveSelector.tscn
+res://Script/Trend.gd
+res://Script/TrendLine.gd
+res://UI/ResultsPage.gd
+res://Script/Main.gd

@@ -28,7 +28,7 @@ func _draw() -> void:
 
 func trend_run() -> void:
 	redraw_trend()
-	update()
+	queue_redraw()
 
 
 func draw_trend() -> void:

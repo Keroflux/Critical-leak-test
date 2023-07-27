@@ -15,12 +15,12 @@ var parent : Control
 func _ready():
 	parent = get_parent()
 	$"%Tag/Result".text = " " + tag
-	$"%CriteriaKGS/Result".text = " " + str(kgs_crit) + " kg / s"
-	$"%TestKGS/Result".text = " " + str(kgs_test) + " kg / s"
-	$"%CriteriaTime/Result".text = " " + str(sec_crit) + " Sekunder"
-	$"%TestTime/Result".text = " " + str(sec_test) + " Sekunder"
-	$"%CriteriaOri/Result".text = " " + str(ori_crit) + " mm"
-	$"%TestOri/Result".text = " " + str(ori_test) + " mm"
+	$"%CriteriaKGS/Result".text = " " + str(snappedf(kgs_crit, 0.0001)) + " kg / s"
+	$"%TestKGS/Result".text = " " + str(snappedf(kgs_test, 0.0001)) + " kg / s"
+	$"%CriteriaTime/Result".text = " " + str(snappedf(sec_crit, 0.1)) + " Sekunder"
+	$"%TestTime/Result".text = " " + str(snappedf(sec_test, 0.1)) + " Sekunder"
+	$"%CriteriaOri/Result".text = " " + str(snappedf(ori_crit, 0.0001)) + " mm"
+	$"%TestOri/Result".text = " " + str(snappedf(ori_test, 0.0001)) + " mm"
 	
 	if type == "valve":
 		if kgs_test >= 0.5:
@@ -51,12 +51,11 @@ func store_result_as_csv():
 			csv += "\n" + string
 			time += (0.01 * 15)
 		# Last ned filen
-		JavaScript.download_buffer(csv.to_utf8_buffer(), file_name)
+		JavaScriptBridge.download_buffer(csv.to_utf8_buffer(), file_name)
 	
 	else:
 		var dir := OS.get_system_dir(2)
-		var file : File = File.new()
-		file.open(dir + "\\" + file_name, File.WRITE)
+		var file : FileAccess = FileAccess.open(dir + "\\" + file_name, FileAccess.WRITE)
 		for i in result.size():
 			if i == 0:
 				file.store_line("Tag,Time,Pressure,kg / s")

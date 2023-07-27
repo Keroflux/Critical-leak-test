@@ -29,7 +29,7 @@ func _ready():
 
 
 func _process(_delta):
-	update()
+	queue_redraw()
 
 
 func _draw():
@@ -82,24 +82,23 @@ func place_sec_marks():
 	
 	for i in 4:
 		var a = sec_mark.instantiate()
-		a.position.x = x * (i + 1) - a.size.x / 2
-		a.position.y = size.y
+		a.position.x = x * (i + 1) - a.size.x / 2 + 2
+		a.position.y = size.y + 10
 		a.size.y = size.y
-		a.get_child(0).text = str(snapped(sec * (i + 1), 0.01))
+		a.get_child(0).text = str(snappedf(sec * (i + 1.0), 0.01))
 		$Marks.add_child(a)
 	
 	for i in 4:
 		var a = pres_mark.instantiate()
-		a.position.y = (-y * (i + 1)) + size.y
+		a.position.y = (-y * (i + 1)) + size.y + 8
 		a.size.x = size.x
-#		a.get_child(0).text = str(stepify(pres * (i + 1), 0.01))
-		a.get_child(0).text = str(snapped(pres * (i + 1) + min_pressure, 0.01))
+		a.get_child(0).text = str(snappedf(pres * (i + 1.0) + min_pressure, 0.01))
 		$Marks.add_child(a)
 	
 	$MinPressure.text = str(min_pressure)
-	$MaxPressure.text = str(max_pressure)
+	$MaxPressure.text = str(snappedf(max_pressure, 0.01))
 	$MinSeconds.text = str(0)
-	$MaxSeconds.text = str(seconds)
+	$MaxSeconds.text = str(snappedf(seconds, 0.01))
 
 
 func _on_Trend_mouse_entered():

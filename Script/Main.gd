@@ -85,7 +85,7 @@ func simulate_gas(crit: bool, ori: float, p_out, p_start, vol, mol_w, comp_f, ke
 
 
 # Ekstra funksjon for test av optimalsiering
-func find_real_leak_gas(orifice, kg_s, p_out, p_start, p_end, time, vol, mol_w, comp_f, kelvin):
+func find_real_leak_gas(orifice, kg_s, p_out, p_start, p_end, time, vol, mol_w, comp_f, kelvin)->float:
 #	var numw = 0
 #	var numf = 0
 	var p0 = p_start								#Trykk før test
@@ -138,6 +138,7 @@ func find_real_leak_gas(orifice, kg_s, p_out, p_start, p_end, time, vol, mol_w, 
 #				print("Number of for: ", numf)
 #				print("Number of while: ", numw)
 				return max_leak_gas(predicted_orifice, p0 - p_start, p_out, mol_w, kelvin, comp_f)
+	return 0.0
 
 
 func avg_leak_liquid_test():
@@ -160,14 +161,14 @@ func avg_leak_liquid_test():
 	return q
 
 
-func avg_leak_liquid(p_start, p_end, time, elast, dens, volume):
+func avg_leak_liquid(p_start, p_end, time, elast, dens, volume)->float:
 	var dP = p_end - p_start
 	var dn = ((dP / elast) + 1) * dens
 	var q = ((dn - dens) / time) * volume
 	return q
 
 
-func calc_orifice_liquid(kgs: float, p_out, p_start):
+func calc_orifice_liquid(kgs: float, p_out, p_start)->float:
 	var dis_coef = 0.6
 	var ori = kgs / (dis_coef * 847 * sqrt(2 * p_out - p_start / 847))
 	return ori
@@ -187,7 +188,7 @@ func init_trend(p_out, p_in, sec_test = 0, sec_crit = 0)->void: # TODO: inverter
 	$"%TrendLine2".data_points = P2_crit
 
 
-func run_trend():
+func run_trend()->void:
 	$"%Trend".calculate_point_distance()
 	$"%Trend".place_sec_marks()
 	$"%TrendLine".trend_run()
@@ -207,7 +208,7 @@ func _run_calculations()->void:
 		p_start = float($"%PressureExternal".text) + 1
 		p_end = float($"%PressureStart".text) + 1
 	
-	var z := 0.0
+	var z := 0.98
 	var mol_w := 28.01
 	var d_i := 0.0
 	var density := 847.0
@@ -262,7 +263,7 @@ func _run_calculations()->void:
 		kgs_real = avg_leak_liquid(p_start, p_end, time, elast, density, volume)
 	
 	$"%Trend".gc = 100000 * volume * mol_w / (z* R * temp_k)
-	$"%Trend".p2 = p_start
+	$"%Trend".p_start = p_start
 	init_trend(p_out, p_start, sec_test, sec_crit)
 	run_trend()
 	
@@ -301,14 +302,14 @@ func _set_valve(valve)->void:
 #	print(Qm)
 
 
-func _on_Trend_resized():
+func _on_Trend_resized()->void:
 	run_trend()
 
 
-func _open_Valve_search():
+func _open_Valve_search()->void:
 	var a = search_box.instantiate()
 	add_child(a)
 
 
-func _on_Medie_item_selected(index):
+func _on_Medie_item_selected(index)->void:
 	medie = $"%Medie".get_item_text(index)
