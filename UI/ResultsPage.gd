@@ -51,7 +51,7 @@ func store_result_as_csv():
 			csv += "\n" + string
 			time += (0.01 * 15)
 		# Last ned filen
-		JavaScript.download_buffer(csv.to_utf8(), file_name)
+		JavaScript.download_buffer(csv.to_utf8_buffer(), file_name)
 	
 	else:
 		var dir := OS.get_system_dir(2)

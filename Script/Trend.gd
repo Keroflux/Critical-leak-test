@@ -35,21 +35,21 @@ func _process(_delta):
 func _draw():
 	if show_marker:
 		var mouse = get_local_mouse_position()
-		var mouse_norm_x = mouse.x / rect_size.x
-		var mouse_norm_y = 1 - mouse.y / rect_size.y
+		var mouse_norm_x = mouse.x / size.x
+		var mouse_norm_y = 1 - mouse.y / size.y
 		var sec = mouse_norm_x * seconds
 		var pres = (mouse_norm_y * (max_pressure - min_pressure) + min_pressure)
 		var kgs = calc_leak_rate_trend(pres+1, sec, gc, p_start)
 		
-		draw_line(Vector2(mouse.x, 0), Vector2(mouse.x, rect_size.y), Color(0.094118, 0.513726, 0.917647))
-		draw_line(Vector2(0, mouse.y), Vector2(rect_size.x, mouse.y), Color(0.094118, 0.513726, 0.917647))
+		draw_line(Vector2(mouse.x, 0), Vector2(mouse.x, size.y), Color(0.094118, 0.513726, 0.917647))
+		draw_line(Vector2(0, mouse.y), Vector2(size.x, mouse.y), Color(0.094118, 0.513726, 0.917647))
 		
-		marker_s.rect_position = Vector2(mouse.x - (marker_s.rect_size.x / 2), rect_size.y)
-		marker_s.text = str(stepify(sec, 0.01))
-		marker_p.rect_position = Vector2(0 - marker_p.rect_size.x, mouse.y - (marker_p.rect_size.y / 2))
-		marker_p.text = str(stepify(pres, 0.1))
-		marker_kgs.rect_position = Vector2(mouse.x - (marker_kgs.rect_size.x / 2), -marker_kgs.rect_size.y)
-		marker_kgs.text = str(stepify(kgs, 0.001))
+		marker_s.position = Vector2(mouse.x - (marker_s.size.x / 2), size.y)
+		marker_s.text = str(snapped(sec, 0.01))
+		marker_p.position = Vector2(0 - marker_p.size.x, mouse.y - (marker_p.size.y / 2))
+		marker_p.text = str(snapped(pres, 0.1))
+		marker_kgs.position = Vector2(mouse.x - (marker_kgs.size.x / 2), -marker_kgs.size.y)
+		marker_kgs.text = str(snapped(kgs, 0.001))
 
 
 func calc_leak_rate_trend(p_end, time, gas_c, p_start = 1)->float:
@@ -64,9 +64,9 @@ func calc_leak_rate_trend(p_end, time, gas_c, p_start = 1)->float:
 
 func calculate_point_distance() -> void:
 	if crit.size() > test.size():
-		distance = rect_size.x / (crit.size() -1)
+		distance = size.x / (crit.size() -1)
 	else:
-		distance = rect_size.x / (test.size() -1)
+		distance = size.x / (test.size() -1)
 	$TrendLine.distance = distance
 	$TrendLine2.distance = distance
 
@@ -74,26 +74,26 @@ func calculate_point_distance() -> void:
 func place_sec_marks():
 	var sec = seconds / 5
 	var pres = (max_pressure - min_pressure) / 5
-	var x = rect_size.x / 5
-	var y = rect_size.y / 5
+	var x = size.x / 5
+	var y = size.y / 5
 	
 	for child in $Marks.get_children():
 		child.queue_free()
 	
 	for i in 4:
-		var a = sec_mark.instance()
-		a.rect_position.x = x * (i + 1) - a.rect_size.x / 2
-		a.rect_position.y = rect_size.y
-		a.rect_size.y = rect_size.y
-		a.get_child(0).text = str(stepify(sec * (i + 1), 0.01))
+		var a = sec_mark.instantiate()
+		a.position.x = x * (i + 1) - a.size.x / 2
+		a.position.y = size.y
+		a.size.y = size.y
+		a.get_child(0).text = str(snapped(sec * (i + 1), 0.01))
 		$Marks.add_child(a)
 	
 	for i in 4:
-		var a = pres_mark.instance()
-		a.rect_position.y = (-y * (i + 1)) + rect_size.y
-		a.rect_size.x = rect_size.x
+		var a = pres_mark.instantiate()
+		a.position.y = (-y * (i + 1)) + size.y
+		a.size.x = size.x
 #		a.get_child(0).text = str(stepify(pres * (i + 1), 0.01))
-		a.get_child(0).text = str(stepify(pres * (i + 1) + min_pressure, 0.01))
+		a.get_child(0).text = str(snapped(pres * (i + 1) + min_pressure, 0.01))
 		$Marks.add_child(a)
 	
 	$MinPressure.text = str(min_pressure)
@@ -106,11 +106,11 @@ func _on_Trend_mouse_entered():
 	set_process(true)
 	show_marker = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	marker_s = marker_label.instance()
+	marker_s = marker_label.instantiate()
 	add_child(marker_s)
-	marker_p = marker_label.instance()
+	marker_p = marker_label.instantiate()
 	add_child(marker_p)
-	marker_kgs = marker_label.instance()
+	marker_kgs = marker_label.instantiate()
 	add_child(marker_kgs)
 
 

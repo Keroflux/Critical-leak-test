@@ -1,9 +1,9 @@
 [gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://UI/Font/TitilliumWeb-SemiBold.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://UI/Font/Font14.tres" type="DynamicFont" id=2]
+[ext_resource path="res://UI/Font/TitilliumWeb-SemiBold.ttf" type="FontFile" id=1]
+[ext_resource path="res://UI/Font/Font14.tres" type="FontFile" id=2]
 [ext_resource path="res://UI/AddValve.gd" type="Script" id=3]
-[ext_resource path="res://UI/Font/Font16l.tres" type="DynamicFont" id=5]
+[ext_resource path="res://UI/Font/Font16l.tres" type="FontFile" id=5]
 
 [sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0, 0.384314, 0.419608, 1 )
@@ -26,7 +26,7 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="FontFile" id=4]
 size = 20
 font_data = ExtResource( 1 )
 
@@ -61,41 +61,41 @@ color = Color( 0.113725, 0.278431, 0.380392, 1 )
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/separation = 15
+theme_override_constants/separation = 15
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
-margin_right = 480.0
-margin_bottom = 685.0
-custom_constants/margin_right = 20
-custom_constants/margin_top = 25
-custom_constants/margin_left = 20
-custom_constants/margin_bottom = 10
+offset_right = 480.0
+offset_bottom = 685.0
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer"]
-margin_left = 20.0
-margin_top = 25.0
-margin_right = 460.0
-margin_bottom = 675.0
-custom_constants/separation = 35
+offset_left = 20.0
+offset_top = 25.0
+offset_right = 460.0
+offset_bottom = 675.0
+theme_override_constants/separation = 35
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer"]
-margin_right = 440.0
-margin_bottom = 245.0
+offset_right = 440.0
+offset_bottom = 245.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_right = 218.0
-margin_bottom = 245.0
+offset_right = 218.0
+offset_bottom = 245.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/separation = 35
+theme_override_constants/separation = 35
 
 [node name="Tag" type="LineEdit" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
-margin_right = 218.0
-margin_bottom = 35.0
-rect_min_size = Vector2( 0, 35 )
+offset_right = 218.0
+offset_bottom = 35.0
+custom_minimum_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 5 )
+theme_override_fonts/font = ExtResource( 5 )
 align = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Tag"]
@@ -103,10 +103,10 @@ anchor_left = 0.00469484
 anchor_top = -0.0571429
 anchor_right = 0.995305
 anchor_bottom = 0.0285714
-margin_top = -15.0
-margin_bottom = -1.0
-custom_constants/line_spacing = 0
-custom_fonts/font = ExtResource( 2 )
+offset_top = -15.0
+offset_bottom = -1.0
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource( 2 )
 text = "Tag"
 align = 1
 valign = 1
@@ -116,146 +116,146 @@ __meta__ = {
 
 [node name="Di" type="LineEdit" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
-margin_top = 70.0
-margin_right = 218.0
-margin_bottom = 105.0
-rect_min_size = Vector2( 0, 35 )
+offset_top = 70.0
+offset_right = 218.0
+offset_bottom = 105.0
+custom_minimum_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 5 )
+theme_override_fonts/font = ExtResource( 5 )
 align = 1
 placeholder_text = "Kun tilbakeslag"
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Di"]
 anchor_right = 1.0
-margin_left = 1.0
-margin_top = -17.0
-margin_right = -1.0
-custom_fonts/font = ExtResource( 2 )
+offset_left = 1.0
+offset_top = -17.0
+offset_right = -1.0
+theme_override_fonts/font = ExtResource( 2 )
 text = "Indre diameter"
 align = 1
 valign = 1
 
 [node name="CompF" type="LineEdit" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
-margin_top = 140.0
-margin_right = 218.0
-margin_bottom = 175.0
-rect_min_size = Vector2( 0, 35 )
+offset_top = 140.0
+offset_right = 218.0
+offset_bottom = 175.0
+custom_minimum_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 5 )
+theme_override_fonts/font = ExtResource( 5 )
 align = 1
 placeholder_text = "Kun gass"
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/CompF"]
 anchor_right = 1.0
-margin_left = 1.0
-margin_top = -17.0
-margin_right = -1.0
-custom_fonts/font = ExtResource( 2 )
+offset_left = 1.0
+offset_top = -17.0
+offset_right = -1.0
+theme_override_fonts/font = ExtResource( 2 )
 text = "Kompressabilitet"
 align = 1
 valign = 1
 
 [node name="Dens" type="LineEdit" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
-margin_top = 210.0
-margin_right = 218.0
-margin_bottom = 245.0
-rect_min_size = Vector2( 0, 35 )
+offset_top = 210.0
+offset_right = 218.0
+offset_bottom = 245.0
+custom_minimum_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 5 )
+theme_override_fonts/font = ExtResource( 5 )
 align = 1
 placeholder_text = "Kun væske"
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Dens"]
 anchor_right = 1.0
-margin_left = 1.0
-margin_top = -17.0
-margin_right = -1.0
-custom_fonts/font = ExtResource( 2 )
+offset_left = 1.0
+offset_top = -17.0
+offset_right = -1.0
+theme_override_fonts/font = ExtResource( 2 )
 text = "Densitet"
 align = 1
 valign = 1
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 222.0
-margin_right = 440.0
-margin_bottom = 245.0
+offset_left = 222.0
+offset_right = 440.0
+offset_bottom = 245.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/separation = 35
+theme_override_constants/separation = 35
 
 [node name="Volume" type="LineEdit" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true
-margin_right = 218.0
-margin_bottom = 35.0
-rect_min_size = Vector2( 0, 35 )
+offset_right = 218.0
+offset_bottom = 35.0
+custom_minimum_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 5 )
+theme_override_fonts/font = ExtResource( 5 )
 align = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/Volume"]
 anchor_right = 1.0
-margin_left = 1.0
-margin_top = -17.0
-margin_right = -1.0
-custom_fonts/font = ExtResource( 2 )
+offset_left = 1.0
+offset_top = -17.0
+offset_right = -1.0
+theme_override_fonts/font = ExtResource( 2 )
 text = "Cavityvolum"
 align = 1
 valign = 1
 
 [node name="MW" type="LineEdit" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true
-margin_top = 70.0
-margin_right = 218.0
-margin_bottom = 105.0
-rect_min_size = Vector2( 0, 35 )
+offset_top = 70.0
+offset_right = 218.0
+offset_bottom = 105.0
+custom_minimum_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 5 )
+theme_override_fonts/font = ExtResource( 5 )
 align = 1
 placeholder_text = "Kun gass"
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/MW"]
 anchor_right = 1.0
-margin_left = 1.0
-margin_top = -17.0
-margin_right = -1.0
-custom_fonts/font = ExtResource( 2 )
+offset_left = 1.0
+offset_top = -17.0
+offset_right = -1.0
+theme_override_fonts/font = ExtResource( 2 )
 text = "Molvekt gass"
 align = 1
 valign = 1
 
 [node name="Elasticity" type="LineEdit" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true
-margin_top = 140.0
-margin_right = 218.0
-margin_bottom = 175.0
-rect_min_size = Vector2( 0, 35 )
+offset_top = 140.0
+offset_right = 218.0
+offset_bottom = 175.0
+custom_minimum_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 5 )
+theme_override_fonts/font = ExtResource( 5 )
 align = 1
 placeholder_text = "Kun væske"
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/Elasticity"]
 anchor_right = 1.0
-margin_left = 1.0
-margin_top = -17.0
-margin_right = -1.0
-custom_fonts/font = ExtResource( 2 )
+offset_left = 1.0
+offset_top = -17.0
+offset_right = -1.0
+theme_override_fonts/font = ExtResource( 2 )
 text = "Elastisitet"
 align = 1
 valign = 1
 
 [node name="Type" type="OptionButton" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true
-margin_top = 210.0
-margin_right = 218.0
-margin_bottom = 245.0
-rect_min_size = Vector2( 0, 35 )
-custom_fonts/font = ExtResource( 5 )
-custom_styles/hover = SubResource( 6 )
-custom_styles/pressed = SubResource( 7 )
-custom_styles/normal = SubResource( 5 )
+offset_top = 210.0
+offset_right = 218.0
+offset_bottom = 245.0
+custom_minimum_size = Vector2( 0, 35 )
+theme_override_fonts/font = ExtResource( 5 )
+theme_override_styles/hover = SubResource( 6 )
+theme_override_styles/pressed = SubResource( 7 )
+theme_override_styles/normal = SubResource( 5 )
 text = "Ventil"
 align = 1
 items = [ "Ventil", null, false, 0, null, "Tilbakeslag", null, false, 1, null ]
@@ -263,48 +263,48 @@ selected = 0
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/Type"]
 anchor_right = 1.0
-margin_top = -17.0
-custom_fonts/font = ExtResource( 2 )
+offset_top = -17.0
+theme_override_fonts/font = ExtResource( 2 )
 text = "Ventiltype"
 align = 1
 valign = 2
 
 [node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/MarginContainer/VBoxContainer"]
-margin_top = 280.0
-margin_right = 440.0
-margin_bottom = 315.0
+offset_top = 280.0
+offset_right = 440.0
+offset_bottom = 315.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer/CenterContainer"]
-margin_left = 68.0
-margin_right = 372.0
-margin_bottom = 35.0
+offset_left = 68.0
+offset_right = 372.0
+offset_bottom = 35.0
 
 [node name="Add" type="Button" parent="VBoxContainer/MarginContainer/VBoxContainer/CenterContainer/HBoxContainer"]
-margin_right = 150.0
-margin_bottom = 35.0
-rect_min_size = Vector2( 150, 35 )
+offset_right = 150.0
+offset_bottom = 35.0
+custom_minimum_size = Vector2( 150, 35 )
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 4 )
-custom_styles/hover = SubResource( 3 )
-custom_styles/normal = SubResource( 2 )
+theme_override_fonts/font = SubResource( 4 )
+theme_override_styles/hover = SubResource( 3 )
+theme_override_styles/normal = SubResource( 2 )
 text = "Legg til ny ventil"
 
 [node name="Back" type="Button" parent="VBoxContainer/MarginContainer/VBoxContainer/CenterContainer/HBoxContainer"]
-margin_left = 154.0
-margin_right = 304.0
-margin_bottom = 35.0
-rect_min_size = Vector2( 150, 35 )
+offset_left = 154.0
+offset_right = 304.0
+offset_bottom = 35.0
+custom_minimum_size = Vector2( 150, 35 )
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 4 )
-custom_styles/hover = SubResource( 3 )
-custom_styles/normal = SubResource( 2 )
+theme_override_fonts/font = SubResource( 4 )
+theme_override_styles/hover = SubResource( 3 )
+theme_override_styles/normal = SubResource( 2 )
 text = "Tilbake"
 
 [node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/MarginContainer/VBoxContainer"]
-margin_top = 350.0
-margin_right = 440.0
-margin_bottom = 650.0
-rect_min_size = Vector2( 0, 300 )
+offset_top = 350.0
+offset_right = 440.0
+offset_bottom = 650.0
+custom_minimum_size = Vector2( 0, 300 )
 size_flags_vertical = 3
 text = "Her kan du legge til nye ventiler midlertidig. De vil forsvinne når du lukker programmet
 

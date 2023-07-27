@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://UI/ValveSelector.gd" type="Script" id=1]
-[ext_resource path="res://UI/Font/TitilliumWeb-SemiBold.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://UI/Font/TitilliumWeb-SemiBold.ttf" type="FontFile" id=2]
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.113725, 0.278431, 0.380392, 1 )
@@ -22,7 +22,7 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="FontFile" id=3]
 size = 20
 font_data = ExtResource( 2 )
 
@@ -53,63 +53,63 @@ anchor_bottom = 1.0
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 20
-custom_constants/margin_top = 20
-custom_constants/margin_left = 20
-custom_constants/margin_bottom = 10
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-margin_left = 20.0
-margin_top = 20.0
-margin_right = 460.0
-margin_bottom = 710.0
-custom_constants/separation = 15
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 460.0
+offset_bottom = 710.0
+theme_override_constants/separation = 15
 
 [node name="Search" type="LineEdit" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
-margin_right = 440.0
-margin_bottom = 35.0
-rect_min_size = Vector2( 0, 35 )
-custom_styles/normal = SubResource( 2 )
+offset_right = 440.0
+offset_bottom = 35.0
+custom_minimum_size = Vector2( 0, 35 )
+theme_override_styles/normal = SubResource( 2 )
 placeholder_text = " Søk etter ventil"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
-margin_top = 50.0
-margin_right = 440.0
-margin_bottom = 590.0
+offset_top = 50.0
+offset_right = 440.0
+offset_bottom = 590.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/bg = SubResource( 1 )
+theme_override_styles/bg = SubResource( 1 )
 
 [node name="Valves" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
 unique_name_in_owner = true
-margin_left = 1.0
-margin_top = 1.0
-margin_right = 439.0
-margin_bottom = 539.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 439.0
+offset_bottom = 539.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="New" type="Button" parent="MarginContainer/VBoxContainer"]
-margin_top = 605.0
-margin_right = 440.0
-margin_bottom = 640.0
-rect_min_size = Vector2( 150, 35 )
+offset_top = 605.0
+offset_right = 440.0
+offset_bottom = 640.0
+custom_minimum_size = Vector2( 150, 35 )
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 3 )
-custom_styles/hover = SubResource( 4 )
-custom_styles/normal = SubResource( 5 )
+theme_override_fonts/font = SubResource( 3 )
+theme_override_styles/hover = SubResource( 4 )
+theme_override_styles/normal = SubResource( 5 )
 text = "Legg til ny ventil"
 
 [node name="Close" type="Button" parent="MarginContainer/VBoxContainer"]
-margin_top = 655.0
-margin_right = 440.0
-margin_bottom = 690.0
-rect_min_size = Vector2( 150, 35 )
+offset_top = 655.0
+offset_right = 440.0
+offset_bottom = 690.0
+custom_minimum_size = Vector2( 150, 35 )
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 3 )
-custom_styles/hover = SubResource( 4 )
-custom_styles/normal = SubResource( 5 )
+theme_override_fonts/font = SubResource( 3 )
+theme_override_styles/hover = SubResource( 4 )
+theme_override_styles/normal = SubResource( 5 )
 text = "Tilbake"
 
 [connection signal="text_changed" from="MarginContainer/VBoxContainer/Search" to="." method="refresh"]

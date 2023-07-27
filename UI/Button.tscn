@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://UI/Font/TitilliumWeb-SemiBold.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://UI/Font/TitilliumWeb-SemiBold.ttf" type="FontFile" id=1]
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="FontFile" id=8]
 font_data = ExtResource( 1 )
 
 [sub_resource type="StyleBoxFlat" id=13]
@@ -45,19 +45,19 @@ corner_radius_bottom_left = 14
 corner_detail = 16
 
 [node name="Reload" type="Button"]
-margin_left = 204.0
-margin_right = 325.0
-margin_bottom = 30.0
-rect_min_size = Vector2( 100, 15 )
-hint_tooltip = "Lagrer .txt fil med TAG i
+offset_left = 204.0
+offset_right = 325.0
+offset_bottom = 30.0
+custom_minimum_size = Vector2( 100, 15 )
+tooltip_text = "Lagrer .txt fil med TAG i
 Documents"
 focus_mode = 0
-custom_colors/font_color = Color( 0.239216, 0.239216, 0.239216, 1 )
-custom_colors/font_color_hover = Color( 0.239216, 0.239216, 0.239216, 1 )
-custom_colors/font_color_pressed = Color( 0.239216, 0.239216, 0.239216, 1 )
-custom_fonts/font = SubResource( 8 )
-custom_styles/hover = SubResource( 13 )
-custom_styles/pressed = SubResource( 14 )
-custom_styles/normal = SubResource( 12 )
-enabled_focus_mode = 0
+theme_override_colors/font_color = Color( 0.239216, 0.239216, 0.239216, 1 )
+theme_override_colors/font_hover_color = Color( 0.239216, 0.239216, 0.239216, 1 )
+theme_override_colors/font_pressed_color = Color( 0.239216, 0.239216, 0.239216, 1 )
+theme_override_fonts/font = SubResource( 8 )
+theme_override_styles/hover = SubResource( 13 )
+theme_override_styles/pressed = SubResource( 14 )
+theme_override_styles/normal = SubResource( 12 )
+focus_mode = 0
 text = "   Søke etter tag  "

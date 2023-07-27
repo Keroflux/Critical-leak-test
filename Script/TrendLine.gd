@@ -17,9 +17,9 @@ func _ready() -> void:
 	parent = get_parent()
 #	calculate_point_distance()
 	pos.x = 0
-	pos.y = parent.rect_size.y
+	pos.y = parent.size.y
 	var minmax: float = max_value - min_value
-	scale_y = parent.rect_size.y / minmax
+	scale_y = parent.size.y / minmax
 
 
 func _draw() -> void:
@@ -36,7 +36,7 @@ func draw_trend() -> void:
 	trend.clear()
 	for i in data_points:
 		var a: float = (-i + min_value) * scale_y
-		trend.append(Vector2(new_dist_x, parent.rect_size.y + a))
+		trend.append(Vector2(new_dist_x, parent.size.y + a))
 		new_dist_x += distance
 
 
@@ -49,7 +49,7 @@ func redraw_trend() -> void:
 
 
 func calculate_point_distance() -> void:
-	distance = parent.rect_size.x / (data_points.size() -1)
+	distance = parent.size.x / (data_points.size() -1)
 
 
 func find_max():
@@ -65,4 +65,4 @@ func find_max():
 	var minmax = max_value - min_value
 	if minmax == 0:
 		minmax = 1
-	scale_y = parent.rect_size.y / (minmax)
+	scale_y = parent.size.y / (minmax)

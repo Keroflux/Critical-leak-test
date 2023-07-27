@@ -267,7 +267,7 @@ func _run_calculations()->void:
 	run_trend()
 	
 	# Vis resultatet av simuleringen
-	var a = results_box.instance()
+	var a = results_box.instantiate()
 	a.kgs_crit = kgs_crit
 	a.kgs_test = kgs_real
 	a.sec_crit = sec_crit
@@ -306,7 +306,7 @@ func _on_Trend_resized():
 
 
 func _open_Valve_search():
-	var a = search_box.instance()
+	var a = search_box.instantiate()
 	add_child(a)
 
 

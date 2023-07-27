@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://UI/Font/Font14.tres" type="DynamicFont" id=1]
+[ext_resource path="res://UI/Font/Font14.tres" type="FontFile" id=1]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 1 )
@@ -10,9 +10,9 @@ corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
 [node name="MarkerLabel" type="Label"]
-margin_right = 40.0
-margin_bottom = 14.0
-custom_fonts/font = ExtResource( 1 )
-custom_styles/normal = SubResource( 1 )
+offset_right = 40.0
+offset_bottom = 14.0
+theme_override_fonts/font = ExtResource( 1 )
+theme_override_styles/normal = SubResource( 1 )
 text = "10.56"
 align = 1

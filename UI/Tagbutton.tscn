@@ -2,12 +2,12 @@
 
 [ext_resource path="res://UI/Button.tscn" type="PackedScene" id=1]
 [ext_resource path="res://UI/Tagbutton.gd" type="Script" id=2]
-[ext_resource path="res://UI/Font/TitilliumWeb-SemiBold.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://UI/Font/TitilliumWeb-SemiBold.ttf" type="FontFile" id=3]
 
-[sub_resource type="DynamicFontData" id=16]
+[sub_resource type="FontFile" id=16]
 font_path = "res://UI//Font/TitilliumWeb-SemiBold.ttf"
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="FontFile" id=3]
 size = 24
 font_data = SubResource( 16 )
 
@@ -34,7 +34,7 @@ corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
 
-[sub_resource type="DynamicFont" id=17]
+[sub_resource type="FontFile" id=17]
 size = 20
 font_data = ExtResource( 3 )
 
@@ -79,22 +79,22 @@ corner_detail = 16
 
 [node name="Tagbutton" type="Control"]
 anchor_right = 1.0
-margin_bottom = 110.0
-rect_min_size = Vector2( 250, 110 )
+offset_bottom = 110.0
+custom_minimum_size = Vector2( 250, 110 )
 size_flags_horizontal = 3
 script = ExtResource( 2 )
 
 [node name="Button" type="Button" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_min_size = Vector2( 0, 72 )
+custom_minimum_size = Vector2( 0, 72 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
-custom_fonts/font = SubResource( 3 )
-custom_styles/hover = SubResource( 1 )
-custom_styles/normal = SubResource( 2 )
+theme_override_colors/font_color = Color( 0, 0, 0, 1 )
+theme_override_colors/font_hover_color = Color( 0, 0, 0, 1 )
+theme_override_fonts/font = SubResource( 3 )
+theme_override_styles/hover = SubResource( 1 )
+theme_override_styles/normal = SubResource( 2 )
 align = 0
 
 [node name="VBoxContainer" type="HBoxContainer" parent="Button"]
@@ -104,72 +104,72 @@ mouse_filter = 2
 
 [node name="Tag" type="Label" parent="Button/VBoxContainer"]
 unique_name_in_owner = true
-margin_right = 416.0
-margin_bottom = 110.0
+offset_right = 416.0
+offset_bottom = 110.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = SubResource( 17 )
+theme_override_colors/font_color = Color( 0, 0, 0, 1 )
+theme_override_fonts/font = SubResource( 17 )
 text = "hjgjhghghj"
 align = 1
 valign = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="Button/VBoxContainer"]
-margin_left = 420.0
-margin_right = 480.0
-margin_bottom = 110.0
+offset_left = 420.0
+offset_right = 480.0
+offset_bottom = 110.0
 mouse_filter = 2
 size_flags_vertical = 3
-custom_constants/margin_right = 10
-custom_constants/margin_top = 5
-custom_constants/margin_bottom = 5
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_bottom = 5
 
 [node name="HBoxContainer" type="VBoxContainer" parent="Button/VBoxContainer/MarginContainer"]
-margin_top = 5.0
-margin_right = 50.0
-margin_bottom = 105.0
+offset_top = 5.0
+offset_right = 50.0
+offset_bottom = 105.0
 mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
 [node name="STID" parent="Button/VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource( 1 )]
-margin_left = 0.0
-margin_top = 1.0
-margin_right = 50.0
-margin_bottom = 31.0
-rect_min_size = Vector2( 50, 20 )
-hint_tooltip = "Åpner tag i STID"
-custom_colors/font_color = Color( 1, 0.0705882, 0.203922, 1 )
-custom_colors/font_color_hover = Color( 1, 0.0705882, 0.203922, 1 )
-custom_colors/font_color_pressed = Color( 1, 0.0705882, 0.203922, 1 )
+offset_left = 0.0
+offset_top = 1.0
+offset_right = 50.0
+offset_bottom = 31.0
+custom_minimum_size = Vector2( 50, 20 )
+tooltip_text = "Åpner tag i STID"
+theme_override_colors/font_color = Color( 1, 0.0705882, 0.203922, 1 )
+theme_override_colors/font_hover_color = Color( 1, 0.0705882, 0.203922, 1 )
+theme_override_colors/font_pressed_color = Color( 1, 0.0705882, 0.203922, 1 )
 text = "STID"
 
 [node name="Echo" parent="Button/VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource( 1 )]
-margin_left = 0.0
-margin_top = 35.0
-margin_right = 50.0
-margin_bottom = 65.0
-rect_min_size = Vector2( 50, 20 )
-hint_tooltip = "Åpner tag i echo"
-custom_colors/font_color = Color( 1, 0.0705882, 0.203922, 1 )
-custom_colors/font_color_hover = Color( 1, 0.0705882, 0.203922, 1 )
-custom_colors/font_color_pressed = Color( 1, 0.0705882, 0.203922, 1 )
+offset_left = 0.0
+offset_top = 35.0
+offset_right = 50.0
+offset_bottom = 65.0
+custom_minimum_size = Vector2( 50, 20 )
+tooltip_text = "Åpner tag i echo"
+theme_override_colors/font_color = Color( 1, 0.0705882, 0.203922, 1 )
+theme_override_colors/font_hover_color = Color( 1, 0.0705882, 0.203922, 1 )
+theme_override_colors/font_pressed_color = Color( 1, 0.0705882, 0.203922, 1 )
 text = "echo"
 
 [node name="Hub" parent="Button/VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource( 1 )]
-margin_left = 0.0
-margin_top = 69.0
-margin_right = 50.0
-margin_bottom = 99.0
-rect_min_size = Vector2( 50, 20 )
-hint_tooltip = "Åpner tag i echo"
-custom_colors/font_color = Color( 1, 0.0705882, 0.203922, 1 )
-custom_colors/font_color_hover = Color( 1, 0.0705882, 0.203922, 1 )
-custom_colors/font_color_pressed = Color( 1, 0.0705882, 0.203922, 1 )
-custom_styles/hover = SubResource( 13 )
-custom_styles/pressed = SubResource( 14 )
-custom_styles/normal = SubResource( 12 )
+offset_left = 0.0
+offset_top = 69.0
+offset_right = 50.0
+offset_bottom = 99.0
+custom_minimum_size = Vector2( 50, 20 )
+tooltip_text = "Åpner tag i echo"
+theme_override_colors/font_color = Color( 1, 0.0705882, 0.203922, 1 )
+theme_override_colors/font_hover_color = Color( 1, 0.0705882, 0.203922, 1 )
+theme_override_colors/font_pressed_color = Color( 1, 0.0705882, 0.203922, 1 )
+theme_override_styles/hover = SubResource( 13 )
+theme_override_styles/pressed = SubResource( 14 )
+theme_override_styles/normal = SubResource( 12 )
 text = "inField"
 
 [connection signal="pressed" from="Button/VBoxContainer/MarginContainer/HBoxContainer/STID" to="." method="_on_STID_pressed"]
