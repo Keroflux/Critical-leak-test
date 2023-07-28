@@ -207,7 +207,7 @@ func _run_calculations()->void:
 		p_start = float($"%PressureExternal".text) + 1
 		p_end = float($"%PressureStart".text) + 1
 	
-	var z := 0.0
+	var z := 0.98
 	var mol_w := 28.01
 	var d_i := 0.0
 	var density := 847.0
@@ -262,7 +262,7 @@ func _run_calculations()->void:
 		kgs_real = avg_leak_liquid(p_start, p_end, time, elast, density, volume)
 	
 	$"%Trend".gc = 100000 * volume * mol_w / (z* R * temp_k)
-	$"%Trend".p2 = p_start
+	$"%Trend".p_start = p_start
 	init_trend(p_out, p_start, sec_test, sec_crit)
 	run_trend()
 	
