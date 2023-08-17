@@ -247,7 +247,7 @@ func _run_calculations()->void:
 		kgs_real = avg_leak_liquid(p_start, p_end, time, elast, density, volume)
 	
 	$"%Trend".gc = 100000 * volume * mol_w / (z * R * temp_k)
-	$"%Trend".p_start = p_start
+	$"%Trend".p_strt = p_start
 	init_trend(p_out, p_start, sec_test, sec_crit)
 	run_trend()
 	

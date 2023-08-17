@@ -16,7 +16,7 @@ var marker_s : Label
 var marker_p : Label
 var marker_kgs : Label
 
-var p_start : float
+var p_strt : float
 var gc : float
 
 
@@ -39,7 +39,7 @@ func _draw():
 		var mouse_norm_y = 1 - mouse.y / rect_size.y
 		var sec = mouse_norm_x * seconds
 		var pres = (mouse_norm_y * (max_pressure - min_pressure) + min_pressure)
-		var kgs = calc_leak_rate_trend(pres+1, sec, gc, p_start)
+		var kgs = calc_leak_rate_trend(pres+1, sec, gc, p_strt)
 		
 		draw_line(Vector2(mouse.x, 0), Vector2(mouse.x, rect_size.y), Color(0.094118, 0.513726, 0.917647))
 		draw_line(Vector2(0, mouse.y), Vector2(rect_size.x, mouse.y), Color(0.094118, 0.513726, 0.917647))
