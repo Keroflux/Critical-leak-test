@@ -10,6 +10,8 @@ var tag := ""
 var type := ""
 var result : Array = []
 var parent : Control
+var gc
+var p0
 
 
 func _ready():
@@ -46,7 +48,7 @@ func store_result_as_csv():
 			if i == 0:
 				csv = "Tag,Time,Pressure,kg / s"
 			var pressure = result[i]
-			var kgs = parent.calc_leak_rate_trend(pressure, time)
+			var kgs = calc_leak_rate(pressure, time, gc, p0)
 			var string = tag + "," + str(time) + "," + str(pressure - 1) + "," + str(kgs)
 			csv += "\n" + string
 			time += (0.01 * 15)
@@ -61,8 +63,18 @@ func store_result_as_csv():
 			if i == 0:
 				file.store_line("Tag,Time,Pressure,kg / s")
 			var pressure = result[i]
-			var kgs = parent.calc_leak_rate_trend(pressure, time)
+			var kgs = calc_leak_rate(pressure, time, gc, p0)
 			var string = tag + "," + str(time) + "," + str(pressure - 1) + "," + str(kgs)
 			file.store_line(string)
 			time += (0.01 * 15)
 		file.close()
+
+
+func calc_leak_rate(p_end, time, gas_c, p_start = 1)->float:
+	var m1: float = p_start * gas_c
+	var m2: float = p_end * gas_c
+	if time == 0:
+		return 0.0
+	var kg_s: float = (m1 - m2) / time
+	kg_s = abs(kg_s)
+	return kg_s
