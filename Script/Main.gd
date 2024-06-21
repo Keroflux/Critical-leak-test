@@ -235,8 +235,8 @@ func _run_calculations()->void:
 			kgs_crit = 0.05
 			crit_orifice = calc_orifice_gas(kgs_crit, p_out, p_start, mol_w, temp_k, z)
 		else:
-			kgs_crit = max_leak_gas(d_i / 100, p_out - p_start, p_out, mol_w, temp_k, z)
-			crit_orifice = d_i / 100
+			crit_orifice = d_i / 10
+			kgs_crit = max_leak_gas(crit_orifice, p_out - p_start, p_out, mol_w, temp_k, z)
 		sec_crit = simulate_gas(true, crit_orifice, p_out, p_start, volume, mol_w, z, temp_k)
 		kgs_test = avg_leak_gas(p_start, p_end, volume, time, temp_k, z, mol_w)
 		test_orifice = calc_orifice_gas(kgs_test, p_out, p_start, mol_w, temp_k, z)
@@ -250,6 +250,7 @@ func _run_calculations()->void:
 	$"%Trend".p_strt = p_start
 	init_trend(p_out, p_start, sec_test, sec_crit)
 	run_trend()
+	
 	
 	# Vis resultatet av simuleringen
 	var a = results_box.instance()
